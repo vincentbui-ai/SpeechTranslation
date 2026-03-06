@@ -1,6 +1,6 @@
 # Inference — Speech-to-Text Translation
 
-Three inference scripts are provided, one for each model library in `src/`.  
+Inference scripts are provided for model libraries in `src/`.  
 All scripts accept a **16 kHz mono WAV or FLAC** audio file and print the translated text.
 
 ---
@@ -71,65 +71,7 @@ Translation: The two stopped just inside the door.
 
 ---
 
-## 2. NAST-S2x
-
-**Library:** `src/NAST-S2x` — Non-Autoregressive Streaming Transformer  
-**Script:** `inference/nast_infer.py`
-
-> The agent was designed for SimulEval streaming evaluation.  
-> This script wraps it in an offline pass by feeding the full audio as one finished segment.
-
-### Install dependencies
-
-```bash
-cd src/StreamSpeech
-pip install -e fairseq/
-pip install -e SimulEval/
-pip install sentencepiece torchaudio
-cd ../..
-```
-
-### Required files
-
-| Argument | Description |
-|---|---|
-| `--audio` | Input audio file (WAV / FLAC, 16 kHz) |
-| `--model-path` | Trained NAST checkpoint `.pt` |
-| `--data-bin` | fairseq data-bin directory |
-| `--config-yaml` | Config YAML filename inside `data-bin` (optional) |
-| `--spm-model` | Target SentencePiece model (optional) |
-
-### Run — VI → EN
-
-```bash
-python inference/nast_infer.py \
-    --audio       path/to/audio.wav \
-    --model-path  checkpoints/nast.vi-en.pt \
-    --data-bin    data/vi-en \
-    --config-yaml config_mtl_asr_st_ctcst.yaml \
-    --spm-model   configs/vi-en/tgt_unigram6000/spm_unigram_en.model
-```
-
-### Run — EN → VI
-
-```bash
-python inference/nast_infer.py \
-    --audio       path/to/audio.wav \
-    --model-path  checkpoints/nast.en-vi.pt \
-    --data-bin    data/en-vi \
-    --config-yaml config_mtl_asr_st_ctcst.yaml \
-    --spm-model   configs/en-vi/tgt_unigram6000/spm_unigram_vi.model
-```
-
-### Expected output
-
-```
-Translation: I will share a lot of other information as well as other clips.
-```
-
----
-
-## 3. SeamlessM4T
+## 2. SeamlessM4T
 
 **Library:** `src/seamless_communication` — Meta SeamlessM4T v2  
 **Script:** `inference/seamless_infer.py`
@@ -199,7 +141,7 @@ Translation: The two stopped just inside the door.
 
 ## GPU / CPU notes
 
-All three scripts auto-detect CUDA. To force CPU:
+All scripts auto-detect CUDA. To force CPU:
 
 ```bash
 python inference/<script>.py ... --device cpu
@@ -210,7 +152,6 @@ Recommended VRAM by model:
 | Model | Min VRAM |
 |---|---|
 | StreamSpeech | 8 GB |
-| NAST-S2x | 8 GB |
 | SeamlessM4T medium | 8 GB |
 | SeamlessM4T v2 large | 16 GB |
 

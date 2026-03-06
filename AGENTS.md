@@ -153,7 +153,8 @@ SpeechTranslation/
 ├── inference/
 │   ├── seamless_infer.py       # SeamlessM4T inference
 │   ├── streamspeech_infer.py   # StreamSpeech inference
-│   └── nast_infer.py           # NAST inference
+│   ├── single_infer.py         # Single audio inference
+│   └── batch_infer.py          # Multi-GPU batch inference
 ├── configs/                    # Training configs
 ├── datasets/                   # JSONL datasets (metadata)
 └── data/                       # TSV manifests
