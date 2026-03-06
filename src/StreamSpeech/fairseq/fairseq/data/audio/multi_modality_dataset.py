@@ -7,17 +7,12 @@
 
 import logging
 import math
-from typing import List, Optional, NamedTuple
+from typing import List, NamedTuple, Optional
 
 import numpy as np
 import torch
-from fairseq.data import (
-    ConcatDataset,
-    LanguagePairDataset,
-    FileAudioDataset,
-    data_utils,
-)
-from fairseq.data import FairseqDataset
+from fairseq.data import (ConcatDataset, FairseqDataset, FileAudioDataset,
+                          LanguagePairDataset, data_utils)
 
 logger = logging.getLogger(__name__)
 

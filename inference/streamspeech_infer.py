@@ -24,8 +24,8 @@ Usage:
 """
 
 import argparse
-import sys
 import os
+import sys
 
 # Make sure fairseq and ctc_unity are importable from the repo layout
 REPO_ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -33,14 +33,12 @@ sys.path.insert(0, os.path.join(REPO_ROOT, "src", "StreamSpeech", "fairseq"))
 sys.path.insert(0, os.path.join(REPO_ROOT, "src", "StreamSpeech", "researches"))
 
 import numpy as np
+import sentencepiece as spm
 import torch
 import torchaudio
-import sentencepiece as spm
 import yaml
-
-from fairseq import checkpoint_utils, tasks, utils
 from examples.speech_to_text.data_utils import extract_fbank_features
-
+from fairseq import checkpoint_utils, tasks, utils
 
 SAMPLE_RATE = 16_000
 

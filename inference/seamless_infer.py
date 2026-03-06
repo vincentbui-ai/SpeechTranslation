@@ -33,8 +33,8 @@ Usage:
 """
 
 import argparse
-import sys
 import os
+import sys
 
 REPO_ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 sys.path.insert(0, os.path.join(REPO_ROOT, "src", "seamless_communication", "src"))
@@ -43,7 +43,6 @@ import torch
 import torchaudio
 
 from seamless_communication.inference import Translator
-
 
 SAMPLE_RATE = 16_000
 

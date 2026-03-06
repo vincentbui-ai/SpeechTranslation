@@ -5,9 +5,10 @@
 # LICENSE file in the root directory of this source tree.
 
 import json
-import pandas
 from pathlib import Path
 from typing import Dict, List, Union
+
+import pandas
 
 
 class SimulEvalResults:

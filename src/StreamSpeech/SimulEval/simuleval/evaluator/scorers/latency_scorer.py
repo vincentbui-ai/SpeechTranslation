@@ -4,24 +4,21 @@
 # This source code is licensed under the license found in the
 # LICENSE file in the root directory of this source tree.
 
-from statistics import mean
-from pathlib import Path
-import subprocess
 import logging
-import textgrid
-import sys
 import shutil
-from typing import List, Union, Dict
-from simuleval.evaluator.instance import (
-    TextInputInstance,
-    TextOutputInstance,
-    SpeechOutputInstance,
-    Instance,
-    LogInstance,
-    SpeechOutputInstance,
-)
+import subprocess
+import sys
 from argparse import ArgumentParser, Namespace
-from subprocess import Popen, PIPE
+from pathlib import Path
+from statistics import mean
+from subprocess import PIPE, Popen
+from typing import Dict, List, Union
+
+import textgrid
+from simuleval.evaluator.instance import (Instance, LogInstance,
+                                          SpeechOutputInstance,
+                                          TextInputInstance,
+                                          TextOutputInstance)
 
 logger = logging.getLogger("simuleval.latency_scorer")
 

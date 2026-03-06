@@ -6,27 +6,21 @@
 
 import argparse
 import logging
-import torch
-import torchaudio
 from pathlib import Path
 
+import torch
+import torchaudio
 from fairseq2.data import SequenceData
 from fairseq2.data.audio import WaveformToFbankConverter
 
-from seamless_communication.cli.expressivity.predict.pretssel_generator import (
-    PretsselGenerator,
-)
-from seamless_communication.cli.m4t.predict import (
-    add_inference_arguments,
-    set_generation_opts,
-)
+from seamless_communication.cli.expressivity.predict.pretssel_generator import \
+    PretsselGenerator
+from seamless_communication.cli.m4t.predict import (add_inference_arguments,
+                                                    set_generation_opts)
 from seamless_communication.inference import Translator
-from seamless_communication.models.unity import (
-    load_gcmvn_stats,
-    load_unity_unit_tokenizer,
-)
+from seamless_communication.models.unity import (load_gcmvn_stats,
+                                                 load_unity_unit_tokenizer)
 from seamless_communication.store import add_gated_assets
-
 
 AUDIO_SAMPLE_RATE = 16000
 

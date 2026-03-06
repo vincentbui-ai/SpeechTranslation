@@ -1,10 +1,10 @@
-from pathlib import Path
-import os
 import argparse
+import os
 import random
+from pathlib import Path
+
 import numpy as np
 from sklearn.utils import shuffle
-
 
 if __name__ == "__main__":
     """

@@ -4,25 +4,23 @@
 # LICENSE file in the root directory of this source tree.
 
 import logging
-from typing import Dict, List, Optional
 from pathlib import Path
-import torch.nn as nn
-from torch import Tensor
-from fairseq import checkpoint_utils
+from typing import Dict, List, Optional
 
+import torch.nn as nn
+from fairseq import checkpoint_utils
 from fairseq.models import register_model, register_model_architecture
-from fairseq.utils import safe_hasattr
 from fairseq.models.speech_to_text.s2t_transformer import (
-    S2TTransformerModel,
-    S2TTransformerEncoder,
-    TransformerDecoderScriptable
-)
-from fairseq.models.speech_to_text.s2t_transformer import base_architecture as s2t_base_architecture
+    S2TTransformerEncoder, S2TTransformerModel, TransformerDecoderScriptable)
+from fairseq.models.speech_to_text.s2t_transformer import \
+    base_architecture as s2t_base_architecture
+from fairseq.utils import safe_hasattr
+from torch import Tensor
 
 from ..modules.attn_head_selector import AttnHeadSelector
-from ..modules.head_selection_transformer_layer import HeadSelectionTransformerEncoderLayer
+from ..modules.head_selection_transformer_layer import \
+    HeadSelectionTransformerEncoderLayer
 from .head_selection_transformer import HeadSelectionTransformerDecoder
-
 
 logger = logging.getLogger(__name__)
 

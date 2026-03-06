@@ -7,12 +7,8 @@ import numpy as np
 import torch
 import torch.nn.functional as F
 from fairseq.models import register_model, register_model_architecture
-from fairseq.models.nat import (
-    FairseqNATModel,
-    LevenshteinTransformerDecoder,
-    LevenshteinTransformerModel,
-    ensemble_decoder,
-)
+from fairseq.models.nat import (FairseqNATModel, LevenshteinTransformerDecoder,
+                                LevenshteinTransformerModel, ensemble_decoder)
 from fairseq.models.transformer import Linear
 from fairseq.modules.transformer_sentence_encoder import init_bert_params
 from fairseq.utils import new_arange

@@ -1,6 +1,7 @@
-from typing import Optional, Dict
-from torch import Tensor
+from typing import Dict, Optional
+
 import torch
+from torch import Tensor
 
 
 def waitk_p_choose(

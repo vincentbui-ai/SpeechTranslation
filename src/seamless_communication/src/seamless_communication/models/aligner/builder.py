@@ -15,12 +15,11 @@ from fairseq2.nn.embedding import StandardEmbedding, init_scaled_embedding
 from fairseq2.typing import DataType, Device
 
 from seamless_communication.models.aligner.model import (
-    UnitY2AlignmentEncoder,
-    UnitY2AlignmentFrontend,
-    UnitY2AlignmentModel,
-)
-from seamless_communication.models.unity.char_tokenizer import load_unity_char_tokenizer
-from seamless_communication.models.unity.loader import load_unity_unit_tokenizer
+    UnitY2AlignmentEncoder, UnitY2AlignmentFrontend, UnitY2AlignmentModel)
+from seamless_communication.models.unity.char_tokenizer import \
+    load_unity_char_tokenizer
+from seamless_communication.models.unity.loader import \
+    load_unity_unit_tokenizer
 
 
 @dataclass

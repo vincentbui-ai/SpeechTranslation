@@ -14,12 +14,11 @@ import os
 import os.path as osp
 import pprint
 
+import fairseq
 import soundfile as sf
 import torch
-import fairseq
 from torch import nn
 from torch.utils.data import DataLoader
-
 
 try:
     import tqdm

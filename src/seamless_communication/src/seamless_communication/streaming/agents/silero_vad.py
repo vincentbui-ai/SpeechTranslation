@@ -6,24 +6,23 @@
 from __future__ import annotations
 
 import logging
-from pathlib import Path
 import queue
 import random
 import time
 from argparse import ArgumentParser, Namespace
 from os import SEEK_END
+from pathlib import Path
 from typing import Any, List, Optional, Union
 
 import numpy as np
-import torch
 import soundfile
-from seamless_communication.streaming.agents.common import (
-    AgentStates,
-    EarlyStoppingMixin,
-)
+import torch
 from simuleval.agents import SpeechToSpeechAgent
 from simuleval.agents.actions import Action, ReadAction, WriteAction
 from simuleval.data.segments import EmptySegment, Segment, SpeechSegment
+
+from seamless_communication.streaming.agents.common import (AgentStates,
+                                                            EarlyStoppingMixin)
 
 logging.basicConfig(
     level=logging.INFO,

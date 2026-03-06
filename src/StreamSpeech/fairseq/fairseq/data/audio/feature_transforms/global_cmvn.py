@@ -1,8 +1,6 @@
 import numpy as np
 from fairseq.data.audio.feature_transforms import (
-    AudioFeatureTransform,
-    register_audio_feature_transform,
-)
+    AudioFeatureTransform, register_audio_feature_transform)
 
 
 @register_audio_feature_transform("global_cmvn")

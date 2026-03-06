@@ -12,15 +12,14 @@ from typing import Any, Dict, List, Optional, Set, Tuple
 import torch
 from fairseq2.models.nllb.tokenizer import NllbTokenizer
 from fairseq2.nn.incremental_state import IncrementalStateBag
-from seamless_communication.models.monotonic_decoder import (
-    MonotonicDecoderConfig,
-    MonotonicDecoderModel,
-)
-from seamless_communication.streaming.agents.common import AgentStates
 from simuleval.agents import GenericAgent
 from simuleval.agents.actions import Action, ReadAction, WriteAction
 from simuleval.data.segments import Segment, TextSegment
 from torch import Tensor
+
+from seamless_communication.models.monotonic_decoder import (
+    MonotonicDecoderConfig, MonotonicDecoderModel)
+from seamless_communication.streaming.agents.common import AgentStates
 
 
 class DecoderAgentStates(AgentStates):  # type: ignore

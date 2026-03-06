@@ -11,9 +11,8 @@ import os.path as op
 import sys
 
 from dump_hubert_feature import HubertFeatureReader
-from feature_utils import get_shard_range, dump_feature
 from fairseq.data.audio.audio_utils import get_features_or_waveform
-
+from feature_utils import dump_feature, get_shard_range
 
 logging.basicConfig(
     format="%(asctime)s | %(levelname)s | %(name)s | %(message)s",

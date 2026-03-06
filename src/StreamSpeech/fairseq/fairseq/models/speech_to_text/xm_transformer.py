@@ -10,27 +10,18 @@ from typing import Dict, List, Optional, Tuple
 import numpy as np
 import torch
 import torch.nn as nn
-from torch import Tensor
-
 from fairseq import checkpoint_utils, utils
 from fairseq.data.data_utils import lengths_to_padding_mask
-from fairseq.models import (
-    FairseqEncoder,
-    FairseqEncoderDecoderModel,
-    FairseqEncoderModel,
-    FairseqLanguageModel,
-    register_model,
-    register_model_architecture,
-)
+from fairseq.models import (FairseqEncoder, FairseqEncoderDecoderModel,
+                            FairseqEncoderModel, FairseqLanguageModel,
+                            register_model, register_model_architecture)
 from fairseq.models.speech_to_speech.modules.ctc_decoder import CTCDecoder
 from fairseq.models.speech_to_text.hub_interface import S2THubInterface
-from fairseq.models.transformer import (
-    Embedding,
-    TransformerDecoder,
-    TransformerModelBase,
-)
+from fairseq.models.transformer import (Embedding, TransformerDecoder,
+                                        TransformerModelBase)
 from fairseq.models.wav2vec import Wav2VecEncoder
 from fairseq.modules.layer_norm import LayerNorm
+from torch import Tensor
 
 logger = logging.getLogger(__name__)
 
@@ -691,9 +682,8 @@ class XMTransformerModel(FairseqEncoderDecoderModel):
             if is_first_pass_decoder:
                 task_decoder = cls.build_text_decoder(args, tgt_dict)
             else:
-                from fairseq.models.speech_to_speech import (
-                    base_multitask_text_transformer_decoder_arch,
-                )
+                from fairseq.models.speech_to_speech import \
+                    base_multitask_text_transformer_decoder_arch
 
                 base_multitask_text_transformer_decoder_arch(decoder_args)  # 2L
                 task_decoder = TransformerDecoder(

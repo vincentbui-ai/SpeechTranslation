@@ -1,20 +1,15 @@
+import argparse
+import json
 import os
+
+import sox
 import torch
 import torchaudio
-import sox
-import json
-import argparse
-
-
-from examples.mms.data_prep.text_normalization import text_normalize
-from examples.mms.data_prep.align_utils import (
-    get_uroman_tokens,
-    time_to_frame,
-    load_model_dict,
-    merge_repeats,
-    get_spans,
-)
 import torchaudio.functional as F
+from examples.mms.data_prep.align_utils import (get_spans, get_uroman_tokens,
+                                                load_model_dict, merge_repeats,
+                                                time_to_frame)
+from examples.mms.data_prep.text_normalization import text_normalize
 
 SAMPLING_FREQ = 16000
 EMISSION_INTERVAL = 30

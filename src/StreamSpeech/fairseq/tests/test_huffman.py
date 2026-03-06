@@ -10,12 +10,10 @@ from collections import Counter
 from tempfile import NamedTemporaryFile, TemporaryDirectory
 
 from fairseq.data import Dictionary, indexed_dataset
-from fairseq.data.huffman import (
-    HuffmanCodeBuilder,
-    HuffmanCoder,
-    HuffmanMMapIndexedDataset,
-    HuffmanMMapIndexedDatasetBuilder,
-)
+from fairseq.data.huffman import (HuffmanCodeBuilder, HuffmanCoder,
+                                  HuffmanMMapIndexedDataset,
+                                  HuffmanMMapIndexedDatasetBuilder)
+
 from tests.utils import POPULATION, make_data, sizes
 
 

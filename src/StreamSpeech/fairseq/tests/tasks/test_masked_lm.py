@@ -9,6 +9,7 @@ from tempfile import TemporaryDirectory
 
 from fairseq.binarizer import FileBinarizer, VocabularyDatasetBinarizer
 from fairseq.tasks.masked_lm import MaskedLMConfig, MaskedLMTask
+
 from tests.utils import build_vocab, make_data
 
 

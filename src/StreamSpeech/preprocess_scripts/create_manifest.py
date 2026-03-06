@@ -1,7 +1,8 @@
-import os
-import tqdm
 import argparse
+import os
+
 import soundfile as sf
+import tqdm
 
 
 def main():

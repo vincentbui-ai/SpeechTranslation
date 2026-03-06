@@ -11,28 +11,24 @@ from typing import Any, Dict, List, Optional, Union
 
 import torch
 from fairseq2.assets import asset_store
-from seamless_communication.inference.translator import Modality, Translator
-from seamless_communication.models.generator.loader import load_pretssel_vocoder_model
-from seamless_communication.models.generator.vocoder import PretsselVocoder
-from seamless_communication.models.monotonic_decoder import (
-    load_monotonic_decoder_config,
-    load_monotonic_decoder_model,
-)
-from seamless_communication.models.unity import (
-    load_unity_config,
-    load_unity_model,
-    load_unity_text_tokenizer,
-    load_unity_unit_tokenizer,
-)
-from seamless_communication.models.vocoder.loader import load_vocoder_model
-from seamless_communication.models.vocoder.vocoder import Vocoder
-from seamless_communication.streaming.agents.common import (
-    AgentStates,
-    EarlyStoppingMixin,
-)
 from simuleval.agents import AgentPipeline, TreeAgentPipeline
 from simuleval.agents.agent import GenericAgent
 from simuleval.data.segments import Segment
+
+from seamless_communication.inference.translator import Modality, Translator
+from seamless_communication.models.generator.loader import \
+    load_pretssel_vocoder_model
+from seamless_communication.models.generator.vocoder import PretsselVocoder
+from seamless_communication.models.monotonic_decoder import (
+    load_monotonic_decoder_config, load_monotonic_decoder_model)
+from seamless_communication.models.unity import (load_unity_config,
+                                                 load_unity_model,
+                                                 load_unity_text_tokenizer,
+                                                 load_unity_unit_tokenizer)
+from seamless_communication.models.vocoder.loader import load_vocoder_model
+from seamless_communication.models.vocoder.vocoder import Vocoder
+from seamless_communication.streaming.agents.common import (AgentStates,
+                                                            EarlyStoppingMixin)
 
 logging.basicConfig(
     level=logging.INFO,

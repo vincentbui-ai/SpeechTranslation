@@ -9,7 +9,6 @@ from dataclasses import dataclass
 from typing import Optional
 
 import torch
-
 from fairseq.models.ema import EMA
 
 

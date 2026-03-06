@@ -4,19 +4,13 @@
 # LICENSE file in the root directory of this source tree.
 
 import logging
-
 from typing import OrderedDict
+
 from fairseq import checkpoint_utils
-from fairseq.models import (
-    FairseqEncoderModel,
-    FairseqLanguageModel,
-    register_model,
-    register_model_architecture,
-)
+from fairseq.models import (FairseqEncoderModel, FairseqLanguageModel,
+                            register_model, register_model_architecture)
 from fairseq.models.speech_to_speech.s2s_conformer_translatotron2 import (
-    S2SpecT2ConformerModel,
-    s2spect2_conformer_architecture_base,
-)
+    S2SpecT2ConformerModel, s2spect2_conformer_architecture_base)
 
 logger = logging.getLogger(__name__)
 

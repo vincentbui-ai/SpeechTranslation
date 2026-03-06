@@ -5,19 +5,18 @@
 
 import ast
 import logging
+import sys
+from pathlib import Path
+
 import matplotlib.pyplot as plt
 import numpy as np
-from pathlib import Path
 import soundfile as sf
-import sys
 import torch
 import torchaudio
-
 from fairseq import checkpoint_utils, options, tasks, utils
+from fairseq.data.audio.text_to_speech_dataset import TextToSpeechDataset
 from fairseq.logging import progress_bar
 from fairseq.tasks.text_to_speech import plot_tts_output
-from fairseq.data.audio.text_to_speech_dataset import TextToSpeechDataset
-
 
 logging.basicConfig()
 logging.root.setLevel(logging.INFO)

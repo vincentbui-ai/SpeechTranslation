@@ -11,7 +11,6 @@ from fairseq.dataclass.configs import FairseqDataclass
 from fairseq.dataclass.constants import ChoiceEnum
 from omegaconf import MISSING
 
-
 DECODER_CHOICES = ChoiceEnum(["viterbi", "kenlm", "fairseqlm"])
 
 

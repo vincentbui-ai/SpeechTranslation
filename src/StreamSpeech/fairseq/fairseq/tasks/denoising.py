@@ -9,26 +9,16 @@ from dataclasses import dataclass, field
 from typing import Any, Optional
 
 import numpy as np
-from omegaconf import II, MISSING
-
 from fairseq import utils
-from fairseq.data import (
-    AppendTokenDataset,
-    DenoisingDataset,
-    Dictionary,
-    IdDataset,
-    NestedDictionaryDataset,
-    NumelDataset,
-    PadDataset,
-    PrependTokenDataset,
-    StripTokenDataset,
-    TokenBlockDataset,
-    data_utils,
-)
+from fairseq.data import (AppendTokenDataset, DenoisingDataset, Dictionary,
+                          IdDataset, NestedDictionaryDataset, NumelDataset,
+                          PadDataset, PrependTokenDataset, StripTokenDataset,
+                          TokenBlockDataset, data_utils)
 from fairseq.data.encoders.utils import get_whole_word_mask
 from fairseq.data.shorten_dataset import maybe_shorten_dataset
 from fairseq.dataclass import ChoiceEnum, FairseqDataclass
 from fairseq.tasks import FairseqTask, register_task
+from omegaconf import II, MISSING
 
 from ..data.indexed_dataset import get_available_dataset_impl
 

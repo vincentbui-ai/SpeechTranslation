@@ -23,12 +23,13 @@ Usage:
 
 import argparse
 import csv
-import numpy as np
 from pathlib import Path
 
+import numpy as np
+
 try:
-    import torchaudio
     import torch
+    import torchaudio
     from torchaudio.compliance import kaldi
 except ImportError:
     raise ImportError("Cài torchaudio: pip install torchaudio")

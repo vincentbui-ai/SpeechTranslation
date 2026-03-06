@@ -11,18 +11,10 @@ import numpy as np
 import torch
 import torch.nn.functional as F
 from fairseq import utils
-from fairseq.data import (
-    Dictionary,
-    IdDataset,
-    ListDataset,
-    NestedDictionaryDataset,
-    NumelDataset,
-    NumSamplesDataset,
-    PadDataset,
-    SortDataset,
-    data_utils,
-    encoders,
-)
+from fairseq.data import (Dictionary, IdDataset, ListDataset,
+                          NestedDictionaryDataset, NumelDataset,
+                          NumSamplesDataset, PadDataset, SortDataset,
+                          data_utils, encoders)
 from fairseq.tasks import LegacyFairseqTask, register_task
 
 from . import wsc_utils

@@ -4,8 +4,8 @@
 # LICENSE file in the root directory of this source tree.
 
 import torch
-
 from fairseq.data import data_utils
+
 from . import BaseWrapperDataset
 
 

@@ -6,7 +6,6 @@
 import unittest
 
 import numpy as np
-
 from fairseq.data.data_utils_fast import batch_by_size_fn, batch_by_size_vec
 
 

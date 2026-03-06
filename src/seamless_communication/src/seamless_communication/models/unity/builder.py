@@ -12,43 +12,29 @@ from fairseq2.models.conformer import ConformerBlock, ConformerConvolution
 from fairseq2.models.nllb import NllbBuilder, NllbConfig, nllb_archs
 from fairseq2.models.utils.arch_registry import ArchitectureRegistry
 from fairseq2.models.w2vbert import w2vbert_archs
-from fairseq2.models.wav2vec2 import Wav2Vec2EncoderBuilder, Wav2Vec2EncoderConfig
+from fairseq2.models.wav2vec2 import (Wav2Vec2EncoderBuilder,
+                                      Wav2Vec2EncoderConfig)
 from fairseq2.nn.projection import TiedProjection
-from fairseq2.nn.transformer import (
-    FeedForwardNetwork,
-    MultiheadAttention,
-    StandardFeedForwardNetwork,
-    StandardMultiheadAttention,
-    TransformerEncoder,
-    TransformerEncoderLayer,
-    TransformerNormOrder,
-    create_default_sdpa,
-)
+from fairseq2.nn.transformer import (FeedForwardNetwork, MultiheadAttention,
+                                     StandardFeedForwardNetwork,
+                                     StandardMultiheadAttention,
+                                     TransformerEncoder,
+                                     TransformerEncoderLayer,
+                                     TransformerNormOrder, create_default_sdpa)
 from fairseq2.typing import DataType, Device, override
 from torch.nn import GELU, ReLU
 
 from seamless_communication.models.conformer_shaw import (
-    ConformerShawEncoderBuilder,
-    ConformerShawEncoderConfig,
-    conformer_shaw_archs,
-)
+    ConformerShawEncoderBuilder, ConformerShawEncoderConfig,
+    conformer_shaw_archs)
 from seamless_communication.models.generator.ecapa_tdnn_builder import (
-    EcapaTDNNBuilder,
-    EcapaTDNNConfig,
-    ecapa_tdnn_archs,
-)
+    EcapaTDNNBuilder, EcapaTDNNConfig, ecapa_tdnn_archs)
 from seamless_communication.models.unity.adaptor_block import (
-    UnitYConformerAdaptorLayer,
-    UnitYEncoderAdaptor,
-    UnitYTransformerAdaptorLayer,
-)
+    UnitYConformerAdaptorLayer, UnitYEncoderAdaptor,
+    UnitYTransformerAdaptorLayer)
 from seamless_communication.models.unity.model import UnitYModel
 from seamless_communication.models.unity.t2u_builder import (
-    UnitYNART2UBuilder,
-    UnitYT2UBuilder,
-    UnitYT2UConfig,
-    unity_t2u_archs,
-)
+    UnitYNART2UBuilder, UnitYT2UBuilder, UnitYT2UConfig, unity_t2u_archs)
 
 
 @dataclass

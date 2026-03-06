@@ -12,23 +12,12 @@ import torch.nn as nn
 import torch.nn.functional as F
 from fairseq import checkpoint_utils
 from fairseq.incremental_decoding_utils import with_incremental_state
-from fairseq.models import (
-    CompositeEncoder,
-    FairseqDecoder,
-    FairseqEncoder,
-    FairseqEncoderDecoderModel,
-    register_model,
-    register_model_architecture,
-)
-from fairseq.modules import (
-    DownsampledMultiHeadAttention,
-    FairseqDropout,
-    GradMultiply,
-    LayerNorm,
-    LearnedPositionalEmbedding,
-    LinearizedConvolution,
-)
-
+from fairseq.models import (CompositeEncoder, FairseqDecoder, FairseqEncoder,
+                            FairseqEncoderDecoderModel, register_model,
+                            register_model_architecture)
+from fairseq.modules import (DownsampledMultiHeadAttention, FairseqDropout,
+                             GradMultiply, LayerNorm,
+                             LearnedPositionalEmbedding, LinearizedConvolution)
 
 logger = logging.getLogger(__name__)
 

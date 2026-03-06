@@ -8,7 +8,6 @@ import torch.nn as nn
 import torch.nn.functional as F
 from aml.multimodal_video.utils.einops.lib import rearrange, repeat
 from aml.multimodal_video.utils.einops.lib.layers.torch import Rearrange
-
 from fairseq.modules.local_attention import LocalAttention
 
 # constants

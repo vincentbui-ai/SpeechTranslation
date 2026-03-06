@@ -15,32 +15,22 @@ import pandas as pd
 import torch
 import torchaudio
 from fairseq2.data import Collater, DataPipeline, FileMapper
-from fairseq2.data.audio import (
-    AudioDecoder,
-    WaveformToFbankConverter,
-    WaveformToFbankOutput,
-)
+from fairseq2.data.audio import (AudioDecoder, WaveformToFbankConverter,
+                                 WaveformToFbankOutput)
 from fairseq2.data.text import StrSplitter, read_text
 from fairseq2.typing import DataType, Device
 from torch import Tensor
 from tqdm import tqdm
 
-from seamless_communication.cli.expressivity.predict.pretssel_generator import (
-    PretsselGenerator,
-)
+from seamless_communication.cli.expressivity.predict.pretssel_generator import \
+    PretsselGenerator
 from seamless_communication.cli.m4t.evaluate.evaluate import (
-    adjust_output_for_corrupted_inputs,
-    count_lines,
-)
-from seamless_communication.cli.m4t.predict import (
-    add_inference_arguments,
-    set_generation_opts,
-)
+    adjust_output_for_corrupted_inputs, count_lines)
+from seamless_communication.cli.m4t.predict import (add_inference_arguments,
+                                                    set_generation_opts)
 from seamless_communication.inference import BatchedSpeechOutput, Translator
-from seamless_communication.models.unity import (
-    load_gcmvn_stats,
-    load_unity_unit_tokenizer,
-)
+from seamless_communication.models.unity import (load_gcmvn_stats,
+                                                 load_unity_unit_tokenizer)
 from seamless_communication.store import add_gated_assets
 
 logging.basicConfig(

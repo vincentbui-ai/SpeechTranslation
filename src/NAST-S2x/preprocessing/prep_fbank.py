@@ -5,28 +5,23 @@
 # LICENSE file in the root directory of this source tree.
 import argparse
 import logging
-from pathlib import Path
 import shutil
+from pathlib import Path
 from tempfile import NamedTemporaryFile
 from typing import Optional, Tuple
 
+import numpy as np
 import pandas as pd
-import torchaudio
 import soundfile as sf
+import torchaudio
+from examples.speech_to_text.data_utils import (cal_gcmvn_stats, create_zip,
+                                                extract_fbank_features,
+                                                load_df_from_tsv)
+from fairseq.data.audio.audio_utils import convert_waveform
 from torch import Tensor
 from torch.utils.data import Dataset
 from torchaudio.datasets.utils import download_url, extract_archive
 from tqdm import tqdm
-import numpy as np
-
-from fairseq.data.audio.audio_utils import convert_waveform
-
-from examples.speech_to_text.data_utils import (
-    create_zip,
-    extract_fbank_features,
-    load_df_from_tsv,
-    cal_gcmvn_stats,
-)
 
 log = logging.getLogger(__name__)
 

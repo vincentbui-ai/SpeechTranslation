@@ -1,16 +1,17 @@
-import torch
-from fairseq.data.text_compressor import TextCompressionLevel, TextCompressor
-from fairseq import checkpoint_utils, distributed_utils, options, utils
-from fairseq import checkpoint_utils, data, options, tasks
-from fairseq.data import FileAudioDataset, AddTargetDataset, Dictionary
-from fairseq.tasks.audio_classification import LabelEncoder
 import copy
-from tqdm import tqdm
-import tempfile
-import numpy as np
 import json
+import tempfile
 
-    
+import numpy as np
+import torch
+from fairseq import (checkpoint_utils, data, distributed_utils, options, tasks,
+                     utils)
+from fairseq.data import AddTargetDataset, Dictionary, FileAudioDataset
+from fairseq.data.text_compressor import TextCompressionLevel, TextCompressor
+from fairseq.tasks.audio_classification import LabelEncoder
+from tqdm import tqdm
+
+
 def subset_manifest(infer_manifest, veri_pair):
     with open(infer_manifest) as ff, open(veri_pair) as gg, tempfile.NamedTemporaryFile(
         "w", delete=False

@@ -16,28 +16,24 @@
 # Copyright (c) Facebook, Inc. All Rights Reserved
 
 
+from typing import Iterable, Optional
+
 import torch
-
 from torch.nn import functional as F
-
-from typing import Optional, Iterable
 
 try:
     from transformers import BertPreTrainedModel
-    from transformers.modeling_bert import BertOnlyMLMHead
-
     from transformers.file_utils import ModelOutput
+    from transformers.generation_utils import (BeamHypotheses,
+                                               top_k_top_p_filtering)
+    from transformers.modeling_bert import BertOnlyMLMHead
     from transformers.modeling_outputs import CausalLMOutput
-    from transformers.generation_utils import (
-        BeamHypotheses,
-        top_k_top_p_filtering
-    )
 except ImportError:
     pass
 
+from ..modules import VideoTokenMLP
 from .mmfusion import MMFusion
 from .transformermodel import MMBertModel
-from ..modules import VideoTokenMLP
 
 
 class MMFusionNLG(MMFusion):

@@ -8,13 +8,9 @@ from typing import Optional
 import torch
 import torch.nn as nn
 from fairseq2.models.sequence import SequenceBatch
-from fairseq2.models.wav2vec2 import (
-    Wav2Vec2Config,
-    Wav2Vec2EncoderConfig,
-    Wav2Vec2Frontend,
-    Wav2Vec2Model,
-    wav2vec2_arch,
-)
+from fairseq2.models.wav2vec2 import (Wav2Vec2Config, Wav2Vec2EncoderConfig,
+                                      Wav2Vec2Frontend, Wav2Vec2Model,
+                                      wav2vec2_arch)
 from fairseq2.nn.padding import PaddingMask
 from fairseq2.nn.transformer import TransformerEncoder, TransformerNormOrder
 from torch import Tensor

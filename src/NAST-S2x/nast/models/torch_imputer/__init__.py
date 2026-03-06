@@ -1,1 +1,1 @@
-from .imputer import imputer_loss, ImputerLoss, best_alignment, ctc_decode
+from .imputer import ImputerLoss, best_alignment, ctc_decode, imputer_loss

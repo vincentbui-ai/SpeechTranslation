@@ -5,25 +5,18 @@ Processors for all downstream (ds) tasks.
 """
 
 import json
+import math
 import os
 import pickle
 import random
-import math
+from collections import defaultdict
+
 import numpy as np
 import torch
 
-from collections import defaultdict
-
-from .processor import (
-    MetaProcessor,
-    VideoProcessor,
-    TextProcessor,
-    Aligner,
-    MMAttentionMask2DProcessor,
-)
-
 from .how2processor import TextGenerationProcessor
-
+from .processor import (Aligner, MetaProcessor, MMAttentionMask2DProcessor,
+                        TextProcessor, VideoProcessor)
 
 # ------------- A General Aligner for all downstream tasks-----------------
 
@@ -717,6 +710,7 @@ class COINActionSegmentationMetaProcessor(MetaProcessor):
 
     def meta_text_labels(self, config):
         from transformers import default_data_collator
+
         from ..utils import get_local_rank
 
         text_processor = TextProcessor(config)

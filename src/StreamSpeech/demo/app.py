@@ -4,41 +4,37 @@
 #
 # StreamSpeech: Simultaneous Speech-to-Speech Translation with Multi-task Learning (ACL 2024)
 ##########################################
-from flask import Flask, request, jsonify, render_template, send_from_directory,url_for
-import os
-import json
-import pdb
 import argparse
-from pydub import AudioSegment
+import ast
+import json
 import math
-import numpy as np
+import os
+import pdb
 import shutil
-
-from simuleval.utils import entrypoint
-from simuleval.data.segments import SpeechSegment
-from simuleval.agents import SpeechToSpeechAgent
-from simuleval.agents.actions import WriteAction, ReadAction
-from fairseq.checkpoint_utils import load_model_ensemble_and_task
-from fairseq.models.text_to_speech.hub_interface import TTSHubInterface
+from copy import deepcopy
 from pathlib import Path
 from typing import Any, Dict, Optional, Union
-from fairseq.data.audio.audio_utils import convert_waveform
-from examples.speech_to_text.data_utils import extract_fbank_features
-import ast
-import math
-import os
-import json
+
 import numpy as np
-from copy import deepcopy
+import soundfile
 import torch
 import torchaudio.compliance.kaldi as kaldi
 import yaml
-from fairseq import checkpoint_utils, tasks, utils, options
+from examples.speech_to_text.data_utils import extract_fbank_features
+from fairseq import checkpoint_utils, options, search, tasks, utils
+from fairseq.checkpoint_utils import load_model_ensemble_and_task
+from fairseq.data.audio.audio_utils import convert_waveform
+from fairseq.data.audio.feature_transforms import \
+    CompositeAudioFeatureTransform
 from fairseq.file_io import PathManager
-from fairseq import search
-from fairseq.data.audio.feature_transforms import CompositeAudioFeatureTransform
-import soundfile
-import argparse
+from fairseq.models.text_to_speech.hub_interface import TTSHubInterface
+from flask import (Flask, jsonify, render_template, request,
+                   send_from_directory, url_for)
+from pydub import AudioSegment
+from simuleval.agents import SpeechToSpeechAgent
+from simuleval.agents.actions import ReadAction, WriteAction
+from simuleval.data.segments import SpeechSegment
+from simuleval.utils import entrypoint
 
 SHIFT_SIZE = 10
 WINDOW_SIZE = 25
@@ -144,9 +140,9 @@ class StreamSpeechS2STAgent(SpeechToSpeechAgent):
         tgt_dict_st = self.dict["ctc_target_unigram"]
         args.user_dir=args.agent_dir
         utils.import_user_module(args)
-        from agent.sequence_generator import SequenceGenerator
-        from agent.ctc_generator import CTCSequenceGenerator
         from agent.ctc_decoder import CTCDecoder
+        from agent.ctc_generator import CTCSequenceGenerator
+        from agent.sequence_generator import SequenceGenerator
         from agent.tts.vocoder import CodeHiFiGANVocoderWithDur
 
         self.ctc_generator = CTCSequenceGenerator(

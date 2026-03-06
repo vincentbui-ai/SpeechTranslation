@@ -1,16 +1,16 @@
-from .models import *
-from .criterions import *
-from .tasks import *
-from .datasets import *
-
 import torch.multiprocessing
+
+from .criterions import *
+from .datasets import *
+from .models import *
+from .tasks import *
 
 torch.multiprocessing.set_sharing_strategy("file_system")
 
 print("fairseq plugins loaded...")
 
-import os
 import importlib
+import os
 
 # automatically import any Python files in the criterions/ directory
 for file in os.listdir(os.path.dirname(__file__)):

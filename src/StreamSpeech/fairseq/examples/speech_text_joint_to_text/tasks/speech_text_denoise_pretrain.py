@@ -9,15 +9,11 @@ from argparse import Namespace
 from pathlib import Path
 
 from fairseq.data import ConcatDataset, Dictionary, encoders
-from fairseq.data.audio.multi_modality_dataset import (
-    FileAudioDatasetWrapper,
-    ModalityDatasetItem,
-    MultiModalityDataset,
-)
+from fairseq.data.audio.multi_modality_dataset import (FileAudioDatasetWrapper,
+                                                       ModalityDatasetItem,
+                                                       MultiModalityDataset)
 from fairseq.data.audio.speech_to_text_joint_dataset import (
-    S2TJointDataConfig,
-    SpeechToTextJointDatasetCreator,
-)
+    S2TJointDataConfig, SpeechToTextJointDatasetCreator)
 from fairseq.data.iterators import GroupedEpochBatchIterator
 from fairseq.tasks import register_task
 

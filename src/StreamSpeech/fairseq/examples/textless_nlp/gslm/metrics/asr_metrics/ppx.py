@@ -4,9 +4,10 @@
 # LICENSE file in the root directory of this source tree.
 
 
-import torch
-import numpy as np
 import warnings
+
+import numpy as np
+import torch
 
 
 def get_target_sequences(manifest, ground_truth, to_take=1000):

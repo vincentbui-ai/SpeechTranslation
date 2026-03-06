@@ -11,17 +11,13 @@ import logging
 import torch
 from fairseq import utils
 from fairseq.models import register_model, register_model_architecture
-from fairseq.models.roberta import (
-    init_bert_params,
-    roberta_base_architecture,
-    roberta_large_architecture,
-    RobertaEncoder,
-    RobertaModel,
-)
+from fairseq.models.roberta import (RobertaEncoder, RobertaModel,
+                                    init_bert_params,
+                                    roberta_base_architecture,
+                                    roberta_large_architecture)
 from fairseq.utils import safe_hasattr
 
 from ..modules.linformer_sentence_encoder import LinformerTransformerEncoder
-
 
 logger = logging.getLogger(__name__)
 

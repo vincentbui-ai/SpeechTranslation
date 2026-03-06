@@ -7,22 +7,15 @@
 from dataclasses import dataclass, field
 from typing import Optional
 
-from omegaconf import II
-
 from fairseq import options, utils
 from fairseq.dataclass import ChoiceEnum, FairseqDataclass
-from fairseq.models import (
-    FairseqLanguageModel,
-    register_model,
-    register_model_architecture,
-)
-from fairseq.models.transformer import (
-    DEFAULT_MIN_PARAMS_TO_WRAP,
-    Embedding,
-    TransformerDecoder,
-)
+from fairseq.models import (FairseqLanguageModel, register_model,
+                            register_model_architecture)
+from fairseq.models.transformer import (DEFAULT_MIN_PARAMS_TO_WRAP, Embedding,
+                                        TransformerDecoder)
 from fairseq.modules import AdaptiveInput, CharacterTokenEmbedder
 from fairseq.utils import safe_getattr, safe_hasattr
+from omegaconf import II
 
 DEFAULT_MAX_TARGET_POSITIONS = 1024
 

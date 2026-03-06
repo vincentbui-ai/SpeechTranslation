@@ -2,12 +2,13 @@
 #
 # This source code is licensed under the MIT license found in the
 # LICENSE file in the root directory of this source tree.
-import os
 import json
 import logging
-from tornado import web, ioloop
-from simuleval.data.segments import segment_from_json_string
+import os
+
 from simuleval import options
+from simuleval.data.segments import segment_from_json_string
+from tornado import ioloop, web
 
 logger = logging.getLogger("simuleval.agent_server")
 

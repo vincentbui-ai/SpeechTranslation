@@ -9,7 +9,7 @@ import gc
 import os.path as osp
 import warnings
 from collections import deque, namedtuple
-from typing import Any, Dict, Tuple
+from typing import Any, Dict, List, Tuple
 
 import numpy as np
 import torch
@@ -18,29 +18,20 @@ from fairseq.data.dictionary import Dictionary
 from fairseq.dataclass.utils import convert_namespace_to_omegaconf
 from fairseq.models.fairseq_model import FairseqModel
 from fairseq.utils import apply_to_sample
-from omegaconf import open_dict, OmegaConf
+from omegaconf import OmegaConf, open_dict
 
-from typing import List
-
-from .decoder_config import FlashlightDecoderConfig
 from .base_decoder import BaseDecoder
+from .decoder_config import FlashlightDecoderConfig
 
 try:
-    from flashlight.lib.text.decoder import (
-        LM,
-        CriterionType,
-        DecodeResult,
-        KenLM,
-        LexiconDecoder,
-        LexiconDecoderOptions,
-        LexiconFreeDecoder,
-        LexiconFreeDecoderOptions,
-        LMState,
-        SmearingMode,
-        Trie,
-    )
-    from flashlight.lib.text.dictionary import create_word_dict, load_words
+    from flashlight.lib.text.decoder import (LM, CriterionType, DecodeResult,
+                                             KenLM, LexiconDecoder,
+                                             LexiconDecoderOptions,
+                                             LexiconFreeDecoder,
+                                             LexiconFreeDecoderOptions,
+                                             LMState, SmearingMode, Trie)
     from flashlight.lib.text.dictionary import Dictionary as flDictionary
+    from flashlight.lib.text.dictionary import create_word_dict, load_words
 except ImportError:
     warnings.warn(
         "flashlight python bindings are required to use this functionality. "

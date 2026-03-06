@@ -9,15 +9,14 @@ import os
 
 import hydra
 import torch
-from hydra.core.hydra_config import HydraConfig
-from omegaconf import OmegaConf, open_dict
-
 from fairseq import distributed_utils, metrics
 from fairseq.dataclass.configs import FairseqConfig
 from fairseq.dataclass.initialize import add_defaults, hydra_init
 from fairseq.dataclass.utils import omegaconf_no_object_check
 from fairseq.utils import reset_logging
 from fairseq_cli.train import main as pre_main
+from hydra.core.hydra_config import HydraConfig
+from omegaconf import OmegaConf, open_dict
 
 logger = logging.getLogger("fairseq_cli.hydra_train")
 

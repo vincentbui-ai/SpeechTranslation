@@ -3,24 +3,19 @@
 # This source code is licensed under the MIT license found in the
 # LICENSE file in the root directory of this source tree.
 
+import logging
 from typing import Dict, List, Optional, Tuple
 
 import torch
 import torch.nn as nn
-from torch import Tensor
-
-import logging
-
 from fairseq import utils
 from fairseq.dataclass.utils import gen_parser_from_dataclass
 from fairseq.distributed import fsdp_wrap
 from fairseq.models import FairseqEncoderDecoderModel
-from fairseq.models.transformer import (
-    TransformerConfig,
-    TransformerDecoderBase,
-    TransformerEncoderBase,
-)
-
+from fairseq.models.transformer import (TransformerConfig,
+                                        TransformerDecoderBase,
+                                        TransformerEncoderBase)
+from torch import Tensor
 
 logger = logging.getLogger(__name__)
 

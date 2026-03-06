@@ -8,7 +8,8 @@ from fairseq.optim.amp_optimizer import AMPOptimizer
 from fairseq.tasks import register_task
 from fairseq.tasks.speech_to_text import SpeechToTextTask
 
-from .data.speech_to_text_dataset_with_domain import SpeechToTextDatasetCreatorWithDomain
+from .data.speech_to_text_dataset_with_domain import \
+    SpeechToTextDatasetCreatorWithDomain
 from .loss.attention_head_selection import HeadSelectionLoss
 
 

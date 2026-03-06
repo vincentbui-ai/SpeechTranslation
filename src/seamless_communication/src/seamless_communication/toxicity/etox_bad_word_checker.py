@@ -9,13 +9,9 @@ import re
 from pathlib import Path
 from typing import Dict, List, Set, Union
 
-from fairseq2.assets import (
-    AssetCard,
-    AssetDownloadManager,
-    AssetStore,
-    asset_store as base_asset_store,
-    download_manager as base_download_manager,
-)
+from fairseq2.assets import AssetCard, AssetDownloadManager, AssetStore
+from fairseq2.assets import asset_store as base_asset_store
+from fairseq2.assets import download_manager as base_download_manager
 from fairseq2.data import StringLike
 from fairseq2.data.text import SentencePieceEncoder, SentencePieceModel
 

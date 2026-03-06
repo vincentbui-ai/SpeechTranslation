@@ -16,11 +16,8 @@ from argparse import Namespace
 from itertools import zip_longest
 
 from fairseq import options, tasks, utils
-from fairseq.binarizer import (
-    AlignmentDatasetBinarizer,
-    FileBinarizer,
-    VocabularyDatasetBinarizer,
-)
+from fairseq.binarizer import (AlignmentDatasetBinarizer, FileBinarizer,
+                               VocabularyDatasetBinarizer)
 from fairseq.data import Dictionary
 
 logging.basicConfig(

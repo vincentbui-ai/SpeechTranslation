@@ -22,24 +22,17 @@ from fairseq2.typing import DataType, Device
 from torch import Tensor
 
 from seamless_communication.inference.generator import (
-    SequenceGeneratorOptions,
-    UnitYGenerator,
-)
-from seamless_communication.models.unity import (
-    UnitTokenizer,
-    UnitYModel,
-    UnitYNART2UModel,
-    UnitYT2UModel,
-    load_unity_model,
-    load_unity_text_tokenizer,
-    load_unity_unit_tokenizer,
-    unity_archs,
-)
+    SequenceGeneratorOptions, UnitYGenerator)
+from seamless_communication.models.unity import (UnitTokenizer, UnitYModel,
+                                                 UnitYNART2UModel,
+                                                 UnitYT2UModel,
+                                                 load_unity_model,
+                                                 load_unity_text_tokenizer,
+                                                 load_unity_unit_tokenizer,
+                                                 unity_archs)
 from seamless_communication.models.vocoder import load_vocoder_model
-from seamless_communication.toxicity import (
-    ETOXBadWordChecker,
-    load_etox_bad_word_checker,
-)
+from seamless_communication.toxicity import (ETOXBadWordChecker,
+                                             load_etox_bad_word_checker)
 from seamless_communication.toxicity.mintox import mintox_pipeline
 
 logging.basicConfig(

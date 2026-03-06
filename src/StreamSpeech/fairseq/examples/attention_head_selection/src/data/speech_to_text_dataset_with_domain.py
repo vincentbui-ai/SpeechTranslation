@@ -4,23 +4,16 @@
 # LICENSE file in the root directory of this source tree.
 
 import logging
+from dataclasses import dataclass
 from pathlib import Path
 from typing import Dict, List, Optional
-from dataclasses import dataclass
 
 import torch
-from fairseq.data import (
-    ConcatDataset,
-    Dictionary,
-    FairseqDataset,
-    ResamplingDataset
-)
+from fairseq.data import (ConcatDataset, Dictionary, FairseqDataset,
+                          ResamplingDataset)
 from fairseq.data.audio.data_cfg import S2TDataConfig
 from fairseq.data.audio.speech_to_text_dataset import (
-    SpeechToTextDatasetItem,
-    SpeechToTextDataset,
-    SpeechToTextDatasetCreator
-)
+    SpeechToTextDataset, SpeechToTextDatasetCreator, SpeechToTextDatasetItem)
 
 logger = logging.getLogger(__name__)
 

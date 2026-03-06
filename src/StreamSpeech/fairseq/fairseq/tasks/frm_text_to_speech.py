@@ -5,10 +5,10 @@
 
 import logging
 
-from fairseq.data.audio.frm_text_to_speech_dataset import FrmTextToSpeechDatasetCreator
+from fairseq.data.audio.frm_text_to_speech_dataset import \
+    FrmTextToSpeechDatasetCreator
 from fairseq.tasks import register_task
 from fairseq.tasks.text_to_speech import TextToSpeechTask
-
 
 logging.basicConfig(
     format="%(asctime)s | %(levelname)s | %(name)s | %(message)s",

@@ -7,19 +7,18 @@
 import argparse
 import logging
 import os
-from pathlib import Path
 import shutil
-import torchaudio
+from pathlib import Path
 
-import soundfile as sf
-from tqdm import tqdm
 import pandas as pd
-
+import soundfile as sf
+import torchaudio
 from examples.speech_synthesis.data_utils import extract_logmel_spectrogram
 from examples.speech_to_speech.preprocessing.data_utils import gen_config_yaml
-from examples.speech_to_text.data_utils import create_zip, get_zip_manifest, save_df_to_tsv
+from examples.speech_to_text.data_utils import (create_zip, get_zip_manifest,
+                                                save_df_to_tsv)
 from fairseq.data.audio.audio_utils import convert_waveform
-
+from tqdm import tqdm
 
 logger = logging.getLogger(__name__)
 

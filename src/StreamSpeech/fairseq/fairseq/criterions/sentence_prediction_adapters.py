@@ -7,9 +7,7 @@ import torch
 import torch.nn.functional as F
 from fairseq.criterions import register_criterion
 from fairseq.criterions.sentence_prediction import (
-    SentencePredictionCriterion,
-    SentencePredictionConfig,
-)
+    SentencePredictionConfig, SentencePredictionCriterion)
 
 
 @register_criterion("sentence_prediction_adapters", dataclass=SentencePredictionConfig)

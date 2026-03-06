@@ -7,15 +7,12 @@ import argparse
 import logging
 import os
 
-import numpy as np
-
 import joblib
-from examples.textless_nlp.gslm.speech2unit.clustering.utils import (
-    get_audio_files,
-)
-from examples.textless_nlp.gslm.speech2unit.pretrained.utils import (
-    get_features,
-)
+import numpy as np
+from examples.textless_nlp.gslm.speech2unit.clustering.utils import \
+    get_audio_files
+from examples.textless_nlp.gslm.speech2unit.pretrained.utils import \
+    get_features
 
 
 def get_logger():

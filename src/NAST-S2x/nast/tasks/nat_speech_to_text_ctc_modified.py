@@ -5,15 +5,14 @@
 
 
 import logging
+import math
 
-from fairseq import utils, metrics
+import numpy as np
+import torch
+from fairseq import metrics, utils
 from fairseq.tasks import register_task
 from nast.tasks.nat_speech_to_text import NATSpeechToTextTask
 from nast.tasks.speech_to_text_modified import SpeechToTextModifiedTask
-
-import math
-import torch
-import numpy as np
 
 logger = logging.getLogger(__name__)
 
@@ -83,6 +82,7 @@ class NATSpeechToTextCTCModifiedTask(NATSpeechToTextTask):
 
                 def compute_bleu(meters):
                     import inspect
+
                     import sacrebleu
 
                     fn_sig = inspect.getfullargspec(sacrebleu.compute_bleu)[0]

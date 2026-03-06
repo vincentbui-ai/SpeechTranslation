@@ -2,14 +2,14 @@
 #
 # This source code is licensed under the MIT license found in the
 # LICENSE file in the root directory of this source tree.
-import os
-import random
 import json
+import math
+import os
+import pickle
+import random
+
 import numpy as np
 import torch
-import pickle
-import math
-
 from tqdm import tqdm
 
 
@@ -526,6 +526,7 @@ class DiDeMoPredictor(Predictor):
         TODO: two solutions here.
         """
         import itertools
+
         # 21 chunks.
         self.possible_segments = [(0,0), (1,1), (2,2), (3,3), (4,4), (5,5)]
         for i in itertools.combinations(range(6), 2):

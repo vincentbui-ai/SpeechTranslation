@@ -4,10 +4,11 @@
 # LICENSE file in the root directory of this source tree.
 
 import os
+
 import torch
-from tqdm import tqdm
 from data_utils import load_audio_path
 from fairseq.data.codedataset import get_f0_by_filename
+from tqdm import tqdm
 
 
 def process_one(path, sr):

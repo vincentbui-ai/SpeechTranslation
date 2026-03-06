@@ -13,12 +13,12 @@ import glob
 import os
 from shutil import copy
 
+import fairseq
 import h5py
 import numpy as np
 import soundfile as sf
 import torch
 import tqdm
-import fairseq
 from torch import nn
 
 

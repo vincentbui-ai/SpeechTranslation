@@ -1,23 +1,20 @@
+import json
 import math
 import os
-import json
+import pdb
+
 import numpy as np
 import torch
 import torchaudio.compliance.kaldi as kaldi
 import yaml
+from examples.speech_to_text.data_utils import extract_fbank_features
 from fairseq import checkpoint_utils, tasks, utils
 from fairseq.file_io import PathManager
-from examples.speech_to_text.data_utils import extract_fbank_features
-
-
-from simuleval.utils import entrypoint
-from simuleval.data.segments import EmptySegment, TextSegment, SpeechSegment
 from simuleval.agents import SpeechToTextAgent
+from simuleval.agents.actions import ReadAction, WriteAction
 from simuleval.agents.states import AgentStates
-from simuleval.agents.actions import WriteAction, ReadAction
-
-
-import pdb
+from simuleval.data.segments import EmptySegment, SpeechSegment, TextSegment
+from simuleval.utils import entrypoint
 
 SHIFT_SIZE = 10
 WINDOW_SIZE = 25

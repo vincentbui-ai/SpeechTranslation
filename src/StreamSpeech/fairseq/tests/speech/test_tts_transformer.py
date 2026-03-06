@@ -6,10 +6,10 @@
 import unittest
 
 import torch
-from tqdm import tqdm
-
 from fairseq import utils
 from fairseq.tasks.text_to_speech import batch_mel_cepstral_distortion
+from tqdm import tqdm
+
 from tests.speech import TestFairseqSpeech
 
 

@@ -4,29 +4,27 @@
 # LICENSE file in the root directory of this source tree.
 
 import os
-import numpy as np
-import scipy
-
-import torch
-import torch.multiprocessing as mp
-from fairseq import checkpoint_utils, options
-from fairseq.data.codedataset import CodeDataset, ExpressiveCodeDataConfig
-from fairseq.dataclass.utils import convert_namespace_to_omegaconf
-from torch.utils.data import DataLoader, DistributedSampler
-from fairseq.utils import move_to_cuda
-from fairseq import utils
-from fairseq.criterions.speech_ulm_criterion import nll_loss, mae_loss
-
+import pathlib
+import sys
 import time
 from types import SimpleNamespace
 
-import sys, pathlib
+import numpy as np
+import scipy
+import torch
+import torch.multiprocessing as mp
+from fairseq import checkpoint_utils, options, utils
+from fairseq.criterions.speech_ulm_criterion import mae_loss, nll_loss
+from fairseq.data.codedataset import CodeDataset, ExpressiveCodeDataConfig
+from fairseq.dataclass.utils import convert_namespace_to_omegaconf
+from fairseq.utils import move_to_cuda
+from torch.utils.data import DataLoader, DistributedSampler
 
 sys.path.append(str(pathlib.Path(__file__).parent.parent.resolve()))
 
-from naive_decoder import Naive_F0_Decoder
 from inference_dataset import InferenceDataset, explode_batch
-from sample.sample import do_sampling, TemperatureDecoder, FilterNamesDataset
+from naive_decoder import Naive_F0_Decoder
+from sample.sample import FilterNamesDataset, TemperatureDecoder, do_sampling
 
 try:
     from nltk.translate.bleu_score import sentence_bleu

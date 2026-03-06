@@ -8,7 +8,8 @@ from typing import Literal, Optional, Tuple, Union
 import torch
 import torch.nn.functional as F
 from fairseq2.nn.normalization import LayerNorm
-from fairseq2.nn.padding import PaddingMask, apply_padding_mask, to_padding_mask
+from fairseq2.nn.padding import (PaddingMask, apply_padding_mask,
+                                 to_padding_mask)
 from fairseq2.nn.projection import Linear
 from fairseq2.nn.transformer import create_standard_layer_norm
 from fairseq2.typing import DataType, Device

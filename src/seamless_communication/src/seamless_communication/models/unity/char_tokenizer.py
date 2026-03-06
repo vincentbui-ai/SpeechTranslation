@@ -6,22 +6,13 @@
 
 from typing import Optional, Union, final
 
-from fairseq2.assets import (
-    AssetDownloadManager,
-    AssetStore,
-    asset_store,
-    download_manager,
-)
+from fairseq2.assets import (AssetDownloadManager, AssetStore, asset_store,
+                             download_manager)
 from fairseq2.assets.card import AssetCard
-from fairseq2.data.text import (
-    SentencePieceDecoder,
-    SentencePieceEncoder,
-    SentencePieceModel,
-    TextTokenDecoder,
-    TextTokenEncoder,
-    TextTokenizer,
-    vocab_info_from_sentencepiece,
-)
+from fairseq2.data.text import (SentencePieceDecoder, SentencePieceEncoder,
+                                SentencePieceModel, TextTokenDecoder,
+                                TextTokenEncoder, TextTokenizer,
+                                vocab_info_from_sentencepiece)
 from fairseq2.data.typing import PathLike
 from fairseq2.typing import Device, finaloverride
 

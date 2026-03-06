@@ -1,5 +1,11 @@
-import os, argparse, re, json, copy, math
+import argparse
+import copy
+import json
+import math
+import os
+import re
 from collections import OrderedDict
+
 import numpy as np
 
 parser = argparse.ArgumentParser(description='Process some integers.')

@@ -8,11 +8,10 @@ from typing import Any, Iterator, Tuple
 
 import fairseq2.nn
 import fairseq2.nn.transformer
+import ggml
 import numpy as np
 import pytest
 import torch
-
-import ggml
 from ctypes_utils import Ptr
 from ggml import NativeObj
 from ggml_convert import convert_model

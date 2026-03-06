@@ -6,11 +6,8 @@
 import math
 
 import torch
-from fairseq.models.transformer import (
-    TransformerDecoder,
-    TransformerEncoder,
-    TransformerModel,
-)
+from fairseq.models.transformer import (TransformerDecoder, TransformerEncoder,
+                                        TransformerModel)
 from fairseq.modules.transformer_sentence_encoder import init_bert_params
 
 

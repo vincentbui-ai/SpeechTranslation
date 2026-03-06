@@ -3,28 +3,21 @@
 # This source code is licensed under the MIT license found in the
 # LICENSE file in the root directory of this source tree.
 
-# for transformer_legacy
-from fairseq.dataclass.utils import gen_parser_from_dataclass
-from fairseq.models import (
-    register_model,
-    register_model_architecture,
-)
-from fairseq.models.transformer.transformer_config import (
-    EncDecBaseConfig,
-    DecoderConfig,
-    QuantNoiseConfig,
-)
-
 # for config
 import re
 from dataclasses import dataclass, field, fields
 from typing import List, Optional
 
-from omegaconf import II
-
 from fairseq import utils
 from fairseq.dataclass import ChoiceEnum, FairseqDataclass
+# for transformer_legacy
+from fairseq.dataclass.utils import gen_parser_from_dataclass
+from fairseq.models import register_model, register_model_architecture
+from fairseq.models.transformer.transformer_config import (DecoderConfig,
+                                                           EncDecBaseConfig,
+                                                           QuantNoiseConfig)
 from fairseq.utils import safe_getattr, safe_hasattr
+from omegaconf import II
 
 DEFAULT_MAX_SOURCE_POSITIONS = 1024
 DEFAULT_MAX_TARGET_POSITIONS = 1024
@@ -38,18 +31,15 @@ from typing import Any, Dict, List, Optional, Tuple
 
 import torch
 import torch.nn as nn
-from torch import Tensor
-
 from fairseq import utils
 from fairseq.dataclass.utils import gen_parser_from_dataclass
 from fairseq.distributed import fsdp_wrap
-from fairseq.models import FairseqEncoderDecoderModel
-from fairseq.models import FairseqIncrementalDecoder
-from fairseq.models.transformer import (
-    TransformerDecoderBase,
-    TransformerEncoderBase,
-)
+from fairseq.models import (FairseqEncoderDecoderModel,
+                            FairseqIncrementalDecoder)
+from fairseq.models.transformer import (TransformerDecoderBase,
+                                        TransformerEncoderBase)
 from fairseq.modules.transformer_layer import TransformerDecoderLayerBase
+from torch import Tensor
 
 from .decoder_ca_multihead_attention import DecoderCAMultiheadAttention
 from .decoder_sa_multihead_attention import DecoderSAMultiheadAttention

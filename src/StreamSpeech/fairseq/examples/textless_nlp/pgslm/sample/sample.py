@@ -3,25 +3,22 @@
 # This source code is licensed under the MIT license found in the
 # LICENSE file in the root directory of this source tree.
 
-import os
-import torch.multiprocessing as mp
-import numpy as np
 import json
+import os
+import pathlib
+import random
+import sys
 
+import numpy as np
 import torch
-from torch.distributions.categorical import Categorical
-
+import torch.multiprocessing as mp
+import tqdm
 from fairseq import checkpoint_utils, options, utils
 from fairseq.data.codedataset import CodeDataset, ExpressiveCodeDataConfig
 from fairseq.dataclass.utils import convert_namespace_to_omegaconf
-from torch.utils.data import DataLoader, DistributedSampler
 from fairseq.utils import move_to_cuda
-
-import tqdm
-import random
-import pathlib
-
-import sys, pathlib
+from torch.distributions.categorical import Categorical
+from torch.utils.data import DataLoader, DistributedSampler
 
 sys.path.append(str(pathlib.Path(__file__).parent.parent))
 from inference_dataset import InferenceDataset, explode_batch

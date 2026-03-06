@@ -4,11 +4,12 @@
 # LICENSE file in the root directory of this source tree.
 
 
-import os
-import glob
 import argparse
-from utils.dedup import deup
+import glob
+import os
 import sys
+
+from utils.dedup import deup
 
 WORKDIR_ROOT = os.environ.get('WORKDIR_ROOT', None)
 

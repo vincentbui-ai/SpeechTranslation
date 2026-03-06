@@ -10,14 +10,14 @@ import unittest
 
 import numpy as np
 import torch
-
-import tests.utils as test_utils
 from fairseq import search
 from fairseq.data.dictionary import Dictionary
 from fairseq.models.transformer import TransformerModel
 from fairseq.ngram_repeat_block import NGramRepeatBlock
 from fairseq.sequence_generator import EnsembleModel, SequenceGenerator
 from fairseq.tasks.fairseq_task import LegacyFairseqTask
+
+import tests.utils as test_utils
 
 DEFAULT_TEST_VOCAB_SIZE = 100
 

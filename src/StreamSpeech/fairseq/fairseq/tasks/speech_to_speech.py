@@ -12,15 +12,13 @@ from typing import List
 
 import torch
 import torch.nn as nn
-
 from fairseq import utils
 from fairseq.data import Dictionary
 from fairseq.data.audio.data_cfg import MultitaskConfig, S2SDataConfig
-from fairseq.data.audio.speech_to_speech_dataset import SpeechToSpeechDatasetCreator
-from fairseq.data.audio.speech_to_text_dataset import (
-    SpeechToTextDataset,
-    TextTargetMultitaskData,
-)
+from fairseq.data.audio.speech_to_speech_dataset import \
+    SpeechToSpeechDatasetCreator
+from fairseq.data.audio.speech_to_text_dataset import (SpeechToTextDataset,
+                                                       TextTargetMultitaskData)
 from fairseq.tasks import LegacyFairseqTask, register_task
 from fairseq.tasks.speech_to_text import DummyMultiTask
 from fairseq.tasks.text_to_speech import batch_mel_cepstral_distortion
@@ -342,9 +340,8 @@ class SpeechToSpeechTask(LegacyFairseqTask):
         model = super().build_model(args, from_checkpoint)
 
         if len(self.multitask_tasks) > 0:
-            from fairseq.models.speech_to_speech.s2s_transformer import (
-                S2STransformerMultitaskModelBase,
-            )
+            from fairseq.models.speech_to_speech.s2s_transformer import \
+                S2STransformerMultitaskModelBase
 
             assert isinstance(model, S2STransformerMultitaskModelBase)
 
@@ -362,9 +359,8 @@ class SpeechToSpeechTask(LegacyFairseqTask):
         args,
         extra_gen_cls_kwargs=None,
     ):
-        from examples.speech_to_speech.unity.sequence_generator_multi_decoder import (
-            MultiDecoderSequenceGenerator,
-        )
+        from examples.speech_to_speech.unity.sequence_generator_multi_decoder import \
+            MultiDecoderSequenceGenerator
 
         return MultiDecoderSequenceGenerator(
             models,
@@ -434,7 +430,8 @@ class SpeechToSpeechTask(LegacyFairseqTask):
                 if getattr(args, "teacher_forcing", False):
                     raise NotImplementedError
                 else:
-                    from fairseq.speech_generator import MultiDecoderSpeechGenerator
+                    from fairseq.speech_generator import \
+                        MultiDecoderSpeechGenerator
 
                     generator = MultiDecoderSpeechGenerator
 
@@ -470,14 +467,14 @@ class SpeechToSpeechTask(LegacyFairseqTask):
                 )
             else:
                 if getattr(args, "teacher_forcing", False):
-                    from fairseq.speech_generator import (
-                        TeacherForcingAutoRegressiveSpeechGenerator,
-                    )
+                    from fairseq.speech_generator import \
+                        TeacherForcingAutoRegressiveSpeechGenerator
 
                     generator = TeacherForcingAutoRegressiveSpeechGenerator
                     logger.info("Teacher forcing mode for generation")
                 else:
-                    from fairseq.speech_generator import AutoRegressiveSpeechGenerator
+                    from fairseq.speech_generator import \
+                        AutoRegressiveSpeechGenerator
 
                     generator = AutoRegressiveSpeechGenerator
 

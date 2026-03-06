@@ -9,17 +9,15 @@ from typing import Optional, Tuple, final
 from fairseq2.nn.incremental_state import IncrementalStateBag
 from fairseq2.nn.normalization import LayerNorm
 from fairseq2.nn.padding import PaddingMask
-from fairseq2.nn.transformer import (
-    AttentionMask,
-    FeedForwardNetwork,
-    MultiheadAttention,
-    create_standard_layer_norm,
-)
+from fairseq2.nn.transformer import (AttentionMask, FeedForwardNetwork,
+                                     MultiheadAttention,
+                                     create_standard_layer_norm)
 from fairseq2.typing import DataType, Device, finaloverride
 from torch import Tensor
 from torch.nn import Dropout, Module
 
-from seamless_communication.models.monotonic_decoder.p_choose import PChooseLayer
+from seamless_communication.models.monotonic_decoder.p_choose import \
+    PChooseLayer
 
 
 @final

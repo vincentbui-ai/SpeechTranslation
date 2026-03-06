@@ -7,7 +7,6 @@ import logging
 
 import numpy as np
 import torch
-
 from fairseq.data import Dictionary, FairseqDataset
 from fairseq.tasks import LegacyFairseqTask, register_task
 

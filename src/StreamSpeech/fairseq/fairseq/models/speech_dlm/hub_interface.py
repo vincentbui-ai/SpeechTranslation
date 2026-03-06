@@ -10,13 +10,10 @@ from typing import Any, Dict, Iterator, List
 
 import torch
 from fairseq import utils
+from fairseq.hub_utils import GeneratorHubInterface
 from omegaconf import open_dict
 from torch import nn
-
 from tqdm import tqdm
-
-from fairseq.hub_utils import GeneratorHubInterface
-
 
 logger = logging.getLogger(__name__)
 

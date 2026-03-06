@@ -3,15 +3,16 @@
 # This source code is licensed under the MIT license found in the
 # LICENSE file in the root directory of this source tree.
 
-import os
-import json
-import collections
 import argparse
+import collections
+import json
+import os
 import shutil
 import subprocess
 import sys
 import tempfile
 from multiprocessing import Pool
+
 import sentencepiece as spm
 
 

@@ -1,13 +1,13 @@
 # Copyright Howto100M authors.
 # Copyright (c) Facebook, Inc. All Rights Reserved
 
-import torch as th
-import pandas as pd
 import os
-import numpy as np
-import ffmpeg
 import random
 
+import ffmpeg
+import numpy as np
+import pandas as pd
+import torch as th
 from torch.utils.data import Dataset
 
 

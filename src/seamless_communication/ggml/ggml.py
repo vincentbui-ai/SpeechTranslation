@@ -8,14 +8,14 @@ import ctypes
 import dataclasses
 import functools
 import logging
+import subprocess
+import sys
 from pathlib import Path
-from typing import Any, Callable, Dict, Iterator, NamedTuple, Tuple, Type, Union
+from typing import (Any, Callable, Dict, Iterator, NamedTuple, Tuple, Type,
+                    Union)
 
 import numpy as np
 import torch
-import subprocess
-import sys
-
 from ctypes_utils import NULLPTR, Ptr, c_fn, c_struct
 from third_party_ggml import *
 

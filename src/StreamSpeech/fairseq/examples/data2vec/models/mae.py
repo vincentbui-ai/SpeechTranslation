@@ -10,16 +10,13 @@ import logging
 from dataclasses import dataclass
 from functools import partial
 
-from timm.models.vision_transformer import PatchEmbed, Block
-
+import numpy as np
 import torch
 import torch.nn as nn
-
-import numpy as np
-
 from fairseq.dataclass import FairseqDataclass
 from fairseq.models import BaseFairseqModel, register_model
 from fairseq.models.wav2vec.wav2vec2 import TransformerSentenceEncoderLayer
+from timm.models.vision_transformer import Block, PatchEmbed
 
 try:
     from apex.normalization import FusedLayerNorm
@@ -27,7 +24,6 @@ except:
     FusedLayerNorm = nn.LayerNorm
 
 import torch.nn.functional as F
-
 
 logger = logging.getLogger(__name__)
 

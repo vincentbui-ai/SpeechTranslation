@@ -7,17 +7,13 @@ from typing import List, Tuple
 
 import torch
 import torch.nn.functional as F
-from torch import Tensor, nn
-
 from fairseq.models import FairseqEncoder
 from fairseq.models.speech_to_text import ConvTransformerEncoder
 from fairseq.models.speech_to_text.utils import (
-    attention_suppression,
-    lengths_to_encoder_padding_mask,
-    segments_to_sequence,
-    sequence_to_segments,
-)
+    attention_suppression, lengths_to_encoder_padding_mask,
+    segments_to_sequence, sequence_to_segments)
 from fairseq.modules import MultiheadAttention, TransformerEncoderLayer
+from torch import Tensor, nn
 
 # ------------------------------------------------------------------------------
 #   AugmentedMemoryConvTransformerEncoder

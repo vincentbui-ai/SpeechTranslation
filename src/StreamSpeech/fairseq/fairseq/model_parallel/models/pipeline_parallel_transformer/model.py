@@ -10,29 +10,16 @@ import torch.nn as nn
 import torch.nn.functional as F
 from fairseq import utils
 from fairseq.model_parallel.models.pipeline_parallel_transformer.layers import (
-    Embedding,
-    TransformerDecoderEmbedding,
-    TransformerDecoderLayer,
-    TransformerDecoderOutputLayer,
-    TransformerEncoderEmbedding,
-    TransformerEncoderLayer,
-    TransformerEncoderLayerNorm,
-)
-from fairseq.models import (
-    BaseFairseqModel,
-    FairseqDecoder,
-    FairseqEncoder,
-    register_model,
-    register_model_architecture,
-)
+    Embedding, TransformerDecoderEmbedding, TransformerDecoderLayer,
+    TransformerDecoderOutputLayer, TransformerEncoderEmbedding,
+    TransformerEncoderLayer, TransformerEncoderLayerNorm)
+from fairseq.models import (BaseFairseqModel, FairseqDecoder, FairseqEncoder,
+                            register_model, register_model_architecture)
 from fairseq.models.fairseq_encoder import EncoderOut
-from fairseq.models.transformer import (
-    base_architecture,
-    transformer_iwslt_de_en,
-    transformer_wmt_en_de_big,
-)
+from fairseq.models.transformer import (base_architecture,
+                                        transformer_iwslt_de_en,
+                                        transformer_wmt_en_de_big)
 from fairseq.modules import SinusoidalPositionalEmbedding
-
 
 logger = logging.getLogger(__name__)
 
@@ -53,8 +40,9 @@ def import_pipe():
         from torch.distributed.pipeline.sync.utils import partition_model
 
         global partition_model
-        from torch.distributed import rpc
         import tempfile
+
+        from torch.distributed import rpc
 
         TORCH_PIPE = True
         # Initialize single process RPC agent since TORCH_PIPE requires

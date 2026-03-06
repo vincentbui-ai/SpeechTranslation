@@ -4,11 +4,11 @@
 # LICENSE file in the root directory of this source tree.
 
 
-import os
 import argparse
-import pandas as pd
+import os
 import sys
 
+import pandas as pd
 
 WORKDIR_ROOT = os.environ.get('WORKDIR_ROOT', None)
 

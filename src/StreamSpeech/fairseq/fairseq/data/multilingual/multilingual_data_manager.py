@@ -8,35 +8,23 @@ import json
 import logging
 import math
 import os
-from collections import OrderedDict, defaultdict
 from argparse import ArgumentError
+from collections import OrderedDict, defaultdict
 
 from fairseq import utils
-from fairseq.data import (
-    AppendTokenDataset,
-    ConcatDataset,
-    Dictionary,
-    LanguagePairDataset,
-    PrependTokenDataset,
-    SampledMultiDataset,
-    SampledMultiEpochDataset,
-    StripTokenDataset,
-    TransformEosLangPairDataset,
-    TruncateDataset,
-    data_utils,
-    indexed_dataset,
-)
-from fairseq.data.multilingual.multilingual_utils import (
-    EncoderLangtok,
-    LangTokSpec,
-    LangTokStyle,
-    augment_dictionary,
-    get_lang_tok,
-)
+from fairseq.data import (AppendTokenDataset, ConcatDataset, Dictionary,
+                          LanguagePairDataset, PrependTokenDataset,
+                          SampledMultiDataset, SampledMultiEpochDataset,
+                          StripTokenDataset, TransformEosLangPairDataset,
+                          TruncateDataset, data_utils, indexed_dataset)
+from fairseq.data.multilingual.multilingual_utils import (EncoderLangtok,
+                                                          LangTokSpec,
+                                                          LangTokStyle,
+                                                          augment_dictionary,
+                                                          get_lang_tok)
 from fairseq.data.multilingual.sampled_multi_dataset import CollateFormat
 from fairseq.file_io import PathManager
 from fairseq.utils import FileContentsAction, csv_str_list, eval_str_dict
-
 
 logger = logging.getLogger(__name__)
 

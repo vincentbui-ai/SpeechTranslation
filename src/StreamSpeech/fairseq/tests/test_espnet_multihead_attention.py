@@ -1,11 +1,10 @@
-import torch
-import numpy as np
 import unittest
-from fairseq.modules import (
-    ESPNETMultiHeadedAttention,
-    RelPositionMultiHeadedAttention,
-    RotaryPositionMultiHeadedAttention,
-)
+
+import numpy as np
+import torch
+from fairseq.modules import (ESPNETMultiHeadedAttention,
+                             RelPositionMultiHeadedAttention,
+                             RotaryPositionMultiHeadedAttention)
 
 torch.use_deterministic_algorithms(True)
 

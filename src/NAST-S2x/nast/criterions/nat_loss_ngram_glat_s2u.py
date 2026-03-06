@@ -4,6 +4,7 @@
 # LICENSE file in the root directory of this source tree.
 
 import math
+from dataclasses import dataclass, field
 
 import torch
 import torch.nn.functional as F
@@ -12,9 +13,8 @@ from fairseq.criterions import FairseqCriterion, register_criterion
 from fairseq.dataclass import FairseqDataclass
 from torch import Tensor
 
-from dataclasses import dataclass, field
+from .utilities import get_anneal_value, parse_anneal_argument
 
-from .utilities import parse_anneal_argument, get_anneal_value
 
 @dataclass
 class LabelSmoothedDualImitationCriterionConfig(FairseqDataclass):

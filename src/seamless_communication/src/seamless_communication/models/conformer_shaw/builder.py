@@ -10,15 +10,13 @@ from typing import Optional
 from fairseq2.models.conformer import ConformerConvolution
 from fairseq2.models.utils.arch_registry import ArchitectureRegistry
 from fairseq2.models.w2vbert import w2vbert_archs
-from fairseq2.models.wav2vec2.builder import (
-    Wav2Vec2Builder,
-    Wav2Vec2Config,
-    Wav2Vec2EncoderBuilder,
-    Wav2Vec2EncoderConfig,
-    wav2vec2_arch,
-)
+from fairseq2.models.wav2vec2.builder import (Wav2Vec2Builder, Wav2Vec2Config,
+                                              Wav2Vec2EncoderBuilder,
+                                              Wav2Vec2EncoderConfig,
+                                              wav2vec2_arch)
 from fairseq2.models.wav2vec2.model import Wav2Vec2Model
-from fairseq2.nn.transformer import SDPA, ShawRelativePositionSDPA, create_default_sdpa
+from fairseq2.nn.transformer import (SDPA, ShawRelativePositionSDPA,
+                                     create_default_sdpa)
 from fairseq2.typing import DataType, Device
 
 

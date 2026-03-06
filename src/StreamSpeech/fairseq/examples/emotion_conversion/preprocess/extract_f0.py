@@ -1,12 +1,12 @@
 import argparse
-from tqdm import tqdm
 from multiprocessing import Manager, Pool
 
-from scipy.io.wavfile import read
-from librosa.util import normalize
-import numpy as np
-import amfm_decompy.pYAAPT as pYAAPT
 import amfm_decompy.basic_tools as basic
+import amfm_decompy.pYAAPT as pYAAPT
+import numpy as np
+from librosa.util import normalize
+from scipy.io.wavfile import read
+from tqdm import tqdm
 
 MAX_WAV_VALUE = 32768.0
 

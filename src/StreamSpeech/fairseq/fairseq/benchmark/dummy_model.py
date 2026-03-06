@@ -6,12 +6,8 @@
 import torch.nn as nn
 import torch.nn.functional as F
 from fairseq.data import Dictionary
-from fairseq.models import (
-    FairseqDecoder,
-    FairseqLanguageModel,
-    register_model,
-    register_model_architecture,
-)
+from fairseq.models import (FairseqDecoder, FairseqLanguageModel,
+                            register_model, register_model_architecture)
 
 
 @register_model("dummy_model")

@@ -5,8 +5,10 @@
 # LICENSE file in the root directory of this source tree.
 
 from typing import List, Optional
+
 from simuleval.data.segments import Segment
-from .agent import GenericAgent, AgentStates
+
+from .agent import AgentStates, GenericAgent
 
 
 class AgentPipeline(GenericAgent):

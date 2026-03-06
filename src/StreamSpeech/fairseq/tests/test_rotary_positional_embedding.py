@@ -1,8 +1,9 @@
-import torch
-import numpy as np
 import unittest
-from fairseq.modules.rotary_positional_embedding import apply_rotary_pos_emb
+
+import numpy as np
+import torch
 from fairseq.modules import RotaryPositionalEmbedding
+from fairseq.modules.rotary_positional_embedding import apply_rotary_pos_emb
 
 
 class TestRotaryPositionalEmbedding(unittest.TestCase):

@@ -31,7 +31,6 @@ import json
 import os
 from pathlib import Path
 
-
 SAMPLE_RATE = 16_000  # Hz
 
 

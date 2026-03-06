@@ -2,12 +2,10 @@ from pathlib import Path
 
 from fairseq.tasks import register_task
 from fairseq.tasks.speech_to_speech import SpeechToSpeechTask
-from translatotron.datasets.speech_to_speech_dataset_modified import (
-    SpeechToSpeechDatasetModifiedCreator,
-)
-from translatotron.datasets.speech_to_speech_data_cfg_modified import (
-    S2SDataConfigModified,
-)
+from translatotron.datasets.speech_to_speech_data_cfg_modified import \
+    S2SDataConfigModified
+from translatotron.datasets.speech_to_speech_dataset_modified import \
+    SpeechToSpeechDatasetModifiedCreator
 
 
 @register_task("speech_to_speech_modified")
@@ -36,9 +34,8 @@ class SpeechToSpeechTaskModified(SpeechToSpeechTask):
         args,
         extra_gen_cls_kwargs=None,
     ):
-        from translatotron.sequence_generator_multi_decoder import (
-            MultiDecoderSequenceGenerator,
-        )
+        from translatotron.sequence_generator_multi_decoder import \
+            MultiDecoderSequenceGenerator
 
         return MultiDecoderSequenceGenerator(
             models,

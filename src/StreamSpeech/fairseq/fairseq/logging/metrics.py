@@ -18,7 +18,6 @@ from typing import Callable, List, Optional
 
 from .meters import *
 
-
 # Aggregation contexts are considered "active" when inside the scope
 # created by the :func:`aggregate` context manager.
 _aggregators = OrderedDict()

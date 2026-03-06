@@ -1,11 +1,11 @@
 from pathlib import Path
 
+from ctc_unity.datasets.speech_to_speech_data_cfg_modified import \
+    S2SDataConfigModified
+from ctc_unity.datasets.speech_to_speech_dataset_modified import \
+    SpeechToSpeechDatasetModifiedCreator
 from fairseq.tasks import register_task
 from fairseq.tasks.speech_to_speech import SpeechToSpeechTask
-from ctc_unity.datasets.speech_to_speech_dataset_modified import (
-    SpeechToSpeechDatasetModifiedCreator,
-)
-from ctc_unity.datasets.speech_to_speech_data_cfg_modified import S2SDataConfigModified
 
 
 @register_task("speech_to_speech_ctc")
@@ -24,9 +24,8 @@ class SpeechToSpeechCTCTask(SpeechToSpeechTask):
         args,
         extra_gen_cls_kwargs=None,
     ):
-        from ctc_unity.sequence_generator_multi_decoder_ctc import (
-            CTCMultiDecoderSequenceGenerator,
-        )
+        from ctc_unity.sequence_generator_multi_decoder_ctc import \
+            CTCMultiDecoderSequenceGenerator
 
         return CTCMultiDecoderSequenceGenerator(
             models,

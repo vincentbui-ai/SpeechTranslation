@@ -7,27 +7,17 @@ from typing import Dict, Optional
 import torch
 import torch.nn as nn
 import torch.nn.functional as F
-from torch import Tensor
-
 from fairseq import checkpoint_utils, utils
 from fairseq.file_io import PathManager
-from fairseq.models import (
-    FairseqDecoder,
-    FairseqEncoderDecoderModel,
-    register_model,
-    register_model_architecture,
-)
-from fairseq.models.speech_to_text import (
-    MultiInputDecoder,
-    MultiModalityEncoder,
-    SpeechWavTransformerEncoder,
-    StackedSpeechWavTransformerEncoder,
-)
-from fairseq.models.transformer import (
-    TransformerDecoder,
-    TransformerEncoder,
-    TransformerModel,
-)
+from fairseq.models import (FairseqDecoder, FairseqEncoderDecoderModel,
+                            register_model, register_model_architecture)
+from fairseq.models.speech_to_text import (MultiInputDecoder,
+                                           MultiModalityEncoder,
+                                           SpeechWavTransformerEncoder,
+                                           StackedSpeechWavTransformerEncoder)
+from fairseq.models.transformer import (TransformerDecoder, TransformerEncoder,
+                                        TransformerModel)
+from torch import Tensor
 
 logger = logging.getLogger(__name__)
 

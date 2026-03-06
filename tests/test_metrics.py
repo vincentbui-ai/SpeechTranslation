@@ -12,13 +12,14 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-import sys
 import os
+import sys
 import unittest
 
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), ".."))
 
-from src.metrics import MetricsEvaluator, MetricsResult, compute_cer, compute_wer
+from src.metrics import (MetricsEvaluator, MetricsResult, compute_cer,
+                         compute_wer)
 
 
 class TestComputeCER(unittest.TestCase):

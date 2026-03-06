@@ -8,25 +8,13 @@ import os
 
 import numpy as np
 import torch
-
 from fairseq import utils
-from fairseq.data import (
-    ConcatDataset,
-    Dictionary,
-    IdDataset,
-    MaskTokensDataset,
-    NestedDictionaryDataset,
-    NumelDataset,
-    NumSamplesDataset,
-    PadDataset,
-    PrependTokenDataset,
-    RawLabelDataset,
-    ResamplingDataset,
-    SortDataset,
-    TokenBlockDataset,
-    data_utils,
-    encoders,
-)
+from fairseq.data import (ConcatDataset, Dictionary, IdDataset,
+                          MaskTokensDataset, NestedDictionaryDataset,
+                          NumelDataset, NumSamplesDataset, PadDataset,
+                          PrependTokenDataset, RawLabelDataset,
+                          ResamplingDataset, SortDataset, TokenBlockDataset,
+                          data_utils, encoders)
 from fairseq.tasks import LegacyFairseqTask, register_task
 
 logger = logging.getLogger(__name__)

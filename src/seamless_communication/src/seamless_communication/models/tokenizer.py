@@ -6,15 +6,10 @@
 
 from typing import Optional, Sequence, Set, final
 
-from fairseq2.data.text import (
-    SentencePieceDecoder,
-    SentencePieceEncoder,
-    SentencePieceModel,
-    TextTokenDecoder,
-    TextTokenEncoder,
-    TextTokenizer,
-    vocab_info_from_sentencepiece,
-)
+from fairseq2.data.text import (SentencePieceDecoder, SentencePieceEncoder,
+                                SentencePieceModel, TextTokenDecoder,
+                                TextTokenEncoder, TextTokenizer,
+                                vocab_info_from_sentencepiece)
 from fairseq2.data.typing import PathLike
 from fairseq2.typing import Device, finaloverride
 

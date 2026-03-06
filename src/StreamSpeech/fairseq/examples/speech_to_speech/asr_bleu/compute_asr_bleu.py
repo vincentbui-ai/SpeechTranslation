@@ -1,12 +1,13 @@
 import os
-from typing import Dict, List
-import sacrebleu
-import pandas as pd
+from argparse import ArgumentParser
 from glob import glob
 from pathlib import Path
-from utils import retrieve_asr_config, ASRGenerator
+from typing import Dict, List
+
+import pandas as pd
+import sacrebleu
 from tqdm import tqdm
-from argparse import ArgumentParser
+from utils import ASRGenerator, retrieve_asr_config
 
 
 def merge_tailo_init_final(text):

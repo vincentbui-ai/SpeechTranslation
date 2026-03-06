@@ -15,15 +15,14 @@ import sys
 from argparse import Namespace
 from typing import Iterable, List, Optional
 
-import torch
-from omegaconf import DictConfig
-
 import fairseq
+import torch
 from fairseq import checkpoint_utils, distributed_utils, options, tasks, utils
 from fairseq.dataclass.utils import convert_namespace_to_omegaconf
 from fairseq.logging import progress_bar
 from fairseq.logging.meters import StopwatchMeter
 from fairseq.sequence_scorer import SequenceScorer
+from omegaconf import DictConfig
 
 logging.basicConfig(
     format="%(asctime)s | %(levelname)s | %(name)s | %(message)s",

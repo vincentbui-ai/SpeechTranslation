@@ -13,12 +13,10 @@ import torch.nn as nn
 from fairseq2.assets import asset_store, download_manager
 from fairseq2.assets.card import AssetCard
 from fairseq2.data import Collater
-from fairseq2.data.audio import (
-    AudioDecoder,
-    AudioDecoderOutput,
-    WaveformToFbankConverter,
-)
-from fairseq2.generation import BeamSearchSeq2SeqGenerator, Seq2SeqGeneratorOutput
+from fairseq2.data.audio import (AudioDecoder, AudioDecoderOutput,
+                                 WaveformToFbankConverter)
+from fairseq2.generation import (BeamSearchSeq2SeqGenerator,
+                                 Seq2SeqGeneratorOutput)
 from fairseq2.memory import MemoryBlock
 from fairseq2.models.nllb.tokenizer import NllbTokenizer
 from fairseq2.nn.transformer.multihead_attention import AttentionWeightHook
@@ -28,11 +26,9 @@ from torch import Tensor
 
 from seamless_communication.denoise.demucs import Demucs, DenoisingConfig
 from seamless_communication.models.tokenizer import SPMTokenizer
-from seamless_communication.models.unity import (
-    UnitYX2TModel,
-    load_unity_model,
-    load_unity_text_tokenizer,
-)
+from seamless_communication.models.unity import (UnitYX2TModel,
+                                                 load_unity_model,
+                                                 load_unity_text_tokenizer)
 from seamless_communication.segment.silero_vad import SileroVADSegmenter
 
 

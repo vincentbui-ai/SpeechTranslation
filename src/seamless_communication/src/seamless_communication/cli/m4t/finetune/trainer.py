@@ -10,7 +10,6 @@ import time
 from contextlib import contextmanager
 from dataclasses import dataclass
 from enum import Enum
-from tqdm import tqdm
 from pathlib import Path
 from typing import List, Optional, Tuple, Union
 
@@ -23,12 +22,10 @@ from fairseq2.nn.padding import PaddingMask
 from fairseq2.optim.lr_scheduler import MyleLR
 from fairseq2.typing import Device
 from torch.optim import AdamW
+from tqdm import tqdm
 
 from seamless_communication.cli.m4t.finetune import dataloader, dist_utils
-from seamless_communication.models.unity import (
-    UnitYModel,
-    UnitYT2UModel,
-)
+from seamless_communication.models.unity import UnitYModel, UnitYT2UModel
 
 logger = logging.getLogger(__name__)
 

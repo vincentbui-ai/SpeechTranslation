@@ -7,9 +7,9 @@
 
 from __future__ import annotations
 
+import getpass
 import os
 import pathlib
-import getpass
 
 import gradio as gr
 import numpy as np
@@ -17,17 +17,12 @@ import torch
 import torchaudio
 from fairseq2.assets import InProcAssetMetadataProvider, asset_store
 from huggingface_hub import snapshot_download
-from seamless_communication.inference import Translator
+from lang_list import (ASR_TARGET_LANGUAGE_NAMES, LANGUAGE_NAME_TO_CODE,
+                       S2ST_TARGET_LANGUAGE_NAMES, S2TT_TARGET_LANGUAGE_NAMES,
+                       T2ST_TARGET_LANGUAGE_NAMES, T2TT_TARGET_LANGUAGE_NAMES,
+                       TEXT_SOURCE_LANGUAGE_NAMES)
 
-from lang_list import (
-    ASR_TARGET_LANGUAGE_NAMES,
-    LANGUAGE_NAME_TO_CODE,
-    S2ST_TARGET_LANGUAGE_NAMES,
-    S2TT_TARGET_LANGUAGE_NAMES,
-    T2ST_TARGET_LANGUAGE_NAMES,
-    T2TT_TARGET_LANGUAGE_NAMES,
-    TEXT_SOURCE_LANGUAGE_NAMES,
-)
+from seamless_communication.inference import Translator
 
 user = getpass.getuser() # this is not portable on windows
 CHECKPOINTS_PATH = pathlib.Path(os.getenv("CHECKPOINTS_PATH", f"/home/{user}/app/models"))

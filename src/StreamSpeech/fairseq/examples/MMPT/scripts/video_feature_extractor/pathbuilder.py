@@ -2,13 +2,12 @@
 #
 # This source code is licensed under the MIT license found in the
 # LICENSE file in the root directory of this source tree.
+import json
 import os
 import urllib.parse
-import json
+
 import pandas as pd
-
 from tqdm import tqdm
-
 
 # TODO: extending to other datasets.
 supported_formats = {}

@@ -1,20 +1,23 @@
-import timeit
-import logging
-import torch
-from pypapi import events, papi_high as high
-from memory_profiler import memory_usage
-from torch import nn
-from argparse import Namespace
-from fairseq.dataclass.utils import convert_namespace_to_omegaconf
-from fairseq.data import data_utils as fairseq_data_utils
-from fairseq import checkpoint_utils, tasks, utils
-from fairseq.models.text_to_speech.vocoder import CodeHiFiGANVocoder
-from examples.hubert.simple_kmeans.dump_hubert_feature import HubertFeatureReader
-from examples.hubert.simple_kmeans.dump_km_label import ApplyKmeans
-from fairseq_cli.generate import get_symbols_to_strip_from_output
-import soundfile as sf
 import ast
 import json
+import logging
+import timeit
+from argparse import Namespace
+
+import soundfile as sf
+import torch
+from examples.hubert.simple_kmeans.dump_hubert_feature import \
+    HubertFeatureReader
+from examples.hubert.simple_kmeans.dump_km_label import ApplyKmeans
+from fairseq import checkpoint_utils, tasks, utils
+from fairseq.data import data_utils as fairseq_data_utils
+from fairseq.dataclass.utils import convert_namespace_to_omegaconf
+from fairseq.models.text_to_speech.vocoder import CodeHiFiGANVocoder
+from fairseq_cli.generate import get_symbols_to_strip_from_output
+from memory_profiler import memory_usage
+from pypapi import events
+from pypapi import papi_high as high
+from torch import nn
 
 logging.basicConfig()
 logging.root.setLevel(logging.INFO)

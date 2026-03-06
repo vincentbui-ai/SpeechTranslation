@@ -8,16 +8,12 @@ import argparse
 import logging
 from pathlib import Path
 
-import soundfile as sf
-from tqdm import tqdm
 import pandas as pd
-
+import soundfile as sf
 from examples.speech_to_speech.preprocessing.data_utils import (
-    gen_config_yaml,
-    load_units,
-    process_units,
-)
+    gen_config_yaml, load_units, process_units)
 from examples.speech_to_text.data_utils import save_df_to_tsv
+from tqdm import tqdm
 
 logger = logging.getLogger(__name__)
 

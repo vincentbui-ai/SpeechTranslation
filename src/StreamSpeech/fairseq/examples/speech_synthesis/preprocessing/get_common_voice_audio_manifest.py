@@ -5,17 +5,15 @@
 
 import argparse
 import logging
-from pathlib import Path
 from collections import defaultdict
-from typing import List, Dict, Tuple
+from pathlib import Path
+from typing import Dict, List, Tuple
 
-import pandas as pd
 import numpy as np
+import pandas as pd
 import torchaudio
-from tqdm import tqdm
-
 from examples.speech_to_text.data_utils import load_df_from_tsv, save_df_to_tsv
-
+from tqdm import tqdm
 
 log = logging.getLogger(__name__)
 

@@ -11,7 +11,6 @@ import torch.nn.functional as F
 from fairseq.data import Dictionary
 from torch import nn
 
-
 CHAR_PAD_IDX = 0
 CHAR_EOS_IDX = 257
 

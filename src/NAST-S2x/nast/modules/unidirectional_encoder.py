@@ -1,21 +1,19 @@
 
+import math
 from typing import Dict, Optional
+
 import torch
-from torch import Tensor
 import torch.nn as nn
-
-
+from fairseq.incremental_decoding_utils import FairseqIncrementalState
 from fairseq.modules import TransformerEncoderLayer
 from fairseq.modules.checkpoint_activations import checkpoint_wrapper
-from fairseq.incremental_decoding_utils import FairseqIncrementalState
-from omegaconf import II
-
-
 from nast.modules.audio_convs import lengths_to_padding_mask
 from nast.modules.audio_encoder import AudioTransformerEncoder
-from nast.modules.multihead_attention_relative import MultiheadRelativeAttention, replace_relative_attention
+from nast.modules.multihead_attention_relative import (
+    MultiheadRelativeAttention, replace_relative_attention)
+from omegaconf import II
+from torch import Tensor
 
-import math
 
 class IncrementalEncodingState(FairseqIncrementalState):
     @torch.jit.export

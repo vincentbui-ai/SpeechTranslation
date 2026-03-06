@@ -11,24 +11,19 @@ import random
 import sys
 import tempfile
 import unittest
-from packaging import version
 from io import StringIO
 from typing import Dict, List
 
 import torch
-
 from fairseq import options
 from fairseq_cli import eval_lm, train
-from tests.utils import (
-    create_dummy_data,
-    create_laser_data_and_config_json,
-    generate_main,
-    preprocess_lm_data,
-    preprocess_summarization_data,
-    preprocess_translation_data,
-    train_language_model,
-    train_translation_model,
-)
+from packaging import version
+
+from tests.utils import (create_dummy_data, create_laser_data_and_config_json,
+                         generate_main, preprocess_lm_data,
+                         preprocess_summarization_data,
+                         preprocess_translation_data, train_language_model,
+                         train_translation_model)
 
 try:
     import transformers  # noqa

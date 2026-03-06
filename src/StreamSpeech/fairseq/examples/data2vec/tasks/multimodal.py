@@ -6,24 +6,22 @@
 # can be found in the PATENTS file in the same directory.
 
 import sys
-
 from dataclasses import dataclass
-from typing import Optional, List
-from omegaconf import II
+from typing import List, Optional
 
+from examples.data2vec.data.modality import Modality
+from fairseq.data.audio.multi_modality_dataset import (ModalityDatasetItem,
+                                                       MultiModalityDataset)
 from fairseq.data.iterators import GroupedEpochBatchIterator
-
 from fairseq.dataclass import FairseqDataclass
 from fairseq.tasks import FairseqTask, register_task
-from fairseq.tasks.audio_pretraining import AudioPretrainingConfig, AudioPretrainingTask
+from fairseq.tasks.audio_pretraining import (AudioPretrainingConfig,
+                                             AudioPretrainingTask)
 from fairseq.tasks.masked_lm import MaskedLMConfig, MaskedLMTask
-from .mae_image_pretraining import MaeImagePretrainingConfig, MaeImagePretrainingTask
-from examples.data2vec.data.modality import Modality
+from omegaconf import II
 
-from fairseq.data.audio.multi_modality_dataset import (
-    MultiModalityDataset,
-    ModalityDatasetItem,
-)
+from .mae_image_pretraining import (MaeImagePretrainingConfig,
+                                    MaeImagePretrainingTask)
 
 
 @dataclass

@@ -6,24 +6,16 @@
 import logging
 
 import torch.nn as nn
-
 from fairseq.model_parallel.modules import (
-    ModelParallelTransformerDecoderLayer,
-    ModelParallelTransformerEncoderLayer,
-)
+    ModelParallelTransformerDecoderLayer, ModelParallelTransformerEncoderLayer)
 from fairseq.models import register_model
-from fairseq.models.transformer import (
-    TransformerDecoder,
-    TransformerEncoder,
-    TransformerModel,
-)
+from fairseq.models.transformer import (TransformerDecoder, TransformerEncoder,
+                                        TransformerModel)
 
 try:
     from fairseq.model_parallel.megatron.mpu import (
-        VocabParallelEmbedding,
-        copy_to_model_parallel_region,
-        gather_from_model_parallel_region,
-    )
+        VocabParallelEmbedding, copy_to_model_parallel_region,
+        gather_from_model_parallel_region)
 
     has_megatron_submodule = True
 except (ImportError, ModuleNotFoundError):

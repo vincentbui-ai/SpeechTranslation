@@ -9,22 +9,14 @@ from collections.abc import Iterable
 
 import torch
 import torch.nn as nn
-from examples.speech_recognition.data.data_utils import lengths_to_encoder_padding_mask
+from examples.speech_recognition.data.data_utils import \
+    lengths_to_encoder_padding_mask
 from fairseq import utils
-from fairseq.models import (
-    FairseqEncoder,
-    FairseqEncoderDecoderModel,
-    FairseqEncoderModel,
-    FairseqIncrementalDecoder,
-    register_model,
-    register_model_architecture,
-)
-from fairseq.modules import (
-    LinearizedConvolution,
-    TransformerDecoderLayer,
-    TransformerEncoderLayer,
-    VGGBlock,
-)
+from fairseq.models import (FairseqEncoder, FairseqEncoderDecoderModel,
+                            FairseqEncoderModel, FairseqIncrementalDecoder,
+                            register_model, register_model_architecture)
+from fairseq.modules import (LinearizedConvolution, TransformerDecoderLayer,
+                             TransformerEncoderLayer, VGGBlock)
 
 
 @register_model("asr_vggtransformer")

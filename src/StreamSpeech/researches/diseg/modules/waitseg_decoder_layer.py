@@ -12,6 +12,7 @@ from fairseq.modules import LayerNorm, MultiheadAttention
 from fairseq.modules.fairseq_dropout import FairseqDropout
 from fairseq.modules.quant_noise import quant_noise
 from torch import Tensor
+
 from .waitseg_multihead_attention import WaitSegMultiheadAttention
 
 

@@ -1,10 +1,10 @@
-from pathlib import Path
-import os
-import sys
-import subprocess
 import argparse
-from datetime import datetime
 import logging
+import os
+import subprocess
+import sys
+from datetime import datetime
+from pathlib import Path
 
 logging.basicConfig(
     level=logging.INFO,

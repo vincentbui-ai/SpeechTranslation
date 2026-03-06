@@ -4,13 +4,13 @@
 # LICENSE file in the root directory of this source tree.
 
 import argparse
-import editdistance
 import re
 import shutil
-import soundfile as sf
 import subprocess
 from pathlib import Path
 
+import editdistance
+import soundfile as sf
 from examples.speech_to_text.data_utils import load_tsv_to_dicts
 
 

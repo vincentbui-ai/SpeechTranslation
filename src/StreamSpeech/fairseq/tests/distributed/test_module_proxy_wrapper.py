@@ -6,9 +6,8 @@
 import unittest
 
 import torch
-from torch import nn
-
 from fairseq.distributed import ModuleProxyWrapper
+from torch import nn
 
 from .utils import objects_are_equal
 

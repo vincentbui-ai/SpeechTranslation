@@ -8,9 +8,8 @@ from functools import partial
 
 import numpy as np
 import torch
+from data_utils import F0Stat, dump_speaker_f0_stat, load_audio_path, load_f0
 from tqdm import tqdm
-
-from data_utils import dump_speaker_f0_stat, F0Stat, load_audio_path, load_f0
 
 
 def load_speaker(path):

@@ -6,20 +6,15 @@
 from typing import List
 
 import torch
+from fairseq2.assets import asset_store
+from fairseq2.data import Collater, SequenceData, VocabularyInfo
+from fairseq2.nn.padding import get_seqs_and_padding_mask
+from fairseq2.typing import DataType, Device
 from torch.nn import Module
 
-from fairseq2.typing import DataType, Device
-
-from fairseq2.assets import asset_store
-from fairseq2.data import (
-    Collater,
-    SequenceData,
-    VocabularyInfo,
-)
-from fairseq2.nn.padding import get_seqs_and_padding_mask
-
 from seamless_communication.inference import BatchedSpeechOutput
-from seamless_communication.models.generator.loader import load_pretssel_vocoder_model
+from seamless_communication.models.generator.loader import \
+    load_pretssel_vocoder_model
 
 
 class PretsselGenerator(Module):

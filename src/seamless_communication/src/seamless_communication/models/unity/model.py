@@ -20,8 +20,10 @@ from torch import Tensor
 from torch.nn import Module
 
 from seamless_communication.models.generator.ecapa_tdnn import ECAPA_TDNN
-from seamless_communication.models.unity.fft_decoder import FeedForwardTransformer
-from seamless_communication.models.unity.nar_decoder_frontend import NARDecoderFrontend
+from seamless_communication.models.unity.fft_decoder import \
+    FeedForwardTransformer
+from seamless_communication.models.unity.nar_decoder_frontend import \
+    NARDecoderFrontend
 
 
 @final

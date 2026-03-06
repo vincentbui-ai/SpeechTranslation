@@ -4,11 +4,8 @@
 # LICENSE file in the root directory of this source tree.
 import torch
 
-from .. import tasks
-from .. import models
-from .. import losses
+from .. import losses, models, processors, tasks
 from ..datasets import MMDataset
-from .. import processors
 
 
 class Task(object):

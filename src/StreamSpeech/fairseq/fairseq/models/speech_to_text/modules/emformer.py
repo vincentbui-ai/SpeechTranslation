@@ -14,30 +14,22 @@ from typing import List, Optional, Tuple
 
 import torch
 import torch.nn as nn
+from fairseq.models import FairseqEncoder
+from fairseq.models.speech_to_text.utils import (NoOp, attention_suppression,
+                                                 layer_norm_backward_hook,
+                                                 lengths_to_padding_mask,
+                                                 segments_to_sequence)
 from torch import Tensor
 from torch import device as Device
 
-from fairseq.models import FairseqEncoder
-from fairseq.models.speech_to_text.utils import (
-    NoOp,
-    attention_suppression,
-    layer_norm_backward_hook,
-    lengths_to_padding_mask,
-    segments_to_sequence,
-)
-
 try:
     import torch.ao.quantization as quantization
-    from torch.ao.quantization.qconfig import (
-        default_dynamic_qconfig,
-        per_channel_dynamic_qconfig,
-    )
+    from torch.ao.quantization.qconfig import (default_dynamic_qconfig,
+                                               per_channel_dynamic_qconfig)
 except ImportError:
     import torch.quantization as quantization
-    from torch.quantization.qconfig import (
-        default_dynamic_qconfig,
-        per_channel_dynamic_qconfig,
-    )
+    from torch.quantization.qconfig import (default_dynamic_qconfig,
+                                            per_channel_dynamic_qconfig)
 
 
 class RelativePositionEmbedding(nn.Module):

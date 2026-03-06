@@ -1,16 +1,13 @@
 import json
 import logging
-import numpy as np
-
 from argparse import Namespace
 
-from fairseq import utils, metrics
+import numpy as np
+from fairseq import metrics, utils
 from fairseq.tasks import register_task
 from fairseq.tasks.speech_to_text import SpeechToTextTask
-from translatotron.datasets.speech_to_text_dataset_modified import (
-    SpeechToTextDatasetModifiedCreator,
-)
-
+from translatotron.datasets.speech_to_text_dataset_modified import \
+    SpeechToTextDatasetModifiedCreator
 
 logger = logging.getLogger(__name__)
 
@@ -152,6 +149,7 @@ class SpeechToTextModifiedTask(SpeechToTextTask):
 
                 def compute_bleu(meters):
                     import inspect
+
                     import sacrebleu
 
                     fn_sig = inspect.getfullargspec(sacrebleu.compute_bleu)[0]

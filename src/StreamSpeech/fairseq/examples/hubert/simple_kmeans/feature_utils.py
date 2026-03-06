@@ -10,7 +10,6 @@ import sys
 import tqdm
 from npy_append_array import NpyAppendArray
 
-
 logging.basicConfig(
     format="%(asctime)s | %(levelname)s | %(name)s | %(message)s",
     datefmt="%Y-%m-%d %H:%M:%S",

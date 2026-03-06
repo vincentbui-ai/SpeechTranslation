@@ -4,12 +4,13 @@
 # This source code is licensed under the license found in the
 # MIT_LICENSE file in the root directory of this source tree.
 
-from fire import Fire
-from seamless_communication.cli.eval_utils.compute_metrics import (
-    compute_quality_metrics,
-)
-from fairseq2.typing import Device
 from pathlib import Path
+
+from fairseq2.typing import Device
+from fire import Fire
+
+from seamless_communication.cli.eval_utils.compute_metrics import \
+    compute_quality_metrics
 
 
 def run_asr_bleu_expressive_model(

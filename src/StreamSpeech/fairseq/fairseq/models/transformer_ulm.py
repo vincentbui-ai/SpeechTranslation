@@ -5,23 +5,19 @@
 
 
 from dataclasses import dataclass, field
-from fairseq.models.fairseq_decoder import FairseqDecoder
+from typing import Any, Dict, List, Optional
+
 import numpy as np
-from typing import Optional, Dict, Any, List
 import torch
-from torch import nn
 from fairseq.data.data_utils import compute_mask_indices
 from fairseq.dataclass import ChoiceEnum
-from fairseq.models import (
-    FairseqLanguageModel,
-    register_model,
-    register_model_architecture,
-)
-from fairseq.tasks.speech_ulm_task import SpeechUnitLanguageModelingTask
-from fairseq.models.transformer import Embedding, TransformerDecoder, Linear
+from fairseq.models import (FairseqLanguageModel, register_model,
+                            register_model_architecture)
+from fairseq.models.fairseq_decoder import FairseqDecoder
+from fairseq.models.transformer import Embedding, Linear, TransformerDecoder
 from fairseq.models.transformer_lm import TransformerLanguageModelConfig
-from torch import Tensor
-
+from fairseq.tasks.speech_ulm_task import SpeechUnitLanguageModelingTask
+from torch import Tensor, nn
 
 DEFAULT_MAX_TARGET_POSITIONS = 1024
 MASKING_DISTRIBUTION_CHOICES = ChoiceEnum(["static", "uniform", "normal", "poisson"])

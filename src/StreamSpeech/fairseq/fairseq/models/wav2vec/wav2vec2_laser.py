@@ -4,11 +4,8 @@
 # LICENSE file in the root directory of this source tree.
 
 from fairseq.models import BaseFairseqModel, register_model
-from fairseq.models.wav2vec.wav2vec2_asr import (
-    Wav2Vec2CtcConfig,
-    Wav2VecCtc,
-    Wav2VecEncoder,
-)
+from fairseq.models.wav2vec.wav2vec2_asr import (Wav2Vec2CtcConfig, Wav2VecCtc,
+                                                 Wav2VecEncoder)
 from fairseq.tasks import FairseqTask
 
 

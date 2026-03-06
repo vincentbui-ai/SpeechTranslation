@@ -4,25 +4,19 @@
 # LICENSE file in the root directory of this source tree.
 
 import math
+from typing import Dict, Optional
 
 import torch
-from torch import Tensor
 import torch.nn as nn
-
-from examples.simultaneous_translation.utils.p_choose_strategy import (
-    learnable_p_choose,
-    waitk_p_choose
-)
-
 from examples.simultaneous_translation.utils.monotonic_attention import (
-    expected_alignment_from_p_choose,
-    expected_soft_attention,
-    mass_preservation,
-)
+    expected_alignment_from_p_choose, expected_soft_attention,
+    mass_preservation)
+from examples.simultaneous_translation.utils.p_choose_strategy import (
+    learnable_p_choose, waitk_p_choose)
 from fairseq.modules import MultiheadAttention
+from torch import Tensor
 
 from . import register_monotonic_attention
-from typing import Dict, Optional
 
 
 @register_monotonic_attention("hard_aligned")

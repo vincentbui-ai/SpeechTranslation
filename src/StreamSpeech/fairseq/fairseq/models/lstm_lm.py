@@ -4,13 +4,9 @@
 # LICENSE file in the root directory of this source tree.
 
 from fairseq import utils
-from fairseq.models import (
-    FairseqLanguageModel,
-    register_model,
-    register_model_architecture,
-)
+from fairseq.models import (FairseqLanguageModel, register_model,
+                            register_model_architecture)
 from fairseq.models.lstm import Embedding, LSTMDecoder
-
 
 DEFAULT_MAX_TARGET_POSITIONS = 1e5
 

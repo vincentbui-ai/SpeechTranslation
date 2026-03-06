@@ -1,6 +1,7 @@
 #pylint: disable=no-member
-import torch
 import math
+
+import torch
 import torch.nn as nn
 from fairseq.modules import ConvTBC, LinearizedConvolution, VGGBlock
 from torch import Tensor
@@ -209,6 +210,7 @@ def Shallow1d_Base(num_mel_bins, output_dim):
 
 
 import torchvision
+
 RESNET_CONFIG_BASE= [(64, 2, 4), (128, 2, 4)]
 RESNET_CONFIG_SMALL= [(64, 2, 2), (128, 2, 2)]
 

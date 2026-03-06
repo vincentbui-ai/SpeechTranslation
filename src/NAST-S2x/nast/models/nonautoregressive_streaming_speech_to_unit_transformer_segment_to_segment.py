@@ -3,27 +3,25 @@
 # This source code is licensed under the MIT license found in the
 # LICENSE file in the root directory of this source tree.
 
+import logging
+import math
 from typing import Union
 
 import torch
 import torch.nn.functional as F
-
-from fairseq import utils
-from nast.generators.s2u_nat_generator import DecoderOut
+from fairseq import checkpoint_utils, utils
 from fairseq.models import register_model, register_model_architecture
 from fairseq.models.nat import ensemble_decoder
 from fairseq.modules.transformer_sentence_encoder import init_bert_params
-from fairseq import checkpoint_utils
-
+from nast.generators.s2u_nat_generator import DecoderOut
 from nast.models.torch_imputer import best_alignment
-import math
-import logging
+
 logger = logging.getLogger(__name__)
 
 from pathlib import Path
 
-from .nonautoregressive_streaming_speech_transformer_segment_to_segment import NATransformerModel, NATransformerDecoder
-
+from .nonautoregressive_streaming_speech_transformer_segment_to_segment import (
+    NATransformerDecoder, NATransformerModel)
 
 DEFAULT_MAX_TEXT_POSITIONS = 1024
 DEFAULT_MAX_AUDIO_POSITIONS = 6000

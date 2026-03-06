@@ -3,13 +3,10 @@ import unittest
 from typing import Any, Dict
 
 import torch
-from examples.simultaneous_translation.models import (
+from examples.simultaneous_translation.models import \
     transformer_monotonic_attention
-)
-
 
 from tests.test_roberta import FakeTask
-
 
 DEFAULT_CONFIG = {
     "attention_eps": 1e-6,

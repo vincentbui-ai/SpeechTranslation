@@ -13,10 +13,10 @@ import numpy as np
 import torchaudio
 import torchaudio.sox_effects as ta_sox
 import yaml
-from tqdm import tqdm
-
+from examples.speech_synthesis.preprocessing.speaker_embedder import \
+    SpkrEmbedder
 from examples.speech_to_text.data_utils import load_tsv_to_dicts
-from examples.speech_synthesis.preprocessing.speaker_embedder import SpkrEmbedder
+from tqdm import tqdm
 
 
 def extract_embedding(audio_path, embedder):

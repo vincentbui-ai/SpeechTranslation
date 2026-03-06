@@ -7,30 +7,25 @@
 import argparse
 import logging
 import os
-from pathlib import Path
 import shutil
 from itertools import groupby
+from pathlib import Path
 from tempfile import NamedTemporaryFile
 from typing import Tuple
 
 import pandas as pd
 import soundfile as sf
-from examples.speech_to_text.data_utils import (
-    create_zip,
-    extract_fbank_features,
-    filter_manifest_df,
-    gen_config_yaml,
-    gen_vocab,
-    get_zip_manifest,
-    load_df_from_tsv,
-    save_df_to_tsv,
-)
 import torch
+from examples.speech_to_text.data_utils import (create_zip,
+                                                extract_fbank_features,
+                                                filter_manifest_df,
+                                                gen_config_yaml, gen_vocab,
+                                                get_zip_manifest,
+                                                load_df_from_tsv,
+                                                save_df_to_tsv)
+from fairseq.data.audio.audio_utils import convert_waveform, get_waveform
 from torch.utils.data import Dataset
 from tqdm import tqdm
-
-from fairseq.data.audio.audio_utils import get_waveform, convert_waveform
-
 
 log = logging.getLogger(__name__)
 

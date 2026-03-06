@@ -9,25 +9,16 @@ from dataclasses import dataclass, field
 from typing import Optional
 
 import numpy as np
-from omegaconf import II, MISSING
-
 from fairseq import utils
-from fairseq.data import (
-    AppendTokenDataset,
-    Dictionary,
-    IdDataset,
-    NestedDictionaryDataset,
-    NumelDataset,
-    PadDataset,
-    PrependTokenDataset,
-    StripTokenDataset,
-    TokenBlockDataset,
-    data_utils,
-)
+from fairseq.data import (AppendTokenDataset, Dictionary, IdDataset,
+                          NestedDictionaryDataset, NumelDataset, PadDataset,
+                          PrependTokenDataset, StripTokenDataset,
+                          TokenBlockDataset, data_utils)
 from fairseq.data.shorten_dataset import maybe_shorten_dataset
 from fairseq.data.span_mask_tokens_dataset import SpanMaskedTokensDataset
 from fairseq.dataclass import ChoiceEnum, FairseqDataclass
 from fairseq.tasks import FairseqTask, register_task
+from omegaconf import II, MISSING
 
 from ..data.indexed_dataset import get_available_dataset_impl
 

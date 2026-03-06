@@ -18,9 +18,8 @@ from collections import OrderedDict
 from contextlib import contextmanager
 
 import torch
-from torch import nn
-
 from fairseq.distributed import utils
+from torch import nn
 
 
 class LegacyDistributedDataParallel(nn.Module):

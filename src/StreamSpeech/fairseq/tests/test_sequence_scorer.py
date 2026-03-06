@@ -6,9 +6,10 @@
 import argparse
 import unittest
 
-import tests.utils as test_utils
 import torch
 from fairseq.sequence_scorer import SequenceScorer
+
+import tests.utils as test_utils
 
 
 class TestSequenceScorer(unittest.TestCase):

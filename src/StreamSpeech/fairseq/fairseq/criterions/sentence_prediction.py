@@ -10,14 +10,13 @@ from itertools import chain
 import numpy as np
 import torch
 import torch.nn.functional as F
-from sklearn.metrics import f1_score
-from sklearn.metrics import matthews_corrcoef as _matthews_corrcoef
-from scipy.stats import pearsonr, spearmanr
-
-from fairseq.logging import metrics
 from fairseq.criterions import FairseqCriterion, register_criterion
 from fairseq.dataclass import FairseqDataclass
+from fairseq.logging import metrics
 from fairseq.logging.meters import safe_round
+from scipy.stats import pearsonr, spearmanr
+from sklearn.metrics import f1_score
+from sklearn.metrics import matthews_corrcoef as _matthews_corrcoef
 
 
 def simple_accuracy(preds, labels):

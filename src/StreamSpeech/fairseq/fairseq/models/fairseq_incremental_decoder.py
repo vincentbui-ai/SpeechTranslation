@@ -10,7 +10,6 @@ from fairseq.incremental_decoding_utils import with_incremental_state
 from fairseq.models import FairseqDecoder
 from torch import Tensor
 
-
 logger = logging.getLogger(__name__)
 
 

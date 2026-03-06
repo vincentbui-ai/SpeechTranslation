@@ -5,15 +5,11 @@
 
 import torch
 import torch.nn.functional as F
-from torch import nn
-from torch.nn import Parameter
-
-
-from fairseq import utils
 from fairseq import utils
 from fairseq.incremental_decoding_utils import with_incremental_state
 from fairseq.modules import MultiheadAttention
-
+from torch import nn
+from torch.nn import Parameter
 
 
 def replace_relative_attention(mh_attn:MultiheadAttention, max_relative_position = 20):

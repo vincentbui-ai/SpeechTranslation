@@ -7,17 +7,12 @@ import math
 from multiprocessing import Pool
 
 import numpy as np
+from examples.noisychannel import (rerank_generate, rerank_options,
+                                   rerank_score_bw, rerank_score_lm,
+                                   rerank_utils)
 from fairseq import options
 from fairseq.data import dictionary
 from fairseq.scoring import bleu
-
-from examples.noisychannel import (
-    rerank_generate,
-    rerank_options,
-    rerank_score_bw,
-    rerank_score_lm,
-    rerank_utils,
-)
 
 
 def score_target_hypo(

@@ -5,15 +5,15 @@
 # LICENSE file in the root directory of this source tree.
 
 import json
-import time
 import math
-from typing import Dict, List, Optional, Union
-from pathlib import Path
-
-from simuleval.data.segments import TextSegment, SpeechSegment, EmptySegment
-
-from simuleval.data.dataloader import SpeechToTextDataloader, TextToTextDataloader
+import time
 from argparse import Namespace
+from pathlib import Path
+from typing import Dict, List, Optional, Union
+
+from simuleval.data.dataloader import (SpeechToTextDataloader,
+                                       TextToTextDataloader)
+from simuleval.data.segments import EmptySegment, SpeechSegment, TextSegment
 
 try:
     import soundfile

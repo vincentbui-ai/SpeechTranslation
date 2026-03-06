@@ -8,15 +8,11 @@ import logging
 import os
 
 import soundfile as sf
-from examples.textless_nlp.gslm.unit2speech.tts_data import (
-    TacotronInputDataset,
-)
+from examples.textless_nlp.gslm.unit2speech.tts_data import \
+    TacotronInputDataset
 from examples.textless_nlp.gslm.unit2speech.utils import (
-    load_quantized_audio_from_file,
-    load_tacotron,
-    load_waveglow,
-    synthesize_audio,
-)
+    load_quantized_audio_from_file, load_tacotron, load_waveglow,
+    synthesize_audio)
 
 
 def get_logger():

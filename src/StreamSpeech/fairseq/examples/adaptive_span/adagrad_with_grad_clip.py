@@ -3,9 +3,8 @@
 # This source code is licensed under the MIT license found in the
 # LICENSE file in the root directory of this source tree.
 
-from torch.optim import Adagrad
-
 from fairseq.optim import LegacyFairseqOptimizer, register_optimizer
+from torch.optim import Adagrad
 
 
 @register_optimizer("adagrad_with_grad_clip")

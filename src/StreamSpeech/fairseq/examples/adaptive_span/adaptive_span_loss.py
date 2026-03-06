@@ -8,10 +8,10 @@ from dataclasses import dataclass
 
 import torch.nn.functional as F
 from fairseq import utils
-from fairseq.logging import metrics
 from fairseq.criterions import register_criterion
 from fairseq.criterions.cross_entropy import CrossEntropyCriterion
 from fairseq.dataclass import FairseqDataclass
+from fairseq.logging import metrics
 from omegaconf import II
 
 

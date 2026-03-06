@@ -9,13 +9,10 @@ from typing import Dict, List, Optional
 
 import torch
 from fairseq.dataclass import FairseqDataclass
-from fairseq.models import (
-    FairseqIncrementalDecoder,
-    FairseqLanguageModel,
-    register_model,
-)
-from .adaptive_span_model import TransformerSeq as AdaptiveSpanTransformerModel
+from fairseq.models import (FairseqIncrementalDecoder, FairseqLanguageModel,
+                            register_model)
 
+from .adaptive_span_model import TransformerSeq as AdaptiveSpanTransformerModel
 
 logger = logging.getLogger(__name__)
 

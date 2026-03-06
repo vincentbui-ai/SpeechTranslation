@@ -1,13 +1,13 @@
-from .tasks import *
-
 import torch.multiprocessing
+
+from .tasks import *
 
 torch.multiprocessing.set_sharing_strategy("file_system")
 
 print("fairseq plugins loaded...")
 
-import os
 import importlib
+import os
 
 # automatically import any Python files in the criterions/ directory
 for file in os.listdir(os.path.dirname(__file__)):

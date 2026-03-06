@@ -8,23 +8,13 @@ import os
 
 import numpy as np
 from fairseq import utils
-from fairseq.data import (
-    ConcatSentencesDataset,
-    Dictionary,
-    IdDataset,
-    NestedDictionaryDataset,
-    NumelDataset,
-    NumSamplesDataset,
-    PrependTokenDataset,
-    RawLabelDataset,
-    RightPadDataset,
-    SortDataset,
-    TruncateDataset,
-    data_utils,
-)
+from fairseq.data import (ConcatSentencesDataset, Dictionary, IdDataset,
+                          NestedDictionaryDataset, NumelDataset,
+                          NumSamplesDataset, PrependTokenDataset,
+                          RawLabelDataset, RightPadDataset, SortDataset,
+                          TruncateDataset, data_utils)
 from fairseq.data.shorten_dataset import maybe_shorten_dataset
 from fairseq.tasks import LegacyFairseqTask, register_task
-
 
 logger = logging.getLogger(__name__)
 

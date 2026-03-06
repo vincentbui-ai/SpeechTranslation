@@ -322,9 +322,7 @@ def distributed_init(cfg: FairseqConfig):
     if cfg.common.model_parallel_size > 1:
         try:
             from fairseq.model_parallel.megatron.mpu import (
-                initialize_model_parallel,
-                model_parallel_cuda_manual_seed,
-            )
+                initialize_model_parallel, model_parallel_cuda_manual_seed)
         except ImportError:
             raise ImportError(
                 "\n\nPlease install the megatron submodule:"

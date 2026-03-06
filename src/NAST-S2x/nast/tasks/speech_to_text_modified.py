@@ -12,11 +12,8 @@ from fairseq.data import Dictionary, encoders
 from fairseq.data.audio.audio_utils import get_features_or_waveform
 from fairseq.data.audio.data_cfg import MultitaskConfig
 from fairseq.data.audio.speech_to_text_dataset import (
-    S2TDataConfig,
-    SpeechToTextDataset,
-    SpeechToTextDatasetCreator,
-    TextTargetMultitaskData,
-)
+    S2TDataConfig, SpeechToTextDataset, SpeechToTextDatasetCreator,
+    TextTargetMultitaskData)
 from fairseq.tasks import LegacyFairseqTask, register_task
 
 logger = logging.getLogger(__name__)
@@ -182,9 +179,8 @@ class SpeechToTextModifiedTask(LegacyFairseqTask):
         args,
         extra_gen_cls_kwargs,
     ):
-        from examples.speech_to_speech.unity.sequence_generator_multi_decoder import (
-            MultiDecoderSequenceGenerator,
-        )
+        from examples.speech_to_speech.unity.sequence_generator_multi_decoder import \
+            MultiDecoderSequenceGenerator
 
         lang_token_ids_aux = {
             i
@@ -350,7 +346,8 @@ class DummyMultiTask(LegacyFairseqTask):
         self, models, args, seq_gen_cls=None, extra_gen_cls_kwargs=None
     ):
         if self.args.decoder_type == "ctc":
-            from examples.speech_recognition.w2l_decoder import W2lViterbiDecoder
+            from examples.speech_recognition.w2l_decoder import \
+                W2lViterbiDecoder
 
             return W2lViterbiDecoder(args, self.tgt_dict)
         else:

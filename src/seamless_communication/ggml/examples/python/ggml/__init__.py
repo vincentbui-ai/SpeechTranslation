@@ -32,7 +32,8 @@ try:
 except ImportError as e:
     raise ImportError(f"Couldn't find ggml bindings ({e}). Run `python regenerate.py` or check your PYTHONPATH.")
 
-import os, platform
+import os
+import platform
 
 __exact_library = os.environ.get("GGML_LIBRARY")
 if __exact_library:

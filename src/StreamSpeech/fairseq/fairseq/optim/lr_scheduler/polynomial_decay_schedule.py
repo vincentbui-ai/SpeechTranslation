@@ -4,11 +4,12 @@
 # LICENSE file in the root directory of this source tree.
 
 from dataclasses import dataclass, field
-from typing import Optional, List
-from omegaconf import II
+from typing import List, Optional
 
 from fairseq.dataclass import FairseqDataclass
-from fairseq.optim.lr_scheduler import FairseqLRScheduler, register_lr_scheduler
+from fairseq.optim.lr_scheduler import (FairseqLRScheduler,
+                                        register_lr_scheduler)
+from omegaconf import II
 
 
 @dataclass

@@ -10,7 +10,6 @@ import torch
 from fairseq import utils
 from fairseq.iterative_refinement_generator import IterativeRefinementGenerator
 
-
 DecoderOut = namedtuple(
     "IterativeRefinementDecoderOut",
     ["output_tokens", "output_scores", "attn", "step", "max_step", "history"],

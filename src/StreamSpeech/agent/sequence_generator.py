@@ -6,11 +6,12 @@
 import math
 import sys
 from typing import Dict, List, Optional
-import torch
-from torch import Tensor
 
+import torch
 from fairseq.sequence_generator import EnsembleModel as EnsembleModelBase
-from fairseq.sequence_generator import SequenceGenerator as SequenceGeneratorBase
+from fairseq.sequence_generator import \
+    SequenceGenerator as SequenceGeneratorBase
+from torch import Tensor
 
 
 class SequenceGenerator(SequenceGeneratorBase):

@@ -11,10 +11,7 @@ from fairseq2.assets import asset_store, download_manager
 from fairseq2.models.utils import ConfigLoader, ModelLoader
 
 from seamless_communication.models.generator.builder import (
-    VocoderConfig,
-    create_vocoder_model,
-    vocoder_archs,
-)
+    VocoderConfig, create_vocoder_model, vocoder_archs)
 from seamless_communication.models.generator.vocoder import PretsselVocoder
 
 load_pretssel_vocoder_config = ConfigLoader[VocoderConfig](asset_store, vocoder_archs)

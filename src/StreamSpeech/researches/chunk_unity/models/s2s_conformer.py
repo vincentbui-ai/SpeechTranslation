@@ -3,16 +3,16 @@
 # This source code is licensed under the MIT license found in the
 # LICENSE file in the root directory of this source tree.
 
-from email.policy import default
 import logging
+from email.policy import default
 from pathlib import Path
 
 import torch
-
+from chunk_unity.models.s2t_conformer import ChunkS2TConformerEncoder
 from fairseq import checkpoint_utils
 from fairseq.models import register_model, register_model_architecture
-from fairseq.models.speech_to_speech.s2s_transformer import S2UTTransformerModel
-from chunk_unity.models.s2t_conformer import ChunkS2TConformerEncoder
+from fairseq.models.speech_to_speech.s2s_transformer import \
+    S2UTTransformerModel
 from fairseq.models.transformer import Linear
 
 logger = logging.getLogger(__name__)

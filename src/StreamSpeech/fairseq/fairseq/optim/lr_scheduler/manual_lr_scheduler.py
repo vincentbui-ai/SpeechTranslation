@@ -3,9 +3,10 @@
 # This source code is licensed under the MIT license found in the
 # LICENSE file in the root directory of this source tree.
 
-from . import LegacyFairseqLRScheduler, register_lr_scheduler
-import logging
 import ast
+import logging
+
+from . import LegacyFairseqLRScheduler, register_lr_scheduler
 
 logger = logging.getLogger(__name__)
 logger.setLevel(logging.WARNING)

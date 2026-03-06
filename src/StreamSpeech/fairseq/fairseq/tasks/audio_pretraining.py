@@ -8,19 +8,18 @@
 import logging
 import os
 import sys
-
 from argparse import Namespace
 from dataclasses import dataclass, field
 from typing import Optional, OrderedDict
-from fairseq.data.multi_corpus_dataset import MultiCorpusDataset
-from omegaconf import MISSING, II, OmegaConf
 
-from fairseq.data import BinarizedAudioDataset, FileAudioDataset, SubsampleDataset
-from fairseq.dataclass import FairseqDataclass, ChoiceEnum
+from fairseq.data import (BinarizedAudioDataset, FileAudioDataset,
+                          SubsampleDataset)
+from fairseq.data.multi_corpus_dataset import MultiCorpusDataset
 from fairseq.data.text_compressor import TextCompressionLevel
+from fairseq.dataclass import ChoiceEnum, FairseqDataclass
+from omegaconf import II, MISSING, OmegaConf
 
 from . import FairseqTask, register_task
-
 
 logger = logging.getLogger(__name__)
 
@@ -235,6 +234,7 @@ class AudioPretrainingTask(FairseqTask):
         if self.cfg.post_save_script is not None:
             logger.info(f"launching {self.cfg.post_save_script}")
             import os.path as osp
+
             from fairseq.file_io import PathManager
 
             eval_cp_path = osp.join(
@@ -247,7 +247,7 @@ class AudioPretrainingTask(FairseqTask):
                 cp_path, eval_cp_path, overwrite=True
             ), f"Failed to copy {cp_path} to {eval_cp_path}"
 
-            import subprocess
             import shlex
+            import subprocess
 
             subprocess.call(shlex.split(f"{self.cfg.post_save_script} {eval_cp_path}"))

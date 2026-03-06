@@ -3,15 +3,15 @@
 # This source code is licensed under the MIT license found in the
 # LICENSE file in the root directory of this source tree.
 
+from typing import Dict, Optional
+
 import torch
 import torch.nn.functional as F
 from fairseq import utils
 from fairseq.incremental_decoding_utils import with_incremental_state
+from torch import Tensor
 
 from .conv_tbc import ConvTBC
-
-from typing import Dict, Optional
-from torch import Tensor
 
 
 @with_incremental_state

@@ -5,44 +5,31 @@
 
 import copy
 import logging
-import torch
-from typing import OrderedDict
 from copy import deepcopy
+from typing import OrderedDict
 
-from fairseq import utils
-from fairseq.models import (
-    FairseqEncoder,
-    FairseqEncoderModel,
-    FairseqLanguageModel,
-    register_model,
-    register_model_architecture,
-)
-from fairseq.models.speech_to_speech.modules.ctc_decoder import CTCDecoder
-from ctc_unity.modules.ctc_decoder_with_transformer_layer import (
-    CTCDecoderWithTransformerLayer,
-)
-from fairseq.models.speech_to_speech.modules.stacked_embedding import StackedEmbedding
-from fairseq.models.speech_to_speech.modules.transformer_decoder_aug import (
-    AugTransformerUnitDecoder,
-)
-from ctc_unity.modules.transformer_encoder import (
-    UniTransformerEncoderNoEmb,
-    UniTransformerEncoderWithEmb,
-)
+import torch
 from chunk_unity.models.s2s_conformer import ChunkS2UTConformerModel
-from fairseq.models.speech_to_speech.s2s_transformer import (
-    base_multitask_text_transformer_decoder_arch,
-    s2ut_architecture_base,
-)
-from chunk_unity.models.s2s_transformer import (
-    TransformerUnitDecoder,
-)
-from fairseq.models.transformer import TransformerModelBase
+from chunk_unity.models.s2s_transformer import TransformerUnitDecoder
+from ctc_unity.modules.ctc_decoder_with_transformer_layer import \
+    CTCDecoderWithTransformerLayer
+from ctc_unity.modules.ctc_transformer_unit_decoder import \
+    CTCTransformerUnitDecoder
 from ctc_unity.modules.transformer_decoder import TransformerDecoder
-from ctc_unity.modules.ctc_transformer_unit_decoder import CTCTransformerUnitDecoder
-
-from fairseq import checkpoint_utils
-
+from ctc_unity.modules.transformer_encoder import (
+    UniTransformerEncoderNoEmb, UniTransformerEncoderWithEmb)
+from fairseq import checkpoint_utils, utils
+from fairseq.models import (FairseqEncoder, FairseqEncoderModel,
+                            FairseqLanguageModel, register_model,
+                            register_model_architecture)
+from fairseq.models.speech_to_speech.modules.ctc_decoder import CTCDecoder
+from fairseq.models.speech_to_speech.modules.stacked_embedding import \
+    StackedEmbedding
+from fairseq.models.speech_to_speech.modules.transformer_decoder_aug import \
+    AugTransformerUnitDecoder
+from fairseq.models.speech_to_speech.s2s_transformer import (
+    base_multitask_text_transformer_decoder_arch, s2ut_architecture_base)
+from fairseq.models.transformer import TransformerModelBase
 
 logger = logging.getLogger(__name__)
 

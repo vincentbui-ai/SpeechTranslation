@@ -1,13 +1,13 @@
+import math
+from typing import Any, Optional
+
 import torch
 import torch.nn as nn
-from torch import Tensor
 from fairseq import utils
-from typing import Any, Optional
-import math
 from fairseq.modules.positional_embedding import (
-    SinusoidalPositionalEmbedding,
-    LearnedPositionalEmbedding
-)
+    LearnedPositionalEmbedding, SinusoidalPositionalEmbedding)
+from torch import Tensor
+
 
 def PositionalEmbedding(
     num_embeddings: int,

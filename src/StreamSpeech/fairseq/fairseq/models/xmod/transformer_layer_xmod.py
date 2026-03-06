@@ -3,14 +3,15 @@
 # This source code is licensed under the MIT license found in the
 # LICENSE file in the root directory of this source tree.
 
-from fairseq.modules.transformer_layer import TransformerEncoderLayer
 from typing import Optional
+
 import torch
 import torch.nn as nn
 from fairseq import utils
 from fairseq.modules import LayerNorm
 from fairseq.modules.fairseq_dropout import FairseqDropout
 from fairseq.modules.quant_noise import quant_noise
+from fairseq.modules.transformer_layer import TransformerEncoderLayer
 from torch import Tensor
 
 

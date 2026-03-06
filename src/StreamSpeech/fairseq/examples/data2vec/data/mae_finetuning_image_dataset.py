@@ -5,21 +5,17 @@
 
 
 import logging
-
-import numpy as np
 import os
 
+import numpy as np
+import PIL
 import torch
-
-from torchvision import datasets, transforms
-
+from fairseq.data import FairseqDataset
 from timm.data import create_transform
 from timm.data.constants import IMAGENET_DEFAULT_MEAN, IMAGENET_DEFAULT_STD
-import PIL
+from torchvision import datasets, transforms
 
-from fairseq.data import FairseqDataset
 from .mae_image_dataset import caching_loader
-
 
 logger = logging.getLogger(__name__)
 

@@ -1,7 +1,7 @@
 from argparse import Namespace
+
 import torch
 import torch.nn as nn
-
 from fairseq.models.text_to_speech.fastspeech2 import VariancePredictor
 from fairseq.models.text_to_speech.hifigan import Generator
 

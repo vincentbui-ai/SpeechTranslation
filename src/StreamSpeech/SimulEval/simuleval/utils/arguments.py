@@ -1,5 +1,6 @@
 import sys
 from typing import Optional
+
 from simuleval import options
 
 

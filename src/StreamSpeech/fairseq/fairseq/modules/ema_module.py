@@ -6,13 +6,12 @@ and setting the appropriate decay
 """
 
 import copy
-from dataclasses import dataclass, field
 import logging
+from dataclasses import dataclass, field
 
 import torch
-
-from omegaconf import II
 from fairseq.dataclass import FairseqDataclass
+from omegaconf import II
 
 try:
     from amp_C import multi_tensor_l2norm

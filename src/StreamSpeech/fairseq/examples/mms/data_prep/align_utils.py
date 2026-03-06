@@ -1,9 +1,10 @@
-import re 
-import os
-import torch
-import tempfile
 import math
+import os
+import re
+import tempfile
 from dataclasses import dataclass
+
+import torch
 from torchaudio.models import wav2vec2_model
 
 # iso codes with specialized rules in uroman

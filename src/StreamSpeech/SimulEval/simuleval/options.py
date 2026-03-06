@@ -4,9 +4,10 @@
 # This source code is licensed under the license found in the
 # LICENSE file in the root directory of this source tree.
 
-import logging
 import argparse
+import logging
 from typing import List, Optional
+
 from simuleval.data.dataloader import DATALOADER_DICT, GenericDataloader
 from simuleval.evaluator.scorers import get_scorer_class
 

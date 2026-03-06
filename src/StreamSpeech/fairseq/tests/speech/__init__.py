@@ -3,19 +3,20 @@
 # This source code is licensed under the MIT license found in the
 # LICENSE file in the root directory of this source tree.
 
-from argparse import Namespace
 import os
 import re
 import unittest
-from pathlib import Path
-from tqdm import tqdm
-from typing import List, Dict, Optional
-import torch
-from fairseq.checkpoint_utils import load_model_ensemble_and_task
-from fairseq.scoring.wer import WerScorer
-from fairseq.scoring.bleu import SacrebleuScorer
-from fairseq import utils
 import zipfile
+from argparse import Namespace
+from pathlib import Path
+from typing import Dict, List, Optional
+
+import torch
+from fairseq import utils
+from fairseq.checkpoint_utils import load_model_ensemble_and_task
+from fairseq.scoring.bleu import SacrebleuScorer
+from fairseq.scoring.wer import WerScorer
+from tqdm import tqdm
 
 S3_BASE_URL = "https://dl.fbaipublicfiles.com/fairseq"
 

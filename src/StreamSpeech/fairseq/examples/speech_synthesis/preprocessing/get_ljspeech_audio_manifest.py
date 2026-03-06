@@ -5,15 +5,13 @@
 
 import argparse
 import logging
-from pathlib import Path
 from collections import defaultdict
+from pathlib import Path
 
 import pandas as pd
+from examples.speech_to_text.data_utils import save_df_to_tsv
 from torchaudio.datasets import LJSPEECH
 from tqdm import tqdm
-
-from examples.speech_to_text.data_utils import save_df_to_tsv
-
 
 log = logging.getLogger(__name__)
 

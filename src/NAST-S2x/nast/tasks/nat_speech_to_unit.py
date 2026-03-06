@@ -4,25 +4,21 @@
 # LICENSE file in the root directory of this source tree.
 
 import json
-import torch
 import logging
-import numpy as np
+from argparse import Namespace
 from pathlib import Path
 
-from argparse import Namespace
-from fairseq import utils, metrics
+import numpy as np
+import torch
+from fairseq import metrics, utils
 from fairseq.data import Dictionary, encoders
+from fairseq.optim.amp_optimizer import AMPOptimizer
 from fairseq.tasks import register_task
 from fairseq.utils import new_arange
-from fairseq.optim.amp_optimizer import AMPOptimizer
-
-from .speech_to_speech_modified import SpeechToSpeechModifiedTask
-from ..datasets.nat_speech_to_unit_dataset import S2UDataConfig
 
 from ..datasets.nat_speech_to_unit_dataset import (
-    NATSpeechToUnitDataset,
-    NATSpeechToUnitDatasetCreator,
-)
+    NATSpeechToUnitDataset, NATSpeechToUnitDatasetCreator, S2UDataConfig)
+from .speech_to_speech_modified import SpeechToSpeechModifiedTask
 
 DEFAULT_MAX_TEXT_POSITIONS = 1024
 DEFAULT_MAX_AUDIO_POSITIONS = 6000
@@ -389,6 +385,7 @@ class NATSpeechToUnitTask(SpeechToSpeechModifiedTask):
 
                 def compute_bleu(meters):
                     import inspect
+
                     import sacrebleu
 
                     fn_sig = inspect.getfullargspec(sacrebleu.compute_bleu)[0]

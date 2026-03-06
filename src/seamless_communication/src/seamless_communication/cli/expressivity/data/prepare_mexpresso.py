@@ -12,17 +12,17 @@ import argparse
 import logging
 import multiprocessing as mp
 import os
-import pandas as pd
 import pathlib
 import re
-import seamless_communication  # need this to load dataset cards
-import torchaudio
-
 from pathlib import Path
-from tqdm import tqdm
 from typing import List, Optional, Tuple
 
+import pandas as pd
+import torchaudio
 from fairseq2.assets import asset_store, download_manager
+from tqdm import tqdm
+
+import seamless_communication  # need this to load dataset cards
 
 logging.basicConfig(
     level=logging.INFO,

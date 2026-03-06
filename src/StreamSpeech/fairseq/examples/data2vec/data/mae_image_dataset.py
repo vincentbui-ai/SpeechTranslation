@@ -4,24 +4,22 @@
 # LICENSE file in the root directory of this source tree.
 
 
-from functools import partial
 import logging
 import math
+import os
 import random
 import time
+from functools import partial
+from shutil import copyfile
 
 import numpy as np
-import os
-
 import torch
-
-from torchvision import datasets, transforms
-from .path_dataset import PathDataset
-
 from fairseq.data import FairseqDataset
-from fairseq.data.data_utils import compute_block_mask_1d, compute_block_mask_2d
+from fairseq.data.data_utils import (compute_block_mask_1d,
+                                     compute_block_mask_2d)
+from torchvision import datasets, transforms
 
-from shutil import copyfile
+from .path_dataset import PathDataset
 
 logger = logging.getLogger(__name__)
 

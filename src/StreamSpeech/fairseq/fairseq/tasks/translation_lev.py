@@ -4,18 +4,15 @@
 # LICENSE file in the root directory of this source tree.
 
 from dataclasses import dataclass, field
+
 import torch
 from fairseq import utils
 from fairseq.data import LanguagePairDataset
 from fairseq.dataclass import ChoiceEnum
 from fairseq.tasks import register_task
-from fairseq.tasks.translation import (
-    TranslationConfig,
-    TranslationTask,
-    load_langpair_dataset,
-)
+from fairseq.tasks.translation import (TranslationConfig, TranslationTask,
+                                       load_langpair_dataset)
 from fairseq.utils import new_arange
-
 
 NOISE_CHOICES = ChoiceEnum(["random_delete", "random_mask", "no_noise", "full_mask"])
 
@@ -152,7 +149,8 @@ class TranslationLevenshteinTask(TranslationTask):
 
     def build_generator(self, models, args, **unused):
         # add models input to match the API for SequenceGenerator
-        from fairseq.iterative_refinement_generator import IterativeRefinementGenerator
+        from fairseq.iterative_refinement_generator import \
+            IterativeRefinementGenerator
 
         return IterativeRefinementGenerator(
             self.target_dictionary,

@@ -19,12 +19,13 @@ The S3D architecture was slightly modified with a space to depth trick for TPU
 optimization.
 """
 
-import torch as th
-import torch.nn.functional as F
-import torch.nn as nn
 import os
-import numpy as np
 import re
+
+import numpy as np
+import torch as th
+import torch.nn as nn
+import torch.nn.functional as F
 
 
 class InceptionBlock(nn.Module):

@@ -3,21 +3,20 @@
 # This source code is licensed under the MIT license found in the
 # LICENSE file in the root directory of this source tree.
 
-from ..roberta.model_xlmr import XLMRModel
-from fairseq.models.xmod.transformer_layer_xmod import XMODTransformerEncoderLayerBase
-from ..roberta.model import base_architecture, RobertaEncoder
-from fairseq.models.transformer import TransformerEncoder
-from fairseq.modules.transformer_sentence_encoder import init_bert_params
 from typing import Optional
-from fairseq.models.xmod.hub_interface import XMODHubInterface
+
 import torch
 from fairseq.distributed import fsdp_wrap
-from fairseq.models import (
-    register_model,
-    register_model_architecture,
-)
-
+from fairseq.models import register_model, register_model_architecture
+from fairseq.models.transformer import TransformerEncoder
+from fairseq.models.xmod.hub_interface import XMODHubInterface
+from fairseq.models.xmod.transformer_layer_xmod import \
+    XMODTransformerEncoderLayerBase
 from fairseq.modules.checkpoint_activations import checkpoint_wrapper
+from fairseq.modules.transformer_sentence_encoder import init_bert_params
+
+from ..roberta.model import RobertaEncoder, base_architecture
+from ..roberta.model_xlmr import XLMRModel
 
 DEFAULT_MIN_PARAMS_TO_WRAP = int(1e8)
 

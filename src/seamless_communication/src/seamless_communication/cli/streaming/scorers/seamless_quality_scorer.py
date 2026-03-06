@@ -13,12 +13,11 @@ from typing import Dict, Optional
 
 import pandas
 from fairseq2.typing import Device
-from seamless_communication.cli.eval_utils import compute_quality_metrics
 from simuleval.evaluator.instance import LogInstance
 from simuleval.evaluator.scorers.quality_scorer import (
-    QualityScorer,
-    register_quality_scorer,
-)
+    QualityScorer, register_quality_scorer)
+
+from seamless_communication.cli.eval_utils import compute_quality_metrics
 
 
 @register_quality_scorer("SEAMLESS_QUALITY_SCORER")

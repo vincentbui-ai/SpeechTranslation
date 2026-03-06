@@ -21,9 +21,8 @@ from fairseq2.typing import DataType, Device
 from torch import Tensor, nn
 
 from seamless_communication.models.unit_extractor.kmeans import KmeansModel
-from seamless_communication.models.unit_extractor.wav2vec2_layer_output import (
-    Wav2Vec2LayerOutputModel,
-)
+from seamless_communication.models.unit_extractor.wav2vec2_layer_output import \
+    Wav2Vec2LayerOutputModel
 from seamless_communication.models.vocoder import Vocoder, load_vocoder_model
 
 logging.basicConfig(

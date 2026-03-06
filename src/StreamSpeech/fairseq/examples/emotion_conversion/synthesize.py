@@ -1,29 +1,32 @@
-import logging
 import argparse
-import random
-import sys
-import os
-import numpy as np
-import torch
-import soundfile as sf
-import shutil
-import librosa
 import json
+import logging
+import os
+import random
+import shutil
+import sys
 from pathlib import Path
-from tqdm import tqdm
+
 import amfm_decompy.basic_tools as basic
 import amfm_decompy.pYAAPT as pYAAPT
+import librosa
+import numpy as np
+import soundfile as sf
+import torch
+from tqdm import tqdm
 
 dir_path = os.path.dirname(__file__)
 resynth_path = os.path.dirname(os.path.abspath(__file__)) + "/speech-resynthesis"
 sys.path.append(resynth_path)
 
-from models import CodeGenerator
-from inference import scan_checkpoint, load_checkpoint, generate
+from dataset import (EMOV_SPK2ID, EMOV_STYLE2ID, MAX_WAV_VALUE, load_audio,
+                     parse_speaker, parse_style)
+from emotion_models.duration_predictor import \
+    load_ckpt as load_duration_predictor
 from emotion_models.pitch_predictor import load_ckpt as load_pitch_predictor
-from emotion_models.duration_predictor import load_ckpt as load_duration_predictor
-from dataset import load_audio, MAX_WAV_VALUE, parse_style, parse_speaker, EMOV_SPK2ID, EMOV_STYLE2ID
+from models import CodeGenerator
 
+from inference import generate, load_checkpoint, scan_checkpoint
 
 logging.basicConfig(
     level=logging.INFO,

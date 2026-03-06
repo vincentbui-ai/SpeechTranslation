@@ -2,24 +2,15 @@
 
 # import models/encoder/decoder to be tested
 from examples.speech_recognition.models.vggtransformer import (
-    TransformerDecoder,
-    VGGTransformerEncoder,
-    VGGTransformerModel,
-    vggtransformer_1,
-    vggtransformer_2,
-    vggtransformer_base,
-)
+    TransformerDecoder, VGGTransformerEncoder, VGGTransformerModel,
+    vggtransformer_1, vggtransformer_2, vggtransformer_base)
 
 # import base test class
-from .asr_test_base import (
-    DEFAULT_TEST_VOCAB_SIZE,
-    TestFairseqDecoderBase,
-    TestFairseqEncoderBase,
-    TestFairseqEncoderDecoderModelBase,
-    get_dummy_dictionary,
-    get_dummy_encoder_output,
-    get_dummy_input,
-)
+from .asr_test_base import (DEFAULT_TEST_VOCAB_SIZE, TestFairseqDecoderBase,
+                            TestFairseqEncoderBase,
+                            TestFairseqEncoderDecoderModelBase,
+                            get_dummy_dictionary, get_dummy_encoder_output,
+                            get_dummy_input)
 
 
 class VGGTransformerModelTest_mid(TestFairseqEncoderDecoderModelBase):

@@ -5,10 +5,9 @@
 import argparse
 import os
 
-from omegaconf import OmegaConf
-
-from mmpt.utils import recursive_config, overwrite_dir
+from mmpt.utils import overwrite_dir, recursive_config
 from mmpt_cli.localjob import LocalJob
+from omegaconf import OmegaConf
 
 
 class JobLauncher(object):

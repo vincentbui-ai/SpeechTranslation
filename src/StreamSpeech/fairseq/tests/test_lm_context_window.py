@@ -6,9 +6,10 @@
 import unittest
 
 import torch
-
 from fairseq.data import MonolingualDataset
-from fairseq.tasks.language_modeling import LanguageModelingConfig, LanguageModelingTask
+from fairseq.tasks.language_modeling import (LanguageModelingConfig,
+                                             LanguageModelingTask)
+
 from tests import utils as test_utils
 
 

@@ -5,9 +5,10 @@
 # LICENSE file in the root directory of this source tree.
 
 import logging
+
+import requests
 from simuleval.data.segments import Segment, segment_from_json_string
 from simuleval.evaluator import SentenceLevelEvaluator
-import requests
 
 logger = logging.getLogger("simuleval.remote_evaluator")
 

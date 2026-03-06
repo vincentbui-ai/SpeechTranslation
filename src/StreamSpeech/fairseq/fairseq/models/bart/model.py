@@ -11,7 +11,6 @@ from typing import Optional
 
 import torch
 import torch.nn as nn
-
 from fairseq import utils
 from fairseq.models import register_model, register_model_architecture
 from fairseq.models.transformer import TransformerModel

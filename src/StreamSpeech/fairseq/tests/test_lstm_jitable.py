@@ -12,7 +12,6 @@ from fairseq.data.dictionary import Dictionary
 from fairseq.models.lstm import LSTMModel
 from fairseq.tasks.fairseq_task import LegacyFairseqTask
 
-
 DEFAULT_TEST_VOCAB_SIZE = 100
 
 

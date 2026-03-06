@@ -12,15 +12,11 @@ from fairseq2.nn.module_list import ModuleList
 from fairseq2.nn.normalization import LayerNorm
 from fairseq2.nn.padding import PaddingMask
 from fairseq2.nn.projection import Linear
-from fairseq2.nn.transformer import (
-    AttentionMask,
-    FeedForwardNetwork,
-    LayerNormFactory,
-    MultiheadAttention,
-    TransformerEncoder,
-    TransformerEncoderLayer,
-    create_standard_layer_norm,
-)
+from fairseq2.nn.transformer import (AttentionMask, FeedForwardNetwork,
+                                     LayerNormFactory, MultiheadAttention,
+                                     TransformerEncoder,
+                                     TransformerEncoderLayer,
+                                     create_standard_layer_norm)
 from fairseq2.typing import DataType, Device
 from overrides import final as finaloverride
 from torch import Tensor

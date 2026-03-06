@@ -16,20 +16,16 @@
 # Copyright (c) Facebook, Inc. All Rights Reserved
 
 import torch
-
 from torch import nn
 
 try:
-    from transformers.modeling_bert import (
-        BertPreTrainedModel,
-        BertModel,
-        BertEncoder,
-        BertPredictionHeadTransform,
-    )
+    from transformers.modeling_bert import (BertEncoder, BertModel,
+                                            BertPredictionHeadTransform,
+                                            BertPreTrainedModel)
 except ImportError:
     pass
 
-from ..modules import VideoTokenMLP, MMBertEmbeddings
+from ..modules import MMBertEmbeddings, VideoTokenMLP
 
 
 # --------------- fine-tuning models ---------------

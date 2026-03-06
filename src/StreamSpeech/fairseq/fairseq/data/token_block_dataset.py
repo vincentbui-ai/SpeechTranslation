@@ -3,11 +3,12 @@
 # This source code is licensed under the MIT license found in the
 # LICENSE file in the root directory of this source tree.
 
+from typing import Tuple
+
 import numpy as np
 import torch
 from fairseq.data import FairseqDataset, plasma_utils
 from fairseq.data.indexed_dataset import best_fitting_int_dtype
-from typing import Tuple
 
 
 class TokenBlockDataset(FairseqDataset):
@@ -88,9 +89,7 @@ class TokenBlockDataset(FairseqDataset):
         """Use token_block_utils_fast to build arrays for indexing into self.dataset"""
         try:
             from fairseq.data.token_block_utils_fast import (
-                _get_slice_indices_fast,
-                _get_block_to_dataset_index_fast,
-            )
+                _get_block_to_dataset_index_fast, _get_slice_indices_fast)
         except ImportError:
             raise ImportError(
                 "Please build Cython components with: `pip install --editable .` "

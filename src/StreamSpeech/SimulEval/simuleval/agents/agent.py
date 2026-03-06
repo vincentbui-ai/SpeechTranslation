@@ -4,13 +4,15 @@
 # This source code is licensed under the license found in the
 # LICENSE file in the root directory of this source tree.
 
+from argparse import ArgumentParser, Namespace
 from inspect import signature
-from argparse import Namespace, ArgumentParser
-from simuleval.data.segments import Segment, TextSegment, SpeechSegment, EmptySegment
 from typing import Optional
-from .states import AgentStates
-from .actions import Action
 
+from simuleval.data.segments import (EmptySegment, Segment, SpeechSegment,
+                                     TextSegment)
+
+from .actions import Action
+from .states import AgentStates
 
 SEGMENT_TYPE_DICT = {"text": TextSegment, "speech": SpeechSegment}
 

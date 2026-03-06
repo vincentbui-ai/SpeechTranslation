@@ -6,10 +6,10 @@
 # author: adefossez
 
 import functools
-import logging
-from contextlib import contextmanager
 import inspect
+import logging
 import time
+from contextlib import contextmanager
 
 logger = logging.getLogger(__name__)
 

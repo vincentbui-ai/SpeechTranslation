@@ -12,13 +12,12 @@ from typing import Any, Dict, List
 
 import torch
 import torch.nn.functional as F
-from omegaconf import II
-
 from fairseq import utils
-from fairseq.logging import metrics
 from fairseq.criterions import FairseqCriterion, register_criterion
 from fairseq.data.data_utils import lengths_to_mask
 from fairseq.dataclass import FairseqDataclass
+from fairseq.logging import metrics
+from omegaconf import II
 
 logger = logging.getLogger(__name__)
 

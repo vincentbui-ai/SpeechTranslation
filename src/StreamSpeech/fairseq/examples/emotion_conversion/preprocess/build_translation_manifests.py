@@ -1,14 +1,15 @@
-from glob import glob
 import argparse
-from collections import defaultdict, Counter
-from itertools import combinations, product, groupby
-from pathlib import Path
 import os
-from sklearn.utils import shuffle
-import numpy as np
 import random
+from collections import Counter, defaultdict
+from glob import glob
+from itertools import combinations, groupby, product
+from pathlib import Path
 from shutil import copy
 from subprocess import check_call
+
+import numpy as np
+from sklearn.utils import shuffle
 
 np.random.seed(42)
 random.seed(42)

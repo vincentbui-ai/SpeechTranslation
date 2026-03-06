@@ -8,32 +8,27 @@ from dataclasses import dataclass
 from typing import Optional
 
 from fairseq2.data import VocabularyInfo
-from fairseq2.models.transformer import (
-    TransformerEmbeddingFrontend,
-    TransformerFrontend,
-)
+from fairseq2.models.transformer import (TransformerEmbeddingFrontend,
+                                         TransformerFrontend)
 from fairseq2.models.utils.arch_registry import ArchitectureRegistry
-from fairseq2.nn.embedding import Embedding, StandardEmbedding, init_scaled_embedding
+from fairseq2.nn.embedding import (Embedding, StandardEmbedding,
+                                   init_scaled_embedding)
 from fairseq2.nn.position_encoder import SinusoidalPositionEncoder
 from fairseq2.nn.projection import TiedProjection
-from fairseq2.nn.transformer import (
-    FeedForwardNetwork,
-    MultiheadAttention,
-    StandardFeedForwardNetwork,
-    StandardMultiheadAttention,
-    TransformerNormOrder,
-    create_default_sdpa,
-)
+from fairseq2.nn.transformer import (FeedForwardNetwork, MultiheadAttention,
+                                     StandardFeedForwardNetwork,
+                                     StandardMultiheadAttention,
+                                     TransformerNormOrder, create_default_sdpa)
 from fairseq2.typing import DataType, Device
 
-from seamless_communication.models.monotonic_decoder.model import MonotonicDecoderModel
-from seamless_communication.models.monotonic_decoder.monotonic_decoder import (
-    MonotonicTransformerDecoder,
-)
-from seamless_communication.models.monotonic_decoder.monotonic_decoder_layer import (
-    MonotonicTransformerDecoderLayer,
-)
-from seamless_communication.models.monotonic_decoder.p_choose import PChooseLayer
+from seamless_communication.models.monotonic_decoder.model import \
+    MonotonicDecoderModel
+from seamless_communication.models.monotonic_decoder.monotonic_decoder import \
+    MonotonicTransformerDecoder
+from seamless_communication.models.monotonic_decoder.monotonic_decoder_layer import \
+    MonotonicTransformerDecoderLayer
+from seamless_communication.models.monotonic_decoder.p_choose import \
+    PChooseLayer
 
 
 @dataclass

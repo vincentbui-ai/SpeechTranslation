@@ -4,11 +4,11 @@ import math
 
 import torch
 import torch.nn as nn
-
 from fairseq.data.data_utils import compute_mask_indices
 from fairseq.models import FairseqEncoder
 from fairseq.models.wav2vec import ConvFeatureExtractionModel
-from fairseq.modules import GradMultiply, LayerNorm, SamePad, TransformerEncoderLayer
+from fairseq.modules import (GradMultiply, LayerNorm, SamePad,
+                             TransformerEncoderLayer)
 
 
 #   Transformer encoder with wave input, it is adopted from wav2vec 2.0 Encoder.

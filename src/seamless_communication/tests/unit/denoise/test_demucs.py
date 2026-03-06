@@ -5,10 +5,13 @@
 # MIT_LICENSE file in the root directory of this source tree.
 
 import unittest
-from unittest.mock import patch, MagicMock
-from seamless_communication.denoise.demucs import Demucs, DenoisingConfig
+from unittest.mock import MagicMock, patch
+
 import torch
 from fairseq2.memory import MemoryBlock
+
+from seamless_communication.denoise.demucs import Demucs, DenoisingConfig
+
 
 class TestDemucs(unittest.TestCase):
     def test_init_works(self):

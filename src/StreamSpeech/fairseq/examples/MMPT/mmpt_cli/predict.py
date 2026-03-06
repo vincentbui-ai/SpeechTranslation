@@ -2,21 +2,20 @@
 #
 # This source code is licensed under the MIT license found in the
 # LICENSE file in the root directory of this source tree.
-import os
-import glob
 import argparse
+import glob
+import os
 import pprint
+
 import omegaconf
-
-from omegaconf import OmegaConf
-from torch.utils.data import DataLoader
-
-from mmpt.utils import load_config, set_seed
+from mmpt import processors
+from mmpt.datasets import MMDataset
 from mmpt.evaluators import Evaluator
 from mmpt.evaluators import predictor as predictor_path
 from mmpt.tasks import Task
-from mmpt import processors
-from mmpt.datasets import MMDataset
+from mmpt.utils import load_config, set_seed
+from omegaconf import OmegaConf
+from torch.utils.data import DataLoader
 
 
 def get_dataloader(config):

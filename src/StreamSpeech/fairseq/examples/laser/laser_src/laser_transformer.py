@@ -4,28 +4,17 @@
 # LICENSE file in the root directory of this source tree.
 
 import logging
-
 from typing import Any, Dict, List, Optional
-from torch import Tensor
 
 import torch
 import torch.nn as nn
-
-from fairseq.models import (
-    FairseqEncoderDecoderModel,
-    register_model,
-    register_model_architecture,
-)
-from fairseq.models.transformer import (
-    base_architecture,
-    Embedding,
-    TransformerModel,
-    TransformerEncoder,
-    TransformerDecoder,
-)
-from fairseq.modules import (
-    TransformerDecoderLayer,
-)
+from fairseq.models import (FairseqEncoderDecoderModel, register_model,
+                            register_model_architecture)
+from fairseq.models.transformer import (Embedding, TransformerDecoder,
+                                        TransformerEncoder, TransformerModel,
+                                        base_architecture)
+from fairseq.modules import TransformerDecoderLayer
+from torch import Tensor
 
 logger = logging.getLogger(__name__)
 

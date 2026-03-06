@@ -7,13 +7,10 @@ import unittest
 from typing import List
 
 import torch
-
-from fairseq.token_generation_constraints import (
-    ConstraintNode,
-    OrderedConstraintState,
-    UnorderedConstraintState,
-    pack_constraints,
-)
+from fairseq.token_generation_constraints import (ConstraintNode,
+                                                  OrderedConstraintState,
+                                                  UnorderedConstraintState,
+                                                  pack_constraints)
 
 
 def tensorize(constraints: List[List[int]]) -> torch.Tensor:

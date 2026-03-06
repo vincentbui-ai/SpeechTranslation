@@ -4,15 +4,14 @@
 # LICENSE file in the root directory of this source tree.
 
 from fairseq.models import register_model, register_model_architecture
-from fairseq.models.multilingual_transformer import MultilingualTransformerModel
-from fairseq.models.transformer import (
-    TransformerDecoder,
-    TransformerEncoder,
-    base_architecture,
-)
+from fairseq.models.multilingual_transformer import \
+    MultilingualTransformerModel
+from fairseq.models.transformer import (TransformerDecoder, TransformerEncoder,
+                                        base_architecture)
 from fairseq.utils import safe_hasattr
 
-from .latent_transformer import LatentTransformerDecoder, LatentTransformerEncoder
+from .latent_transformer import (LatentTransformerDecoder,
+                                 LatentTransformerEncoder)
 
 
 @register_model("latent_multilingual_transformer")

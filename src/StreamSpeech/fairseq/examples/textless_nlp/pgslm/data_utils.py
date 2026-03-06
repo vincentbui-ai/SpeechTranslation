@@ -4,8 +4,8 @@
 # LICENSE file in the root directory of this source tree.
 
 import os
-import torch
 
+import torch
 from tqdm import tqdm
 
 

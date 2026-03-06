@@ -3,27 +3,22 @@
 # This source code is licensed under the MIT license found in the
 # LICENSE file in the root directory of this source tree.
 
-from dataclasses import dataclass, field
-from typing import Optional
 import logging
 import math
+from dataclasses import dataclass, field
+from typing import Optional
 
 import torch
 import torch.nn as nn
 import torch.nn.functional as F
-
-from omegaconf import II
-
 from fairseq.dataclass import FairseqDataclass
+from fairseq.models import FairseqEncoder, FairseqEncoderModel, register_model
+from fairseq.models.roberta.model import (RobertaClassificationHead,
+                                          RobertaLMHead)
+from fairseq.models.transformer import TransformerConfig, TransformerEncoder
 from fairseq.modules import EMAModule, EMAModuleConfig
-from fairseq.models import (
-    FairseqEncoder,
-    FairseqEncoderModel,
-    register_model,
-)
-from fairseq.models.roberta.model import RobertaLMHead, RobertaClassificationHead
-from fairseq.models.transformer import TransformerEncoder, TransformerConfig
 from fairseq.modules.transformer_sentence_encoder import init_bert_params
+from omegaconf import II
 
 logger = logging.getLogger(__name__)
 

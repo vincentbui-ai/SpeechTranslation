@@ -4,10 +4,11 @@
 # LICENSE file in the root directory of this source tree.
 
 
-import torchaudio
 import argparse
 import json
 import pathlib
+
+import torchaudio
 
 
 def get_args():

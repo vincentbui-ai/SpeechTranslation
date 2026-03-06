@@ -7,22 +7,18 @@ import gc
 import os
 import random
 import shutil
-import numpy as np
 
+import numpy as np
 import torch
 import tqdm
-from examples.textless_nlp.gslm.speech2unit.pretrained.cpc_feature_reader import (
-    CpcFeatureReader,
-)
-from examples.textless_nlp.gslm.speech2unit.pretrained.hubert_feature_reader import (
-    HubertFeatureReader,
-)
-from examples.textless_nlp.gslm.speech2unit.pretrained.logmel_feature_reader import (
-    LogMelFeatureReader,
-)
-from examples.textless_nlp.gslm.speech2unit.pretrained.w2v2_feature_reader import (
-    Wav2VecFeatureReader,
-)
+from examples.textless_nlp.gslm.speech2unit.pretrained.cpc_feature_reader import \
+    CpcFeatureReader
+from examples.textless_nlp.gslm.speech2unit.pretrained.hubert_feature_reader import \
+    HubertFeatureReader
+from examples.textless_nlp.gslm.speech2unit.pretrained.logmel_feature_reader import \
+    LogMelFeatureReader
+from examples.textless_nlp.gslm.speech2unit.pretrained.w2v2_feature_reader import \
+    Wav2VecFeatureReader
 
 
 def get_feature_reader(feature_type):

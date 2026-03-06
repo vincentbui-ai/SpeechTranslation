@@ -8,8 +8,8 @@ import unittest
 
 import pytest
 import torch
-
-from fairseq.modules.multihead_attention import MultiheadAttention, _mask_for_xformers
+from fairseq.modules.multihead_attention import (MultiheadAttention,
+                                                 _mask_for_xformers)
 
 BATCH = [20, 41, 97]
 SEQ = [64]

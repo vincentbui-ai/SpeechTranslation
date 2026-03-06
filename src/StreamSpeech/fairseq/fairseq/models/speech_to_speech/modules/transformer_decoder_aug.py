@@ -5,10 +5,10 @@
 
 from typing import Any, Dict, List, Optional
 
-from torch import Tensor
-
 from fairseq.models.transformer import Linear
-from fairseq.models.transformer.transformer_decoder_aug import AugTransformerDecoder
+from fairseq.models.transformer.transformer_decoder_aug import \
+    AugTransformerDecoder
+from torch import Tensor
 
 
 class AugTransformerUnitDecoder(AugTransformerDecoder):

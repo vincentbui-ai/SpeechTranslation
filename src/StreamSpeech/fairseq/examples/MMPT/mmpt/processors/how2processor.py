@@ -16,24 +16,19 @@
 # Copyright (c) Facebook, Inc. All Rights Reserved
 
 
-import torch
 import math
+import os
 import pickle
 import random
-import os
-import numpy as np
-
 from collections import deque
-from typing import Optional, Tuple, List
-from .processor import (
-    Processor,
-    MetaProcessor,
-    TextProcessor,
-    Aligner,
-    MMAttentionMask2DProcessor
-)
+from typing import List, Optional, Tuple
+
+import numpy as np
+import torch
 
 from ..utils import ShardedTensor
+from .processor import (Aligner, MetaProcessor, MMAttentionMask2DProcessor,
+                        Processor, TextProcessor)
 
 
 class How2MetaProcessor(MetaProcessor):

@@ -12,17 +12,12 @@ import unittest
 from io import StringIO
 
 import torch
-
 from fairseq import options
 from fairseq_cli import train
-from tests.utils import (
-    create_dummy_data,
-    generate_main,
-    preprocess_lm_data,
-    preprocess_translation_data,
-    train_language_model,
-    train_translation_model,
-)
+
+from tests.utils import (create_dummy_data, generate_main, preprocess_lm_data,
+                         preprocess_translation_data, train_language_model,
+                         train_translation_model)
 
 
 @unittest.skipIf(not torch.cuda.is_available(), "test requires a GPU")

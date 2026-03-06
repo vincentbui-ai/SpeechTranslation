@@ -7,15 +7,14 @@
 
 import logging
 import sys
-import torch
-
-from typing import Optional
 from dataclasses import dataclass, field
-from omegaconf import MISSING
+from typing import Optional
 
+import torch
 from fairseq.dataclass import FairseqDataclass
-from fairseq.tasks import FairseqTask, register_task
 from fairseq.logging import metrics
+from fairseq.tasks import FairseqTask, register_task
+from omegaconf import MISSING
 
 try:
     from ..data import MaeFinetuningImageDataset

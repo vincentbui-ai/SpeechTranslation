@@ -19,7 +19,6 @@ from fairseq.data.encoders.characters import Characters
 from fairseq.data.encoders.moses_tokenizer import MosesTokenizer
 from fairseq.data.encoders.sentencepiece_bpe import SentencepieceBPE
 
-
 SPLITS = ["train", "valid", "test"]
 
 

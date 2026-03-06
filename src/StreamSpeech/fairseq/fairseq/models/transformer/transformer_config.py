@@ -8,11 +8,10 @@ import re
 from dataclasses import dataclass, field, fields
 from typing import List, Optional
 
-from omegaconf import II
-
 from fairseq import utils
 from fairseq.dataclass import ChoiceEnum, FairseqDataclass
 from fairseq.utils import safe_getattr, safe_hasattr
+from omegaconf import II
 
 DEFAULT_MAX_SOURCE_POSITIONS = 1024
 DEFAULT_MAX_TARGET_POSITIONS = 1024

@@ -5,9 +5,10 @@
 
 import unittest
 
-import tests.utils as test_utils
 import torch
 from fairseq.data import TokenBlockDataset
+
+import tests.utils as test_utils
 
 
 class TestTokenBlockDataset(unittest.TestCase):

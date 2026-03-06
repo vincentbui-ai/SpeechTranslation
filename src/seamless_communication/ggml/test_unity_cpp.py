@@ -13,6 +13,7 @@ from typing import Any, Iterator, Tuple
 
 import fairseq2.nn
 import fairseq2.nn.transformer
+import ggml
 import numpy as np
 import pytest
 import requests  # type: ignore
@@ -20,11 +21,11 @@ import torch
 import torchaudio  # type: ignore
 from ctypes_utils import NULLPTR, Ptr
 from fairseq2.data.audio import WaveformToFbankConverter
-from fairseq2.models.wav2vec2.feature_extractor import Wav2Vec2FbankFeatureExtractor
+from fairseq2.models.wav2vec2.feature_extractor import \
+    Wav2Vec2FbankFeatureExtractor
+from ggml import NativeObj
 from ggml_convert import convert_model, read_layer_config
 
-import ggml
-from ggml import NativeObj
 from seamless_communication.inference.generator import SequenceGeneratorOptions
 from seamless_communication.inference.translator import Modality, Translator
 

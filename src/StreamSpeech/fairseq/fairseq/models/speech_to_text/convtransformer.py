@@ -10,19 +10,16 @@ from typing import Dict, List, Optional, Tuple
 import torch
 import torch.nn as nn
 import torch.nn.functional as F
-from torch import Tensor
-
 from fairseq import checkpoint_utils, utils
 from fairseq.data.data_utils import lengths_to_padding_mask
-from fairseq.models import (
-    FairseqEncoder,
-    FairseqEncoderDecoderModel,
-    register_model,
-    register_model_architecture,
-)
-from fairseq.models.speech_to_text.modules.convolution import infer_conv_output_dim
+from fairseq.models import (FairseqEncoder, FairseqEncoderDecoderModel,
+                            register_model, register_model_architecture)
+from fairseq.models.speech_to_text.modules.convolution import \
+    infer_conv_output_dim
 from fairseq.models.transformer import Embedding, TransformerDecoder
-from fairseq.modules import LayerNorm, PositionalEmbedding, TransformerEncoderLayer
+from fairseq.modules import (LayerNorm, PositionalEmbedding,
+                             TransformerEncoderLayer)
+from torch import Tensor
 
 logger = logging.getLogger(__name__)
 

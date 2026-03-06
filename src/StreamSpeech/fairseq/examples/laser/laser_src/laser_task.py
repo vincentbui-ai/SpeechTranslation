@@ -4,27 +4,19 @@
 # LICENSE file in the root directory of this source tree.
 
 
-from collections import OrderedDict, defaultdict
 import json
-import os
 import logging
+import os
 from argparse import ArgumentError
+from collections import OrderedDict, defaultdict
 
-from fairseq import options, models
-from fairseq.data import (
-    data_utils,
-    Dictionary,
-    LanguagePairDataset,
-    IndexedDataset,
-    FairseqDataset,
-)
-from .multitask_data_utils import (
-    MultitaskDatasetWrapper,
-    MultidatasetEpochBatchIterator,
-)
-
-
+from fairseq import models, options
+from fairseq.data import (Dictionary, FairseqDataset, IndexedDataset,
+                          LanguagePairDataset, data_utils)
 from fairseq.tasks import LegacyFairseqTask, register_task
+
+from .multitask_data_utils import (MultidatasetEpochBatchIterator,
+                                   MultitaskDatasetWrapper)
 
 logger = logging.getLogger(__name__)
 

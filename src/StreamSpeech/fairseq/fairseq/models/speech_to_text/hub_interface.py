@@ -7,11 +7,10 @@ import logging
 from argparse import Namespace
 from typing import Optional, Tuple, Union
 
+import fairseq.data.audio.feature_transforms.utterance_cmvn as utt_cmvn
 import torch
 import torch.nn as nn
 import torch.nn.functional as F
-
-import fairseq.data.audio.feature_transforms.utterance_cmvn as utt_cmvn
 from fairseq.data import encoders
 from fairseq.data.audio.audio_utils import convert_waveform as convert_wav
 from fairseq.data.audio.audio_utils import get_fbank

@@ -4,13 +4,14 @@
 # LICENSE file in the root directory of this source tree.
 
 from typing import Dict, Optional, Tuple
+
 import torch
 from fairseq import utils
+from fairseq.modules.multihead_attention import MultiheadAttention
 from fairseq.modules.quant_noise import quant_noise
 from torch import Tensor, nn
 from torch.nn import Parameter
 
-from fairseq.modules.multihead_attention import MultiheadAttention
 from ..modules.multihead_functional import multi_head_attention_forward
 
 

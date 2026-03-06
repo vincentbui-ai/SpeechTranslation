@@ -7,8 +7,8 @@ import logging
 import math
 import sys
 
-import kenlm
 import editdistance
+import kenlm
 from g2p_en import G2p
 
 logging.root.setLevel(logging.INFO)

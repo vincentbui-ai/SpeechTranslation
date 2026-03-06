@@ -1,26 +1,21 @@
-import os
-import tqdm
 import argparse
-import pandas as pd
-import sentencepiece as spm
-
-from pathlib import Path
-from tempfile import NamedTemporaryFile
-import sys
 import os
 import re
+import sys
+from pathlib import Path
+from tempfile import NamedTemporaryFile
+
+import pandas as pd
+import sentencepiece as spm
+import tqdm
 
 dir_path = os.path.dirname(os.path.realpath(__file__))
 parent_dir_path = os.path.abspath(os.path.join(dir_path, os.pardir))
 sys.path.insert(0, parent_dir_path)
 
-from examples.speech_to_text.data_utils import (
-    load_df_from_tsv,
-    save_df_to_tsv,
-    gen_vocab,
-)
 from examples.speech_synthesis.data_utils import ipa_phonemize
-
+from examples.speech_to_text.data_utils import (gen_vocab, load_df_from_tsv,
+                                                save_df_to_tsv)
 
 MANIFEST_COLUMNS = ["id", "tgt_text"]
 SPLITS = ["train", "dev", "test"]

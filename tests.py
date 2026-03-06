@@ -27,167 +27,158 @@
 # print(text[0])
 
 
-import os, sys, json, torch, torchaudio
-from pathlib import Path
-from dataclasses import dataclass
-from torch.utils.data import Dataset, DataLoader
-from concurrent.futures import ThreadPoolExecutor
+import glob
+import itertools
+import json
+import logging  # ← add this
+import os
 
-os.environ["FAIRSEQ2_ASSET_DIR"] = (
-    "/Users/dattay/Documents/SpeechTranslation/checkpoints"
-)
-sys.path.insert(
-    0, "/Users/dattay/Documents/SpeechTranslation/src/seamless_communication/src"
-)
+import hydra
+import torch
+import torch.distributed as dist
+import torchaudio
+from hydra.utils import instantiate
+from omegaconf import DictConfig
+from tqdm import tqdm
 
 from seamless_communication.inference import Translator
 
-# ── Config ────────────────────────────────────────────────────────────────────
-JSONL_PATH = "datasets/valset_vietnamese.jsonl"  # ← đổi file tùy dataset
-OUTPUT_PATH = "predictions.jsonl"
-BATCH_SIZE = 8
-NUM_WORKERS = 4
+logging.getLogger("seamless_communication").setLevel(logging.ERROR) 
+
+
 TARGET_SR = 16_000
-
-LANG_MAP = {"English": "eng", "Vietnamese": "vie"}  # schema → seamless code
-
-
-# ── Schema ────────────────────────────────────────────────────────────────────
-@dataclass
-class Sample:
-    audio_filepath: str
-    duration: float
-    ori_text: str
-    ori_lang: str  # "English" | "Vietnamese"
-    tgt_text: str  # ground-truth (dùng cho eval)
-    tgt_lang: str
+LANG_MAP = {
+    "English": "eng",
+    "Vietnamese": "vie",
+    "eng": "eng",
+    "vie": "vie",
+}
 
 
-# ── Dataset ───────────────────────────────────────────────────────────────────
-class SpeechDataset(Dataset):
-    def __init__(self, jsonl_path: str):
-        self.samples: list[Sample] = []
-        with open(jsonl_path, encoding="utf-8") as f:
+def load_dataset(path: str) -> list[dict]:
+    if os.path.isdir(path):
+        files = glob.glob(os.path.join(path, "**/*.jsonl"), recursive=True)
+    else:
+        files = [path]
+
+    samples = []
+    for fp in files:
+        with open(fp, encoding="utf-8") as f:
             for line in f:
-                d = json.loads(line)
-                self.samples.append(Sample(**d))
-
-    def __len__(self):
-        return len(self.samples)
-
-    def __getitem__(self, idx):
-        s = self.samples[idx]
-        wav, sr = torchaudio.load(s.audio_filepath)
-        if sr != TARGET_SR:
-            wav = torchaudio.functional.resample(wav, sr, TARGET_SR)
-        if wav.shape[0] > 1:
-            wav = wav.mean(0, keepdim=True)
-        return {
-            "wav": wav.squeeze(0),  # (T,)
-            "src_lang": LANG_MAP[s.ori_lang],
-            "tgt_lang": LANG_MAP[s.tgt_lang],
-            "reference": s.tgt_text,
-            "ori_text": s.ori_text,
-            "filepath": s.audio_filepath,
-        }
+                samples.append(json.loads(line))
+    return samples
 
 
-def collate_fn(batch: list[dict]) -> dict:
-    """Pad waveforms về cùng độ dài, giữ nguyên metadata."""
-    max_len = max(b["wav"].shape[0] for b in batch)
-    padded = torch.stack(
-        [
-            torch.nn.functional.pad(b["wav"], (0, max_len - b["wav"].shape[0]))
-            for b in batch
-        ]
+def load_audio(filepath: str) -> tuple[torch.Tensor, int]:
+    filepath = filepath.replace("/raid/voice/khanhnd65/ultimate_testset/", "/data/")
+    wav, sr = torchaudio.load(filepath)
+    if sr != TARGET_SR:
+        wav = torchaudio.functional.resample(wav, sr, TARGET_SR)
+    if wav.shape[0] > 1:
+        wav = wav.mean(0, keepdim=True)
+    return wav.squeeze(0), TARGET_SR
+
+
+def pad_batch(wavs: list[torch.Tensor]) -> torch.Tensor:
+    max_len = max(w.shape[0] for w in wavs)
+    return torch.stack(
+        [torch.nn.functional.pad(w, (0, max_len - w.shape[0])) for w in wavs]
     )
-    return {
-        "wav": padded,  # (B, T)
-        "src_lang": [b["src_lang"] for b in batch],
-        "tgt_lang": [b["tgt_lang"] for b in batch],
-        "reference": [b["reference"] for b in batch],
-        "ori_text": [b["ori_text"] for b in batch],
-        "filepath": [b["filepath"] for b in batch],
-    }
 
 
-# ── Multi-GPU Translator ──────────────────────────────────────────────────────
-class MultiGPUTranslator:
-    def __init__(self, model_name: str, vocoder_name: str):
-        n_gpus = torch.cuda.device_count()
-        if n_gpus == 0:
-            self.devices = [torch.device("cpu")]
-            dtype = torch.float32
-        else:
-            self.devices = [torch.device(f"cuda:{i}") for i in range(n_gpus)]
-            dtype = torch.float16
+@hydra.main(version_base=None, config_path="../config/test", config_name="s2tt")
+def main(config: DictConfig) -> None:
 
-        with ThreadPoolExecutor(max_workers=len(self.devices)) as pool:
-            self.translators = list(
-                pool.map(
-                    lambda d: Translator(model_name, vocoder_name, d, dtype=dtype),
-                    self.devices,
+    dist.init_process_group("nccl")
+    rank = dist.get_rank()
+    world_size = dist.get_world_size()
+
+    device = rank % torch.cuda.device_count()
+    dtype = torch.float16
+
+    translator = Translator(
+        config.model_name,
+        config.vocoder_name,
+        torch.device(f"cuda:{device}"),
+        dtype=dtype,
+    )
+
+    dataset = load_dataset(config.testset)
+
+    indices = list(range(len(dataset)))
+    indices = indices[rank::world_size]
+
+    indices = [
+        indices[i : i + config.batch_size]
+        for i in range(0, len(indices), config.batch_size)
+    ]
+    indices = (
+        indices
+        if rank != 0
+        else tqdm(indices, desc=f"[GPU {rank}] Inference", unit="batch")
+    )
+
+    results = []
+    for idx in indices:
+        datas = [dataset[i] for i in idx]
+        paths = [d["audio_filepath"] for d in datas]
+        refs = [d.get("tgt_text", "") for d in datas]
+        ori_texts = [d.get("ori_text", "") for d in datas]
+        src_langs = [LANG_MAP.get(d.get("ori_lang", "eng"), "eng") for d in datas]
+        tgt_langs = [LANG_MAP.get(d.get("tgt_lang", "vie"), "vie") for d in datas]
+
+        wavs = []
+        valid_indices = []
+        for i, path in enumerate(paths):
+            try:
+                wav, _ = load_audio(path)
+                wavs.append(wav)
+                valid_indices.append(i)
+            except Exception:
+                continue
+
+        if not wavs:
+            continue
+
+        for i, wav in zip(valid_indices, wavs):
+            try:
+                wav_input = wav.unsqueeze(0).to(f"cuda:{device}", dtype=dtype)
+                text, _ = translator.predict(
+                    wav_input,
+                    "S2TT",
+                    tgt_langs[i],
+                    src_lang=src_langs[i],
                 )
-            )
-        print(f"[init] {len(self.devices)} device(s): {self.devices}")
+                results.append(
+                    (
+                        paths[i],
+                        ori_texts[i],
+                        src_langs[i],
+                        tgt_langs[i],
+                        refs[i],
+                        str(text[0]),
+                    )
+                )
+            except Exception:
+                continue
 
-    def predict_batch(self, batch: dict, gpu_idx: int) -> list[dict]:
-        translator = self.translators[gpu_idx]
-        device = self.devices[gpu_idx]
-        results = []
+    outputs = [None for _ in range(world_size)]
+    dist.gather_object(results, outputs if rank == 0 else None)
 
-        for i, wav in enumerate(batch["wav"]):
-            src_lang = batch["src_lang"][i]
-            tgt_lang = batch["tgt_lang"][i]
+    if rank == 0:
+        outputs = list(itertools.chain(*outputs))
 
-            text, _ = translator.predict(
-                wav.unsqueeze(0).to(device),
-                "S2TT",
-                tgt_lang,
-                src_lang=src_lang,
-            )
-            results.append(
-                {
-                    "filepath": batch["filepath"][i],
-                    "ori_text": batch["ori_text"][i],
-                    "src_lang": src_lang,
-                    "tgt_lang": tgt_lang,
-                    "hypothesis": str(text[0]),
-                    "reference": batch["reference"][i],
-                }
-            )
-        return results
+        os.makedirs(config.output_folder, exist_ok=True)
+        output_filepath = os.path.join(config.output_folder, "results.csv")
 
+        with open(output_filepath, "w", encoding="utf-8") as f:
+            f.write("FILEPATH,ORI_TEXT,SRC_LANG,TGT_LANG,REFERENCE,HYPOTHESIS\n")
+            for filepath, ori_text, src_lang, tgt_lang, ref, hyp in outputs:
+                f.write(f"{filepath},{ori_text},{src_lang},{tgt_lang},{ref},{hyp}\n")
 
-# ── Main ──────────────────────────────────────────────────────────────────────
-def main():
-    dataset = SpeechDataset(JSONL_PATH)
-    dataloader = DataLoader(
-        dataset,
-        batch_size=BATCH_SIZE,
-        num_workers=NUM_WORKERS,
-        collate_fn=collate_fn,
-        pin_memory=torch.cuda.is_available(),
-    )
-    print(f"[dataset] {len(dataset)} samples | batch={BATCH_SIZE}")
+        print(f"\n[done] {len(outputs)} samples saved → {output_filepath}")
 
-    mt = MultiGPUTranslator("seamlessM4T_v2_large", "vocoder_v2")
-    n = len(mt.devices)
-
-    with open(OUTPUT_PATH, "w", encoding="utf-8") as fout, ThreadPoolExecutor(
-        max_workers=n
-    ) as pool:
-
-        futures = {
-            pool.submit(mt.predict_batch, batch, idx % n): idx
-            for idx, batch in enumerate(dataloader)
-        }
-        for future in futures:
-            for row in future.result():
-                fout.write(json.dumps(row, ensure_ascii=False) + "\n")
-                print(f"[{row['filepath'].split('/')[-1]}] {row['hypothesis']}")
-
-    print(f"\n[done] saved → {OUTPUT_PATH}")
+    dist.destroy_process_group()
 
 
 if __name__ == "__main__":

@@ -9,7 +9,6 @@ import math
 import torch
 import torch.nn as nn
 import torch.nn.functional as F
-
 from fairseq.modules.layer_norm import LayerNorm
 
 from .adaptive_span_attention import AdaptiveSpan

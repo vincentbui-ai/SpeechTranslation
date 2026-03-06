@@ -7,24 +7,18 @@
 # https://github.com/microsoft/unilm/tree/master/beit
 
 import logging
-
 from dataclasses import dataclass
 from typing import Any
-
-from omegaconf import II, MISSING
 
 import torch
 import torch.nn as nn
 import torch.nn.functional as F
-
+from examples.data2vec.data.modality import Modality
 from fairseq import checkpoint_utils, tasks
-
 from fairseq.dataclass import FairseqDataclass
 from fairseq.models import BaseFairseqModel, register_model
 from fairseq.models.roberta.model import RobertaClassificationHead
-
-from examples.data2vec.data.modality import Modality
-
+from omegaconf import II, MISSING
 
 logger = logging.getLogger(__name__)
 

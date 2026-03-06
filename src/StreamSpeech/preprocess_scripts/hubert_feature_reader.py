@@ -3,12 +3,11 @@
 # This source code is licensed under the MIT license found in the
 # LICENSE file in the root directory of this source tree.
 
-import torch
 import fairseq
-import torchaudio
 import soundfile as sf
+import torch
 import torch.nn.functional as F
-
+import torchaudio
 from fairseq.data.audio.audio_utils import convert_waveform
 
 

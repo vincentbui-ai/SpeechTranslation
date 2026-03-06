@@ -8,38 +8,32 @@ import ast
 import hashlib
 import logging
 import os
+import re
 import shutil
 import sys
-import re
 from dataclasses import dataclass, field, is_dataclass
 from pathlib import Path
 from typing import Any, Dict, List, Optional, Tuple, Union
 
 import editdistance
+import hydra
 import torch
 import torch.distributed as dist
-from examples.speech_recognition.new.decoders.decoder_config import (
-    DecoderConfig,
-    FlashlightDecoderConfig,
-)
 from examples.speech_recognition.new.decoders.decoder import Decoder
-from fairseq import checkpoint_utils, distributed_utils, progress_bar, tasks, utils
+from examples.speech_recognition.new.decoders.decoder_config import (
+    DecoderConfig, FlashlightDecoderConfig)
+from fairseq import (checkpoint_utils, distributed_utils, progress_bar, tasks,
+                     utils)
 from fairseq.data.data_utils import post_process
-from fairseq.dataclass.configs import (
-    CheckpointConfig,
-    CommonConfig,
-    CommonEvalConfig,
-    DatasetConfig,
-    DistributedTrainingConfig,
-    FairseqDataclass,
-)
+from fairseq.dataclass.configs import (CheckpointConfig, CommonConfig,
+                                       CommonEvalConfig, DatasetConfig,
+                                       DistributedTrainingConfig,
+                                       FairseqDataclass)
 from fairseq.logging.meters import StopwatchMeter, TimeMeter
 from fairseq.logging.progress_bar import BaseProgressBar
 from fairseq.models.fairseq_model import FairseqModel
-from omegaconf import OmegaConf
-
-import hydra
 from hydra.core.config_store import ConfigStore
+from omegaconf import OmegaConf
 
 logging.root.setLevel(logging.INFO)
 logging.basicConfig(level=logging.INFO)
@@ -475,9 +469,8 @@ def hydra_main(cfg: InferConfig) -> Union[float, Tuple[float, Optional[float]]]:
 
 def cli_main() -> None:
     try:
-        from hydra._internal.utils import (
-            get_args,
-        )  # pylint: disable=import-outside-toplevel
+        from hydra._internal.utils import \
+            get_args  # pylint: disable=import-outside-toplevel
 
         cfg_name = get_args().config_name or "infer"
     except ImportError:

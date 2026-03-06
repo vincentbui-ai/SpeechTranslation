@@ -3,7 +3,6 @@
 # This source code is licensed under the MIT license found in the
 # LICENSE file in the root directory of this source tree.
 
-from typing import List, Tuple
 import csv
 import errno
 import hashlib
@@ -12,14 +11,14 @@ import os
 import sys
 import tarfile
 import threading
+import urllib
+import urllib.request
 import zipfile
-from _io import TextIOWrapper
 from queue import Queue
 from typing import Any, Iterable, List, Optional, Tuple, Union
 
 import torch
-import urllib
-import urllib.request
+from _io import TextIOWrapper
 from torch.utils.data import Dataset
 from torch.utils.model_zoo import tqdm
 

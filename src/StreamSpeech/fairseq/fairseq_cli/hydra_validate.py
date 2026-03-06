@@ -9,11 +9,8 @@ import os
 import sys
 from itertools import chain
 
-import torch
-from hydra.core.hydra_config import HydraConfig
-from omegaconf import OmegaConf, open_dict
 import hydra
-
+import torch
 from fairseq import checkpoint_utils, distributed_utils, utils
 from fairseq.dataclass.configs import FairseqConfig
 from fairseq.dataclass.initialize import add_defaults, hydra_init
@@ -21,6 +18,8 @@ from fairseq.dataclass.utils import omegaconf_no_object_check
 from fairseq.distributed import utils as distributed_utils
 from fairseq.logging import metrics, progress_bar
 from fairseq.utils import reset_logging
+from hydra.core.hydra_config import HydraConfig
+from omegaconf import OmegaConf, open_dict
 
 logging.basicConfig(
     format="%(asctime)s | %(levelname)s | %(name)s | %(message)s",

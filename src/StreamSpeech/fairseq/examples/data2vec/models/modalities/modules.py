@@ -3,17 +3,13 @@
 # This source code is licensed under the MIT license found in the
 # LICENSE file in the root directory of this source tree.
 
+from dataclasses import dataclass
+
+import numpy as np
 import torch
 import torch.nn as nn
 import torch.nn.functional as F
-import numpy as np
-from dataclasses import dataclass
-from fairseq.modules import (
-    LayerNorm,
-    SamePad,
-    SamePad2d,
-    TransposeLast,
-)
+from fairseq.modules import LayerNorm, SamePad, SamePad2d, TransposeLast
 
 
 @dataclass
@@ -244,7 +240,8 @@ class TransformerDecoder(nn.Module):
         self.proj = nn.Linear(cfg.decoder_dim, input_dim)
 
     def reset_parameters(self):
-        from fairseq.modules.transformer_sentence_encoder import init_bert_params
+        from fairseq.modules.transformer_sentence_encoder import \
+            init_bert_params
 
         self.apply(init_bert_params)
 
@@ -576,7 +573,8 @@ class EncDecTransformerDecoder(nn.Module):
         self.proj = nn.Linear(cfg.decoder_dim, input_dim)
 
     def reset_parameters(self):
-        from fairseq.modules.transformer_sentence_encoder import init_bert_params
+        from fairseq.modules.transformer_sentence_encoder import \
+            init_bert_params
 
         self.apply(init_bert_params)
 

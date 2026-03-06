@@ -7,9 +7,8 @@ from typing import Dict, List, Optional
 
 import torch
 import torch.nn as nn
-from torch import Tensor
-
 from fairseq import search
+from torch import Tensor
 
 
 class MultiDecoderSequenceGenerator(nn.Module):
@@ -69,7 +68,8 @@ class MultiDecoderSequenceGenerator(nn.Module):
         """
         super().__init__()
 
-        from examples.speech_to_speech.unity.sequence_generator import SequenceGenerator
+        from examples.speech_to_speech.unity.sequence_generator import \
+            SequenceGenerator
 
         self.generator = SequenceGenerator(
             models,

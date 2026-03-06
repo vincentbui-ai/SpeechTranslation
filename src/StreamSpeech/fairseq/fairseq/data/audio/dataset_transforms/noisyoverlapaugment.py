@@ -1,14 +1,10 @@
 import numpy as np
 import torch
-
 from fairseq.data.audio import rand_uniform
 from fairseq.data.audio.dataset_transforms import (
-    AudioDatasetTransform,
-    register_audio_dataset_transform,
-)
-from fairseq.data.audio.waveform_transforms.noiseaugment import (
-    NoiseAugmentTransform,
-)
+    AudioDatasetTransform, register_audio_dataset_transform)
+from fairseq.data.audio.waveform_transforms.noiseaugment import \
+    NoiseAugmentTransform
 
 _DEFAULTS = {
     "rate": 0.25,

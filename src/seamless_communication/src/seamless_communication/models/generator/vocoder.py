@@ -13,36 +13,21 @@ from fairseq2.nn.padding import PaddingMask
 from fairseq2.nn.position_encoder import PositionEncoder
 from fairseq2.nn.projection import Projection
 from fairseq2.typing import DataType, Device
-from torch.nn import (
-    ELU,
-    BatchNorm1d,
-    Conv1d,
-    ConvTranspose1d,
-    Dropout,
-    Module,
-    ModuleList,
-    Parameter,
-    Sequential,
-    Tanh,
-    init,
-)
+from torch.nn import (ELU, BatchNorm1d, Conv1d, ConvTranspose1d, Dropout,
+                      Module, ModuleList, Parameter, Sequential, Tanh, init)
 from torch.nn.utils.weight_norm import remove_weight_norm, weight_norm
 
 from seamless_communication.models.generator.ecapa_tdnn import ECAPA_TDNN
-from seamless_communication.models.unity.fft_decoder import FeedForwardTransformer
-from seamless_communication.models.unity.length_regulator import VarianceAdaptor
-from seamless_communication.models.vocoder.hifigan import (
-    LRELU_SLOPE,
-    ResBlock,
-    init_weights,
-)
+from seamless_communication.models.unity.fft_decoder import \
+    FeedForwardTransformer
+from seamless_communication.models.unity.length_regulator import \
+    VarianceAdaptor
+from seamless_communication.models.vocoder.hifigan import (LRELU_SLOPE,
+                                                           ResBlock,
+                                                           init_weights)
 
-from .streamable import (
-    StreamableConv1d,
-    StreamableConvTranspose1d,
-    StreamableLSTM,
-    StreamableResnetBlock,
-)
+from .streamable import (StreamableConv1d, StreamableConvTranspose1d,
+                         StreamableLSTM, StreamableResnetBlock)
 
 ELU_PARAMS: Dict[str, Any] = {"alpha": 1.0}
 

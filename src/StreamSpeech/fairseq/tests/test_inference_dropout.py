@@ -8,6 +8,7 @@ import unittest
 
 from fairseq.dataclass.utils import convert_namespace_to_omegaconf
 from fairseq.models.transformer import TransformerModel
+
 from tests.test_sequence_generator import get_dummy_task_and_parser
 
 

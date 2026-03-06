@@ -6,16 +6,14 @@
 import argparse
 import json
 import logging
-from pathlib import Path
 import random
+from pathlib import Path
+
 import soundfile as sf
 import torch
-
-from tqdm import tqdm
-
 from fairseq import utils
 from fairseq.models.text_to_speech.vocoder import CodeHiFiGANVocoder
-
+from tqdm import tqdm
 
 logging.basicConfig()
 logging.root.setLevel(logging.INFO)

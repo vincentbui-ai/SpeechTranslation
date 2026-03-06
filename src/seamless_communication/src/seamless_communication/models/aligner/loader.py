@@ -11,12 +11,10 @@ from fairseq2.assets import asset_store, download_manager
 from fairseq2.models.utils import ConfigLoader, ModelLoader
 
 from seamless_communication.models.aligner.builder import (
-    UnitY2AlignmentConfig,
-    aligner_archs,
-    create_unity2_alignment_model,
-)
+    UnitY2AlignmentConfig, aligner_archs, create_unity2_alignment_model)
 from seamless_communication.models.aligner.model import UnitY2AlignmentModel
-from seamless_communication.models.unity.char_tokenizer import load_unity_char_tokenizer
+from seamless_communication.models.unity.char_tokenizer import \
+    load_unity_char_tokenizer
 
 
 def convert_unity2_aligner_checkpoint(

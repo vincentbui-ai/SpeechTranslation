@@ -9,12 +9,10 @@ from typing import Any, Dict
 from fairseq import checkpoint_utils
 from fairseq.data.legacy.masked_lm_dictionary import MaskedLMDictionary
 from fairseq.models import register_model, register_model_architecture
-from fairseq.models.transformer import (
-    TransformerDecoder,
-    TransformerEncoder,
-    TransformerModel,
-    base_architecture as transformer_base_architecture,
-)
+from fairseq.models.transformer import (TransformerDecoder, TransformerEncoder,
+                                        TransformerModel)
+from fairseq.models.transformer import \
+    base_architecture as transformer_base_architecture
 
 
 @register_model("transformer_from_pretrained_xlm")

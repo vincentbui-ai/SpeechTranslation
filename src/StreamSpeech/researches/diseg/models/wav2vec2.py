@@ -13,20 +13,14 @@ import torch.nn as nn
 import torch.nn.functional as F
 from fairseq import utils
 from fairseq.data.data_utils import compute_mask_indices
-from fairseq.models import BaseFairseqModel, register_model, register_model_architecture
-from fairseq.modules import (
-    Fp32GroupNorm,
-    Fp32LayerNorm,
-    GradMultiply,
-    GumbelVectorQuantizer,
-    LayerNorm,
-    MultiheadAttention,
-    SamePad,
-    TransposeLast,
-)
+from fairseq.dataclass import ChoiceEnum
+from fairseq.models import (BaseFairseqModel, register_model,
+                            register_model_architecture)
+from fairseq.modules import (Fp32GroupNorm, Fp32LayerNorm, GradMultiply,
+                             GumbelVectorQuantizer, LayerNorm,
+                             MultiheadAttention, SamePad, TransposeLast)
 from fairseq.modules.transformer_sentence_encoder import init_bert_params
 from fairseq.utils import buffered_arange
-from fairseq.dataclass import ChoiceEnum
 
 MASKING_DISTRIBUTION_CHOICES = ChoiceEnum(["static", "uniform", "normal", "poisson"])
 

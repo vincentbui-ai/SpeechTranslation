@@ -12,7 +12,6 @@ import torch.nn as nn
 from ..pq.utils import attrsetter, get_layers
 from .modules import ActivationQuantizer, IntConv2d, IntEmbedding, IntLinear
 
-
 MAPPING = {nn.Linear: IntLinear, nn.Embedding: IntEmbedding, nn.Conv2d: IntConv2d}
 
 

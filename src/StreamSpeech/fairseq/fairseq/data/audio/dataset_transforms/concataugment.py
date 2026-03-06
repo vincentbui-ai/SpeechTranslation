@@ -1,10 +1,8 @@
 from typing import List
-import numpy as np
 
+import numpy as np
 from fairseq.data.audio.dataset_transforms import (
-    AudioDatasetTransform,
-    register_audio_dataset_transform,
-)
+    AudioDatasetTransform, register_audio_dataset_transform)
 
 _DEFAULTS = {"rate": 0.25, "max_tokens": 3000, "attempts": 5}
 

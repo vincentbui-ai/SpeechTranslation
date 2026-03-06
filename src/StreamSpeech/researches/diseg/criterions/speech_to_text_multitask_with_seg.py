@@ -12,8 +12,7 @@ from fairseq import metrics, utils
 from fairseq.criterions import FairseqCriterion, register_criterion
 from fairseq.criterions.label_smoothed_cross_entropy import (
     LabelSmoothedCrossEntropyCriterion,
-    LabelSmoothedCrossEntropyCriterionConfig,
-)
+    LabelSmoothedCrossEntropyCriterionConfig)
 from fairseq.dataclass import FairseqDataclass
 from omegaconf import II
 

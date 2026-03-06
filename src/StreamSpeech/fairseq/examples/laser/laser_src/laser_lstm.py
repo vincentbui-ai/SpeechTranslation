@@ -6,16 +6,10 @@
 import torch
 import torch.nn as nn
 import torch.nn.functional as F
-
 from fairseq import options, utils
-
-from fairseq.models import (
-    FairseqEncoder,
-    FairseqIncrementalDecoder,
-    FairseqEncoderDecoderModel,
-    register_model,
-    register_model_architecture,
-)
+from fairseq.models import (FairseqEncoder, FairseqEncoderDecoderModel,
+                            FairseqIncrementalDecoder, register_model,
+                            register_model_architecture)
 
 
 @register_model("laser_lstm")

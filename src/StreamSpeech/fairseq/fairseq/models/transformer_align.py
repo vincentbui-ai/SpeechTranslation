@@ -4,11 +4,8 @@
 # LICENSE file in the root directory of this source tree.
 
 from fairseq.models import register_model, register_model_architecture
-from fairseq.models.transformer import (
-    TransformerModel,
-    base_architecture,
-    transformer_wmt_en_de_big,
-)
+from fairseq.models.transformer import (TransformerModel, base_architecture,
+                                        transformer_wmt_en_de_big)
 
 
 @register_model("transformer_align")

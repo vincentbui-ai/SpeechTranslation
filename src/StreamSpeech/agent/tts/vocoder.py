@@ -10,19 +10,14 @@ from typing import Dict
 import numpy as np
 import torch
 import torch.nn.functional as F
-from torch import nn
-
-from fairseq.data.audio.audio_utils import (
-    TTSSpectrogram,
-    get_fourier_basis,
-    get_mel_filters,
-    get_window,
-)
+from agent.tts.codehifigan import CodeGenerator as CodeHiFiGANModel
+from fairseq.data.audio.audio_utils import (TTSSpectrogram, get_fourier_basis,
+                                            get_mel_filters, get_window)
 from fairseq.data.audio.speech_to_text_dataset import S2TDataConfig
 from fairseq.models import BaseFairseqModel, register_model
-from agent.tts.codehifigan import CodeGenerator as CodeHiFiGANModel
 from fairseq.models.text_to_speech.hifigan import Generator as HiFiGANModel
 from fairseq.models.text_to_speech.hub_interface import VocoderHubInterface
+from torch import nn
 
 logger = logging.getLogger(__name__)
 

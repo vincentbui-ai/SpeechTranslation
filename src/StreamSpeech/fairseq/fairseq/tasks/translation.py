@@ -3,33 +3,25 @@
 # This source code is licensed under the MIT license found in the
 # LICENSE file in the root directory of this source tree.
 
-from dataclasses import dataclass, field
 import itertools
 import json
 import logging
 import os
-from typing import Optional
 from argparse import Namespace
-from omegaconf import II
+from dataclasses import dataclass, field
+from typing import Optional
 
 import numpy as np
 from fairseq import utils
-from fairseq.logging import metrics
-from fairseq.data import (
-    AppendTokenDataset,
-    ConcatDataset,
-    LanguagePairDataset,
-    PrependTokenDataset,
-    StripTokenDataset,
-    TruncateDataset,
-    data_utils,
-    encoders,
-    indexed_dataset,
-)
+from fairseq.data import (AppendTokenDataset, ConcatDataset,
+                          LanguagePairDataset, PrependTokenDataset,
+                          StripTokenDataset, TruncateDataset, data_utils,
+                          encoders, indexed_dataset)
 from fairseq.data.indexed_dataset import get_available_dataset_impl
 from fairseq.dataclass import ChoiceEnum, FairseqDataclass
+from fairseq.logging import metrics
 from fairseq.tasks import FairseqTask, register_task
-
+from omegaconf import II
 
 EVAL_BLEU_ORDER = 4
 

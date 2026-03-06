@@ -1,6 +1,7 @@
+import os
+
 import kaldi_io
 import numpy as np
-import os
 
 
 def get_parser():

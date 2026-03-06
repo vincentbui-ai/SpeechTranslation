@@ -7,7 +7,6 @@
 from typing import Any, Mapping
 
 import torch
-
 from fairseq2.assets import asset_store, download_manager
 from fairseq2.models.utils import ModelLoader
 from fairseq2.models.utils.checkpoint import convert_fairseq_checkpoint
@@ -15,9 +14,8 @@ from fairseq2.models.wav2vec2.builder import Wav2Vec2Config
 from fairseq2.models.wav2vec2.loader import load_wav2vec2_config
 from fairseq2.models.wav2vec2.model import Wav2Vec2Model
 
-from seamless_communication.models.conformer_shaw.builder import (
-    create_conformer_shaw_model,
-)
+from seamless_communication.models.conformer_shaw.builder import \
+    create_conformer_shaw_model
 
 
 def convert_conformer_shaw_checkpoint(

@@ -4,16 +4,15 @@
 # LICENSE file in the root directory of this source tree.
 
 import math
+from dataclasses import dataclass, field
 
 import torch
 import torch.nn.functional as F
 from fairseq import utils
-from fairseq.logging import metrics
 from fairseq.criterions import FairseqCriterion, register_criterion
 from fairseq.dataclass import FairseqDataclass
+from fairseq.logging import metrics
 from torch import Tensor
-
-from dataclasses import dataclass, field
 
 
 @dataclass

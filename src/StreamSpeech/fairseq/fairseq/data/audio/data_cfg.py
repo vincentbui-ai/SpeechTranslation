@@ -306,9 +306,8 @@ class SingleTaskConfig(object):
             cfg = CtcCriterionConfig
             cfg.zero_infinity = self.config.get("zero_infinity", True)
         else:
-            from fairseq.criterions.label_smoothed_cross_entropy import (
-                LabelSmoothedCrossEntropyCriterionConfig,
-            )
+            from fairseq.criterions.label_smoothed_cross_entropy import \
+                LabelSmoothedCrossEntropyCriterionConfig
 
             cfg = LabelSmoothedCrossEntropyCriterionConfig
             cfg.label_smoothing = self.config.get("label_smoothing", 0.2)

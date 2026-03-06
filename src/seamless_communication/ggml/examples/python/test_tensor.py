@@ -1,10 +1,10 @@
-import pytest
-from pytest import raises
-
-from ggml import lib, ffi
-from ggml.utils import init, copy, numpy
 import numpy as np
 import numpy.testing as npt
+import pytest
+from ggml import ffi, lib
+from ggml.utils import copy, init, numpy
+from pytest import raises
+
 
 @pytest.fixture()
 def ctx():

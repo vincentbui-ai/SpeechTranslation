@@ -4,25 +4,20 @@
 # This source code is licensed under the license found in the
 # MIT_LICENSE file in the root directory of this source tree.
 
-from seamless_communication.streaming.agents.detokenizer import UnitYDetokenizerAgent
-from seamless_communication.streaming.agents.offline_w2v_bert_encoder import (
-    OfflineWav2VecBertEncoderAgent,
-)
-from seamless_communication.streaming.agents.online_feature_extractor import (
-    OnlineFeatureExtractorAgent,
-)
-from seamless_communication.streaming.agents.online_text_decoder import (
-    UnitYMMATextDecoderAgent,
-)
-from seamless_communication.streaming.agents.online_unit_decoder import (
-    NARUnitYUnitDecoderAgent,
-)
+from seamless_communication.streaming.agents.detokenizer import \
+    UnitYDetokenizerAgent
+from seamless_communication.streaming.agents.offline_w2v_bert_encoder import \
+    OfflineWav2VecBertEncoderAgent
+from seamless_communication.streaming.agents.online_feature_extractor import \
+    OnlineFeatureExtractorAgent
+from seamless_communication.streaming.agents.online_text_decoder import \
+    UnitYMMATextDecoderAgent
+from seamless_communication.streaming.agents.online_unit_decoder import \
+    NARUnitYUnitDecoderAgent
 from seamless_communication.streaming.agents.online_vocoder import VocoderAgent
 from seamless_communication.streaming.agents.silero_vad import SileroVADAgent
 from seamless_communication.streaming.agents.unity_pipeline import (
-    UnitYAgentPipeline,
-    UnitYAgentTreePipeline,
-)
+    UnitYAgentPipeline, UnitYAgentTreePipeline)
 
 
 class SeamlessStreamingS2STAgent(UnitYAgentPipeline):

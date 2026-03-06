@@ -1,7 +1,6 @@
 # Copyright (c) Facebook, Inc. All Rights Reserved
 
 import torch
-
 from torch import nn
 
 

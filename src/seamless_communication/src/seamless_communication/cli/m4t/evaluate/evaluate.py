@@ -7,9 +7,9 @@
 import argparse
 import contextlib
 import itertools
+import json
 import logging
 import subprocess
-import json
 from argparse import Namespace
 from dataclasses import dataclass
 from pathlib import Path
@@ -25,20 +25,13 @@ from fairseq2.typing import DataType, Device
 from torch import Tensor
 from tqdm import tqdm
 
-from seamless_communication.cli.eval_utils import (
-    compute_quality_metrics,
-)
-from seamless_communication.cli.m4t.predict import (
-    add_inference_arguments,
-    set_generation_opts,
-)
+from seamless_communication.cli.eval_utils import compute_quality_metrics
+from seamless_communication.cli.m4t.predict import (add_inference_arguments,
+                                                    set_generation_opts)
+from seamless_communication.inference import (BatchedSpeechOutput, Modality,
+                                              SequenceGeneratorOptions,
+                                              Translator)
 from seamless_communication.models.unity import UnitYModel
-from seamless_communication.inference import (
-    BatchedSpeechOutput,
-    Modality,
-    SequenceGeneratorOptions,
-    Translator,
-)
 
 logging.basicConfig(
     level=logging.INFO,

@@ -8,8 +8,8 @@ import math
 import torch
 import torch.nn.functional as F
 from fairseq import utils
-from fairseq.logging import metrics
 from fairseq.criterions import FairseqCriterion, register_criterion
+from fairseq.logging import metrics
 
 
 @register_criterion("sentence_ranking")

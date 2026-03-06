@@ -10,7 +10,6 @@ import threading
 
 from torch import nn
 
-
 logger = logging.getLogger(__name__)
 
 

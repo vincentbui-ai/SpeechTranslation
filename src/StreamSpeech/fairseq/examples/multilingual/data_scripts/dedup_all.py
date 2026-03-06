@@ -5,12 +5,13 @@
 
 
 
-import os
-import glob
 import argparse
+import glob
+import os
+import sys
+
 from utils.dedup import deup
 
-import sys
 WORKDIR_ROOT = os.environ.get('WORKDIR_ROOT', None)
 
 if WORKDIR_ROOT is None or  not WORKDIR_ROOT.strip():

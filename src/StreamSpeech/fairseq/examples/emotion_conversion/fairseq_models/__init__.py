@@ -3,22 +3,15 @@
 # This source code is licensed under the MIT license found in the
 # LICENSE file in the root directory of this source tree.
 
-from fairseq import utils
-from fairseq.models import (
-    FairseqMultiModel,
-    register_model,
-    register_model_architecture,
-)
-from fairseq.models.transformer import (
-    Embedding,
-    base_architecture,
-)
-from fairseq.models.multilingual_transformer import (
-    MultilingualTransformerModel,
-    base_multilingual_architecture,
-)
-from fairseq.utils import safe_hasattr
 from collections import OrderedDict
+
+from fairseq import utils
+from fairseq.models import (FairseqMultiModel, register_model,
+                            register_model_architecture)
+from fairseq.models.multilingual_transformer import (
+    MultilingualTransformerModel, base_multilingual_architecture)
+from fairseq.models.transformer import Embedding, base_architecture
+from fairseq.utils import safe_hasattr
 
 
 @register_model("multilingual_transformer_from_mbart")
@@ -26,7 +19,8 @@ class MultilingualTransformerModelFromMbart(MultilingualTransformerModel):
     @classmethod
     def build_model(cls, args, task):
         """Build a new model instance."""
-        from fairseq.tasks.multilingual_translation import MultilingualTranslationTask
+        from fairseq.tasks.multilingual_translation import \
+            MultilingualTranslationTask
 
         assert isinstance(task, MultilingualTranslationTask)
 

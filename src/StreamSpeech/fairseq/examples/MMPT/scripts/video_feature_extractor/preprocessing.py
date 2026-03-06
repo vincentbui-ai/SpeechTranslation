@@ -3,6 +3,7 @@
 
 import torch as th
 
+
 class Normalize(object):
 
     def __init__(self, mean, std):

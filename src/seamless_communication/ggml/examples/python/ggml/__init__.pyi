@@ -1,6 +1,7 @@
 # auto-generated file
 import ggml.ffi as ffi
 import numpy as np
+
 class lib:
   @property
   def GGML_BACKEND_CPU(self) -> int: ...

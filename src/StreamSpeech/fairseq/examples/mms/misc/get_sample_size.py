@@ -19,6 +19,7 @@ Usage:
       /path/to/audio_2.wav    120000
 """
 import sys
+
 import soundfile as sf
 
 if __name__ == "__main__":

@@ -2,49 +2,30 @@
 
 import logging
 import math
+from pathlib import Path
 from typing import Any, Dict, List, Optional, OrderedDict, Tuple
 
 import torch
 import torch.nn as nn
 import torch.nn.functional as F
-from torch import Tensor
-from pathlib import Path
-
-from fairseq import checkpoint_utils, utils
-from fairseq.data.data_utils import lengths_to_padding_mask
-from fairseq.models import (
-    FairseqEncoder,
-    FairseqEncoderDecoderModel,
-    FairseqIncrementalDecoder,
-    register_model,
-    register_model_architecture,
-)
-from fairseq.models.speech_to_text.modules.convolution import infer_conv_output_dim
-from fairseq.models.speech_to_text.convtransformer import base_architecture
-from fairseq.models.transformer import Embedding, TransformerDecoder
-from fairseq.modules import (
-    LayerNorm,
-    PositionalEmbedding,
-    TransformerEncoderLayer,
-)
-from fairseq.models.speech_to_text.modules.convolution import (
-    Conv1dSubsampler,
-    Conv2dSubsampler,
-)
-
-from fairseq.distributed import fsdp_wrap
-
-from fairseq.modules import (
-    AdaptiveSoftmax,
-    BaseLayer,
-    FairseqDropout,
-    LayerDropModuleList,
-    SinusoidalPositionalEmbedding,
-    TransformerDecoderLayer,
-    TransformerEncoderLayer,
-)
 from diseg.modules.seg_encoder_layer import SegEncoderLayer
 from diseg.modules.waitseg_decoder_layer import WaitSegDecoderLayer
+from fairseq import checkpoint_utils, utils
+from fairseq.data.data_utils import lengths_to_padding_mask
+from fairseq.distributed import fsdp_wrap
+from fairseq.models import (FairseqEncoder, FairseqEncoderDecoderModel,
+                            FairseqIncrementalDecoder, register_model,
+                            register_model_architecture)
+from fairseq.models.speech_to_text.convtransformer import base_architecture
+from fairseq.models.speech_to_text.modules.convolution import (
+    Conv1dSubsampler, Conv2dSubsampler, infer_conv_output_dim)
+from fairseq.models.transformer import Embedding, TransformerDecoder
+from fairseq.modules import (AdaptiveSoftmax, BaseLayer, FairseqDropout,
+                             LayerDropModuleList, LayerNorm,
+                             PositionalEmbedding,
+                             SinusoidalPositionalEmbedding,
+                             TransformerDecoderLayer, TransformerEncoderLayer)
+from torch import Tensor
 
 DEFAULT_MAX_SOURCE_POSITIONS = 1024
 DEFAULT_MAX_TARGET_POSITIONS = 1024

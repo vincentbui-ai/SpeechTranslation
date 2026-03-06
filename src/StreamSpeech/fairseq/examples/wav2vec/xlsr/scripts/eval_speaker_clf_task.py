@@ -8,15 +8,16 @@ Usage:
             --data /fsx/androstj/exps/lid_voxlingua/infer/atj_xlsr2_100pct_300M_mean_fast_upd_100k_new.npz \
             --task cls --merge mean_logit
 """
+import argparse
+import logging
+
+import ipdb
 import numpy as np
 import sklearn
+from scipy.special import softmax
 from sklearn.metrics.pairwise import cosine_similarity
 from sklearn.preprocessing import StandardScaler
 from tqdm import tqdm
-import ipdb
-import logging
-import argparse
-from scipy.special import softmax
 
 log=logging.getLogger(__name__)
 log.setLevel(logging.INFO)
@@ -24,9 +25,9 @@ log.setLevel(logging.INFO)
 def calculate_eer(y_label, y_score):
     # y denotes groundtruth scores,
     # y_score denotes the prediction scores.
+    from scipy.interpolate import interp1d
     from scipy.optimize import brentq
     from sklearn.metrics import roc_curve
-    from scipy.interpolate import interp1d
 
     fpr, tpr, thresholds = roc_curve(y_label, y_score, pos_label=1)
     eer = brentq(lambda x : 1. - x - interp1d(fpr, tpr)(x), 0., 1.)

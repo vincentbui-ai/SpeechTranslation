@@ -3,14 +3,14 @@
 # This source code is licensed under the MIT license found in the
 # LICENSE file in the root directory of this source tree.
 
-import torch
 from dataclasses import dataclass, field
 
+import torch
 import torch.nn.functional as F
-from fairseq.logging import metrics
-from fairseq.tasks import FairseqTask
 from fairseq.criterions import FairseqCriterion, register_criterion
 from fairseq.dataclass import FairseqDataclass
+from fairseq.logging import metrics
+from fairseq.tasks import FairseqTask
 from omegaconf import II
 
 

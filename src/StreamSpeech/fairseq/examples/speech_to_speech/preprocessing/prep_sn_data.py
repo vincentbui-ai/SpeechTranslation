@@ -14,8 +14,8 @@ import glob
 import os
 
 import soundfile
-
-from examples.speech_to_speech.preprocessing.data_utils import load_units, process_units
+from examples.speech_to_speech.preprocessing.data_utils import (load_units,
+                                                                process_units)
 
 
 def process(args):

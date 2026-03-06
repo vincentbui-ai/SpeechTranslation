@@ -1,12 +1,10 @@
-from pathlib import Path
-import numpy as np
 from math import ceil
+from pathlib import Path
 
+import numpy as np
 from fairseq.data.audio import rand_uniform
 from fairseq.data.audio.waveform_transforms import (
-    AudioWaveformTransform,
-    register_audio_waveform_transform,
-)
+    AudioWaveformTransform, register_audio_waveform_transform)
 
 SNR_MIN = 5.0
 SNR_MAX = 15.0

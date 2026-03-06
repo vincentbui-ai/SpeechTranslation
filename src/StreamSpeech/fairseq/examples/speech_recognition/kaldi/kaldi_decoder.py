@@ -5,19 +5,18 @@
 # This source code is licensed under the MIT license found in the
 # LICENSE file in the root directory of this source tree.
 
-from concurrent.futures import ThreadPoolExecutor
 import logging
-from omegaconf import MISSING
 import os
-import torch
-from typing import Optional
 import warnings
-
-
+from concurrent.futures import ThreadPoolExecutor
 from dataclasses import dataclass
-from fairseq.dataclass import FairseqDataclass
-from .kaldi_initializer import KaldiInitializerConfig, initalize_kaldi
+from typing import Optional
 
+import torch
+from fairseq.dataclass import FairseqDataclass
+from omegaconf import MISSING
+
+from .kaldi_initializer import KaldiInitializerConfig, initalize_kaldi
 
 logger = logging.getLogger(__name__)
 
@@ -57,14 +56,12 @@ class KaldiDecoder(object):
         try:
             from kaldi.asr import FasterRecognizer, LatticeFasterRecognizer
             from kaldi.base import set_verbose_level
-            from kaldi.decoder import (
-                FasterDecoder,
-                FasterDecoderOptions,
-                LatticeFasterDecoder,
-                LatticeFasterDecoderOptions,
-            )
-            from kaldi.lat.functions import DeterminizeLatticePhonePrunedOptions
-            from kaldi.fstext import read_fst_kaldi, SymbolTable
+            from kaldi.decoder import (FasterDecoder, FasterDecoderOptions,
+                                       LatticeFasterDecoder,
+                                       LatticeFasterDecoderOptions)
+            from kaldi.fstext import SymbolTable, read_fst_kaldi
+            from kaldi.lat.functions import \
+                DeterminizeLatticePhonePrunedOptions
         except:
             warnings.warn(
                 "pykaldi is required for this functionality. Please install from https://github.com/pykaldi/pykaldi"
@@ -191,12 +188,10 @@ class KaldiDecoder(object):
 
         if self.nbest > 1:
             from kaldi.fstext import shortestpath
-            from kaldi.fstext.utils import (
-                convert_compact_lattice_to_lattice,
-                convert_lattice_to_std,
-                convert_nbest_to_list,
-                get_linear_symbol_sequence,
-            )
+            from kaldi.fstext.utils import (convert_compact_lattice_to_lattice,
+                                            convert_lattice_to_std,
+                                            convert_nbest_to_list,
+                                            get_linear_symbol_sequence)
 
             lat = out["lattice"]
 

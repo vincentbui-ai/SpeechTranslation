@@ -1,16 +1,12 @@
-from fairseq import tasks
-import numpy as np
 import logging
-import random
-from fairseq import options
-import torch
 import os
-import soundfile as sf
+import random
 
-from fairseq.data.audio.audio_utils import (
-    get_waveform,
-    parse_path,
-)
+import numpy as np
+import soundfile as sf
+import torch
+from fairseq import options, tasks
+from fairseq.data.audio.audio_utils import get_waveform, parse_path
 
 logging.basicConfig()
 logging.root.setLevel(logging.INFO)

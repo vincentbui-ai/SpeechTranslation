@@ -5,19 +5,19 @@
 # This source code is licensed under the MIT license found in the
 # LICENSE file in the root directory of this source tree.
 
-from dataclasses import dataclass
-import hydra
-from hydra.core.config_store import ConfigStore
 import logging
-from omegaconf import MISSING, OmegaConf
 import os
 import os.path as osp
-from pathlib import Path
 import subprocess
+from dataclasses import dataclass
+from pathlib import Path
 from typing import Optional
 
+import hydra
 from fairseq.data.dictionary import Dictionary
 from fairseq.dataclass import FairseqDataclass
+from hydra.core.config_store import ConfigStore
+from omegaconf import MISSING, OmegaConf
 
 script_dir = Path(__file__).resolve().parent
 config_path = script_dir / "config"
@@ -683,9 +683,8 @@ if __name__ == "__main__":
     logging.basicConfig(level=logging.INFO)
 
     try:
-        from hydra._internal.utils import (
-            get_args,
-        )  # pylint: disable=import-outside-toplevel
+        from hydra._internal.utils import \
+            get_args  # pylint: disable=import-outside-toplevel
 
         cfg_name = get_args().config_name or "kaldi_initializer"
     except ImportError:

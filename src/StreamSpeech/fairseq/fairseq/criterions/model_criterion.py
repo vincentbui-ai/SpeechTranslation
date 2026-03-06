@@ -8,13 +8,11 @@ from dataclasses import dataclass, field
 from typing import Dict, List
 
 import torch
-
 from fairseq import utils
-from fairseq.logging import metrics
 from fairseq.criterions import FairseqCriterion, register_criterion
 from fairseq.dataclass import FairseqDataclass
+from fairseq.logging import metrics
 from fairseq.logging.meters import safe_round
-
 
 logger = logging.getLogger(__name__)
 

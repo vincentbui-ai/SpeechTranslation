@@ -8,26 +8,15 @@ from collections import namedtuple
 
 import torch
 import torch.nn as nn
-from fairseq import checkpoint_utils
-from fairseq import utils
-from fairseq.models import (
-    FairseqEncoder,
-    FairseqDecoder,
-    FairseqEncoderDecoderModel,
-    register_model,
-    register_model_architecture,
-)
+from fairseq import checkpoint_utils, utils
+from fairseq.models import (FairseqDecoder, FairseqEncoder,
+                            FairseqEncoderDecoderModel, register_model,
+                            register_model_architecture)
 from fairseq.models.fairseq_encoder import EncoderOut
-from fairseq.models.speech_to_text import (
-    TransformerDecoder,
-    S2TTransformerEncoder,
-)
+from fairseq.models.speech_to_text import (S2TTransformerEncoder,
+                                           TransformerDecoder)
 from fairseq.models.transformer import TransformerEncoder
-from fairseq.modules import (
-    TransformerEncoderLayer,
-    GradMultiply,
-    LayerNorm,
-)
+from fairseq.modules import GradMultiply, LayerNorm, TransformerEncoderLayer
 
 logger = logging.getLogger(__name__)
 

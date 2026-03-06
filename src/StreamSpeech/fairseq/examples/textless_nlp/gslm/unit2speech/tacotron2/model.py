@@ -1,11 +1,13 @@
 from math import sqrt
+
 import torch
 import torch.distributions as distr
-from torch.autograd import Variable
 from torch import nn
+from torch.autograd import Variable
 from torch.nn import functional as F
-from .layers import ConvNorm, LinearNorm, GlobalAvgPool
-from .utils import to_gpu, get_mask_from_lengths
+
+from .layers import ConvNorm, GlobalAvgPool, LinearNorm
+from .utils import get_mask_from_lengths, to_gpu
 
 
 class LocationLayer(nn.Module):

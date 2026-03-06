@@ -4,29 +4,30 @@
 # StreamSpeech: Simultaneous Speech-to-Speech Translation with Multi-task Learning (ACL 2024)
 ##########################################
 
-from simuleval.utils import entrypoint
-from simuleval.data.segments import SpeechSegment
-from simuleval.agents import SpeechToTextAgent
-from simuleval.agents.actions import WriteAction, ReadAction
-from fairseq.checkpoint_utils import load_model_ensemble_and_task
-from fairseq.models.text_to_speech.hub_interface import TTSHubInterface
-from pathlib import Path
-from typing import Any, Dict, Optional, Union
-from fairseq.data.audio.audio_utils import convert_waveform
-from examples.speech_to_text.data_utils import extract_fbank_features
 import ast
+import json
 import math
 import os
-import json
+from pathlib import Path
+from typing import Any, Dict, Optional, Union
+
 import numpy as np
 import torch
 import torchaudio.compliance.kaldi as kaldi
 import yaml
-from fairseq import checkpoint_utils, tasks, utils, options
+from examples.speech_to_text.data_utils import extract_fbank_features
+from fairseq import checkpoint_utils, options, search, tasks, utils
+from fairseq.checkpoint_utils import load_model_ensemble_and_task
+from fairseq.data.audio.audio_utils import convert_waveform
+from fairseq.data.audio.feature_transforms import \
+    CompositeAudioFeatureTransform
 from fairseq.file_io import PathManager
-from fairseq import search
-from fairseq.data.audio.feature_transforms import CompositeAudioFeatureTransform
+from fairseq.models.text_to_speech.hub_interface import TTSHubInterface
 from fairseq.models.text_to_speech.vocoder import CodeHiFiGANVocoder
+from simuleval.agents import SpeechToTextAgent
+from simuleval.agents.actions import ReadAction, WriteAction
+from simuleval.data.segments import SpeechSegment
+from simuleval.utils import entrypoint
 
 SHIFT_SIZE = 10
 WINDOW_SIZE = 25

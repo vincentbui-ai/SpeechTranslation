@@ -1,24 +1,14 @@
-from dataclasses import dataclass, field
 import os
+from dataclasses import dataclass, field
 
 import torch
 import torch.nn as nn
-
 from fairseq import utils
 from fairseq.dataclass import ChoiceEnum, FairseqDataclass
-from fairseq.models import (
-    BaseFairseqModel,
-    register_model,
-)
-
+from fairseq.models import BaseFairseqModel, register_model
 from fairseq.models.roberta.model import RobertaClassificationHead
-
-from fairseq.modules import (
-    LayerNorm,
-    TransformerSentenceEncoder,
-    TransformerSentenceEncoderLayer,
-)
-
+from fairseq.modules import (LayerNorm, TransformerSentenceEncoder,
+                             TransformerSentenceEncoderLayer)
 
 ACTIVATION_FN_CHOICES = ChoiceEnum(utils.get_available_activation_fns())
 JOINT_CLASSIFICATION_CHOICES = ChoiceEnum(["none", "sent"])

@@ -11,7 +11,6 @@ import torch.nn.functional as F
 import torch.utils.data
 import torchaudio
 
-
 EMBEDDER_PARAMS = {
     'num_mels': 40,
     'n_fft': 512,

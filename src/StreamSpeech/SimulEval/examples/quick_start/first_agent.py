@@ -5,9 +5,10 @@
 # LICENSE file in the root directory of this source tree.
 
 import random
-from simuleval.utils import entrypoint
+
 from simuleval.agents import TextToTextAgent
 from simuleval.agents.actions import ReadAction, WriteAction
+from simuleval.utils import entrypoint
 
 
 @entrypoint

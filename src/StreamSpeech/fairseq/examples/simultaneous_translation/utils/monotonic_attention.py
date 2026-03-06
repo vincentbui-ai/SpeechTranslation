@@ -1,12 +1,9 @@
 from typing import Optional
-import torch
-from torch import Tensor
 
+import torch
 from examples.simultaneous_translation.utils.functions import (
-    exclusive_cumprod,
-    prob_check,
-    moving_sum,
-)
+    exclusive_cumprod, moving_sum, prob_check)
+from torch import Tensor
 
 
 def expected_alignment_from_p_choose(
@@ -44,9 +41,11 @@ def expected_alignment_from_p_choose(
 
     if p_choose.is_cuda:
         p_choose = p_choose.contiguous()
-        from alignment_train_cuda_binding import alignment_train_cuda as alignment_train
+        from alignment_train_cuda_binding import \
+            alignment_train_cuda as alignment_train
     else:
-        from alignment_train_cpu_binding import alignment_train_cpu as alignment_train
+        from alignment_train_cpu_binding import \
+            alignment_train_cpu as alignment_train
 
     alpha = p_choose.new_zeros([bsz, tgt_len, src_len])
     alignment_train(p_choose, alpha, eps)

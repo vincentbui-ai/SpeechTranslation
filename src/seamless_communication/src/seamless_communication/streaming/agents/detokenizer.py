@@ -10,14 +10,12 @@ from typing import Any, Dict
 
 from simuleval.agents import TextToTextAgent
 from simuleval.agents.actions import Action, ReadAction, WriteAction
+from simuleval.data.segments import EmptySegment, Segment
+
 from seamless_communication.streaming.agents.common import (
-    AgentStates,
-    NoUpdateTargetMixin,
-)
-from seamless_communication.streaming.agents.online_text_decoder import (
-    UnitYTextDecoderOutput,
-)
-from simuleval.data.segments import Segment, EmptySegment
+    AgentStates, NoUpdateTargetMixin)
+from seamless_communication.streaming.agents.online_text_decoder import \
+    UnitYTextDecoderOutput
 
 
 class DetokenizerAgent(NoUpdateTargetMixin, TextToTextAgent):  # type: ignore

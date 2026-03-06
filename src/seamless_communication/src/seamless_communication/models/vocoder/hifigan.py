@@ -4,12 +4,11 @@
 # This source code is licensed under the license found in the
 # MIT_LICENSE file in the root directory of this source tree.
 
+import logging
 from typing import List, Optional
 
-import logging
 import torch
 import torch.nn.functional as F
-
 from torch import Tensor
 from torch.nn import Conv1d, ConvTranspose1d, Module, ModuleList
 from torch.nn.utils.weight_norm import remove_weight_norm, weight_norm

@@ -10,7 +10,6 @@ from collections import OrderedDict
 from typing import Dict, List, Optional
 
 import numpy as np
-
 from fairseq.data import data_utils
 
 from . import FairseqDataset

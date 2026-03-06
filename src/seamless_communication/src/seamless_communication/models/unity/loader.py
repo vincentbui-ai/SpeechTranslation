@@ -14,12 +14,11 @@ from fairseq2.models.nllb.loader import NllbTokenizerLoader
 from fairseq2.models.utils import ConfigLoader, ModelLoader
 from fairseq2.models.utils.checkpoint import convert_fairseq_checkpoint
 
-from seamless_communication.models.unity.builder import (
-    UnitYConfig,
-    create_unity_model,
-    unity_archs,
-)
-from seamless_communication.models.unity.char_tokenizer import load_unity_char_tokenizer
+from seamless_communication.models.unity.builder import (UnitYConfig,
+                                                         create_unity_model,
+                                                         unity_archs)
+from seamless_communication.models.unity.char_tokenizer import \
+    load_unity_char_tokenizer
 from seamless_communication.models.unity.model import UnitYModel
 from seamless_communication.models.unity.unit_tokenizer import UnitTokenizer
 

@@ -7,18 +7,16 @@
 from __future__ import annotations
 
 import math
-import torch
-
 from argparse import ArgumentParser, Namespace
 from typing import Any, List
 
+import torch
 from fairseq2.data.audio import WaveformToFbankConverter, WaveformToFbankInput
-
 from simuleval.agents import SpeechToSpeechAgent
 from simuleval.agents.actions import Action, ReadAction, WriteAction
 from simuleval.data.segments import Segment, SpeechSegment
-from seamless_communication.streaming.agents.common import AgentStates
 
+from seamless_communication.streaming.agents.common import AgentStates
 
 SHIFT_SIZE = 10
 WINDOW_SIZE = 25

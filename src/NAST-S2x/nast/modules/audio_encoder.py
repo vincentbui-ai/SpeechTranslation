@@ -1,20 +1,16 @@
 from typing import Dict, List
+
 import torch
-from torch import Tensor
 import torch.nn as nn
-from fairseq.models import FairseqEncoder
 from fairseq.data import Dictionary
-
-from fairseq.modules import (
-    FairseqDropout,
-    LayerNorm,Fp32LayerNorm,
-    LayerDropModuleList,
-    TransformerEncoderLayer,
-)
+from fairseq.models import FairseqEncoder
+from fairseq.modules import (FairseqDropout, Fp32LayerNorm,
+                             LayerDropModuleList, LayerNorm,
+                             TransformerEncoderLayer)
 from fairseq.modules.checkpoint_activations import checkpoint_wrapper
-
-from nast.modules.rand_pos import PositionalEmbedding
 from nast.modules.audio_convs import get_conv
+from nast.modules.rand_pos import PositionalEmbedding
+from torch import Tensor
 
 
 class AudioTransformerEncoder(FairseqEncoder):

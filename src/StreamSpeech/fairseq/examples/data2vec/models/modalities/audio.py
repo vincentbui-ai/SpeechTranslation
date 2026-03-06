@@ -3,22 +3,20 @@
 # This source code is licensed under the MIT license found in the
 # LICENSE file in the root directory of this source tree.
 
+from dataclasses import dataclass, field
 from functools import partial
+from typing import Callable, Dict, Optional
+
+import numpy as np
 import torch
 import torch.nn as nn
-import numpy as np
-from dataclasses import dataclass, field
-from typing import Callable, Dict, Optional
+from examples.data2vec.data.modality import Modality
 from fairseq.models.wav2vec import ConvFeatureExtractionModel
-from fairseq.modules import (
-    LayerNorm,
-    SamePad,
-    TransposeLast,
-)
+from fairseq.modules import LayerNorm, SamePad, TransposeLast
 from fairseq.tasks import FairseqTask
+
 from .base import D2vModalityConfig, ModalitySpecificEncoder, get_alibi_bias
 from .modules import BlockEncoder, Decoder1d
-from examples.data2vec.data.modality import Modality
 
 
 @dataclass

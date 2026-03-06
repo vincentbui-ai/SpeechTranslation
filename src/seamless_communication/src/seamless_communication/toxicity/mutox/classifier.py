@@ -5,12 +5,12 @@
 # MIT_LICENSE file in the root directory of this source tree.
 
 from dataclasses import dataclass
-import torch
-from torch import nn
-from fairseq2.typing import DataType, Device
-
-from fairseq2.models.utils.arch_registry import ArchitectureRegistry
 from typing import Optional
+
+import torch
+from fairseq2.models.utils.arch_registry import ArchitectureRegistry
+from fairseq2.typing import DataType, Device
+from torch import nn
 
 
 class MutoxClassifier(nn.Module):

@@ -4,6 +4,7 @@
 # LICENSE file in the root directory of this source tree.
 
 import unittest
+
 from tests.speech import TestFairseqSpeech
 
 S3_BASE_URL = "https://dl.fbaipublicfiles.com/fairseq/"

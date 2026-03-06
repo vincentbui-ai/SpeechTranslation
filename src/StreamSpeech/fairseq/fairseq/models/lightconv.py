@@ -9,24 +9,14 @@ from typing import Any, Dict, List, Optional, Tuple
 import torch
 import torch.nn as nn
 import torch.nn.functional as F
-
 from fairseq import utils
-from fairseq.models import (
-    FairseqEncoder,
-    FairseqEncoderDecoderModel,
-    FairseqIncrementalDecoder,
-    register_model,
-    register_model_architecture,
-)
-from fairseq.modules import (
-    AdaptiveSoftmax,
-    DynamicConv_scripatable as DynamicConv,
-    FairseqDropout,
-    LayerNorm,
-    LightweightConv,
-    MultiheadAttention,
-    PositionalEmbedding,
-)
+from fairseq.models import (FairseqEncoder, FairseqEncoderDecoderModel,
+                            FairseqIncrementalDecoder, register_model,
+                            register_model_architecture)
+from fairseq.modules import AdaptiveSoftmax
+from fairseq.modules import DynamicConv_scripatable as DynamicConv
+from fairseq.modules import (FairseqDropout, LayerNorm, LightweightConv,
+                             MultiheadAttention, PositionalEmbedding)
 from fairseq.utils import safe_hasattr
 from torch import Tensor
 

@@ -12,15 +12,17 @@ from typing import Any, Optional
 import torch
 import torch.nn as nn
 import torch.nn.functional as F
-from omegaconf import II, MISSING, open_dict
-
 from fairseq import checkpoint_utils, tasks, utils
 from fairseq.dataclass import ChoiceEnum, FairseqDataclass
 from fairseq.dataclass.utils import convert_namespace_to_omegaconf
 from fairseq.models import BaseFairseqModel, FairseqEncoder, register_model
-from fairseq.models.wav2vec.wav2vec2 import MASKING_DISTRIBUTION_CHOICES, Wav2Vec2Config
-from fairseq.models.wav2vec.wav2vec2_asr import Embedding, Linear, Wav2VecEncoder, Wav2Vec2AsrConfig
+from fairseq.models.wav2vec.wav2vec2 import (MASKING_DISTRIBUTION_CHOICES,
+                                             Wav2Vec2Config)
+from fairseq.models.wav2vec.wav2vec2_asr import (Embedding, Linear,
+                                                 Wav2Vec2AsrConfig,
+                                                 Wav2VecEncoder)
 from fairseq.tasks import FairseqTask
+from omegaconf import II, MISSING, open_dict
 
 logging.basicConfig(level=logging.DEBUG)
 

@@ -3,9 +3,10 @@
 # This source code is licensed under the MIT license found in the
 # LICENSE file in the root directory of this source tree.
 
-import torch.nn as nn
-import torch
 import sys
+
+import torch
+import torch.nn as nn
 from fairseq import utils
 from fairseq.distributed import utils as distributed_utils
 from fairseq.modules.layer_norm import LayerNorm

@@ -1,7 +1,6 @@
 # Copyright (c) Facebook, Inc. All Rights Reserved
 
 import numpy as np
-
 from torch.utils.data.sampler import Sampler
 
 

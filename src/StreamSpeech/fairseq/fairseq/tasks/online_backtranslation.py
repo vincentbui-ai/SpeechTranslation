@@ -8,30 +8,21 @@ import json
 import logging
 import math
 import os
-from argparse import Namespace
+from argparse import ArgumentError, Namespace
 from collections import OrderedDict, defaultdict
 from pathlib import Path
 from typing import Dict, Sequence, Tuple
-from argparse import ArgumentError
 
+import fairseq
 import numpy as np
 import torch
 import torch.nn as nn
 import torch.nn.functional as F
-
-import fairseq
 from fairseq import options, utils
+from fairseq.data import (FairseqDataset, LanguagePairDataset, NoisingDataset,
+                          PrependTokenDataset, RoundRobinZipDatasets,
+                          TransformEosLangPairDataset, data_utils, encoders)
 from fairseq.logging import metrics
-from fairseq.data import (
-    FairseqDataset,
-    LanguagePairDataset,
-    NoisingDataset,
-    PrependTokenDataset,
-    RoundRobinZipDatasets,
-    TransformEosLangPairDataset,
-    data_utils,
-    encoders,
-)
 from fairseq.sequence_generator import SequenceGenerator
 from fairseq.tasks import register_task
 from fairseq.tasks.translation import TranslationTask, load_langpair_dataset

@@ -1,9 +1,9 @@
-from ggml import ffi, lib
-from ggml.utils import init, numpy, copy
-import numpy as np
-from math import pi, cos, sin, ceil
+from math import ceil, cos, pi, sin
 
 import matplotlib.pyplot as plt
+import numpy as np
+from ggml import ffi, lib
+from ggml.utils import copy, init, numpy
 
 ctx = init(mem_size=100*1024*1024) # Will be auto-GC'd
 n = 256

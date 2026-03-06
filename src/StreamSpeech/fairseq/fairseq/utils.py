@@ -716,7 +716,6 @@ def get_tpu_device():
 def tpu_data_loader(itr):
     import torch_xla.core.xla_model as xm
     import torch_xla.distributed.parallel_loader as pl
-
     from fairseq.data import iterators
 
     xm.rendezvous("tpu_data_loader")  # wait for all workers
@@ -894,8 +893,9 @@ def hotreload_function(name=None):
     except ImportError as e:
         logger.warning("Please install jurigged: pip install jurigged[develoop]")
         raise e
-    from fairseq.distributed import utils as distributed_utils
     import traceback
+
+    from fairseq.distributed import utils as distributed_utils
 
     def hotreload_decorator(func):
         assert callable(func), f"not callable: {func}"

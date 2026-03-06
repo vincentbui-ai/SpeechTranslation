@@ -1,6 +1,7 @@
-from valids import parser, main as valids_main
 import os.path as osp
 
+from valids import main as valids_main
+from valids import parser
 
 args = parser.parse_args()
 args.target = "valid_accuracy"

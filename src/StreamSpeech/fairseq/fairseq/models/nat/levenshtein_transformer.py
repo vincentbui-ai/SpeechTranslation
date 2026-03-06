@@ -8,21 +8,15 @@ import torch.nn as nn
 import torch.nn.functional as F
 from fairseq.iterative_refinement_generator import DecoderOut
 from fairseq.models import register_model, register_model_architecture
-from fairseq.models.nat import FairseqNATDecoder, FairseqNATModel, ensemble_decoder
+from fairseq.models.nat import (FairseqNATDecoder, FairseqNATModel,
+                                ensemble_decoder)
 from fairseq.models.transformer import Embedding
 from fairseq.modules import TransformerDecoderLayer
 from fairseq.modules.transformer_sentence_encoder import init_bert_params
 
-from .levenshtein_utils import (
-    _apply_del_words,
-    _apply_ins_masks,
-    _apply_ins_words,
-    _fill,
-    _get_del_targets,
-    _get_ins_targets,
-    _skip,
-    _skip_encoder_out,
-)
+from .levenshtein_utils import (_apply_del_words, _apply_ins_masks,
+                                _apply_ins_words, _fill, _get_del_targets,
+                                _get_ins_targets, _skip, _skip_encoder_out)
 
 
 @register_model("levenshtein_transformer")

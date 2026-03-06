@@ -3,8 +3,9 @@
 # This source code is licensed under the MIT license found in the
 # LICENSE file in the root directory of this source tree.
 
+from fairseq.modules import TransformerDecoderLayer, TransformerEncoderLayer
 from fairseq.utils import safe_getattr
-from fairseq.modules import TransformerEncoderLayer, TransformerDecoderLayer
+
 from ..modules.multihead_attention_selection import MultiheadAttentionSelection
 
 

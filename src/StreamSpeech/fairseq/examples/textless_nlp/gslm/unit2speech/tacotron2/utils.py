@@ -6,13 +6,15 @@
 import collections
 import io
 import json
+import time
+
 import librosa
 import numpy as np
 import soundfile as sf
-import time
 import torch
 from scipy.io.wavfile import read
-from .text import SOS_TOK, EOS_TOK
+
+from .text import EOS_TOK, SOS_TOK
 
 
 def get_mask_from_lengths(lengths):

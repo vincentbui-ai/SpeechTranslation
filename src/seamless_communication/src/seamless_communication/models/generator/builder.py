@@ -12,35 +12,24 @@ from fairseq2.models.utils.arch_registry import ArchitectureRegistry
 from fairseq2.nn.embedding import StandardEmbedding, init_scaled_embedding
 from fairseq2.nn.position_encoder import SinusoidalPositionEncoder
 from fairseq2.nn.projection import Linear
-from fairseq2.nn.transformer import (
-    MultiheadAttention,
-    StandardMultiheadAttention,
-    TransformerNormOrder,
-    create_default_sdpa,
-)
+from fairseq2.nn.transformer import (MultiheadAttention,
+                                     StandardMultiheadAttention,
+                                     TransformerNormOrder, create_default_sdpa)
 from fairseq2.typing import DataType, Device
 from torch.nn import Conv1d
 
 from seamless_communication.models.generator.ecapa_tdnn_builder import (
-    EcapaTDNNBuilder,
-    EcapaTDNNConfig,
-    ecapa_tdnn_archs,
-)
+    EcapaTDNNBuilder, EcapaTDNNConfig, ecapa_tdnn_archs)
 from seamless_communication.models.generator.vocoder import (
-    PretsselDecoderFrontend,
-    PretsselEncoderFrontend,
-    PretsselVocoder,
-)
-from seamless_communication.models.unity.fft_decoder import FeedForwardTransformer
+    PretsselDecoderFrontend, PretsselEncoderFrontend, PretsselVocoder)
+from seamless_communication.models.unity.fft_decoder import \
+    FeedForwardTransformer
 from seamless_communication.models.unity.fft_decoder_layer import (
-    Conv1dBlock,
-    FeedForwardTransformerLayer,
-)
+    Conv1dBlock, FeedForwardTransformerLayer)
 from seamless_communication.models.unity.length_regulator import (
-    VarianceAdaptor,
-    VariancePredictor,
-)
-from seamless_communication.models.unity.t2u_builder import VariancePredictorConfig
+    VarianceAdaptor, VariancePredictor)
+from seamless_communication.models.unity.t2u_builder import \
+    VariancePredictorConfig
 
 
 @dataclass

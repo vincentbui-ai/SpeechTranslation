@@ -4,11 +4,12 @@
 # LICENSE file in the root directory of this source tree.
 
 
-from collections import defaultdict
-import numpy as np
-from misc.bleu_utils import sentence_bleu
 import json
 import warnings
+from collections import defaultdict
+
+import numpy as np
+from misc.bleu_utils import sentence_bleu
 
 
 def get_args():

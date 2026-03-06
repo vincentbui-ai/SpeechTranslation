@@ -6,13 +6,12 @@
 
 import random
 from statistics import mean
-from simuleval.utils import entrypoint
-from simuleval.evaluator.scorers.latency_scorer import (
-    register_latency_scorer,
-    LatencyScorer,
-)
+
 from simuleval.agents import TextToTextAgent
 from simuleval.agents.actions import ReadAction, WriteAction
+from simuleval.evaluator.scorers.latency_scorer import (
+    LatencyScorer, register_latency_scorer)
+from simuleval.utils import entrypoint
 
 
 @register_latency_scorer("RTF")

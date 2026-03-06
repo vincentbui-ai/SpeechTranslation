@@ -4,7 +4,8 @@
 # This source code is licensed under the license found in the
 # MIT_LICENSE file in the root directory of this source tree.
 
-from typing import Any, Dict, Optional, List, Union
+from typing import Any, Dict, List, Optional, Union
+
 import torch
 from torch import Tensor
 from torch.nn import Module

@@ -3,10 +3,11 @@
 # This source code is licensed under the MIT license found in the
 # LICENSE file in the root directory of this source tree.
 
-import numpy as np
-import nltk
-from misc.bleu_utils import sentence_bleu
 import warnings
+
+import nltk
+import numpy as np
+from misc.bleu_utils import sentence_bleu
 
 
 def get_target_sequences(manifest, ground_truth, to_take=1000):

@@ -10,18 +10,11 @@ from typing import Any, Dict, List, Literal, Optional, Tuple, TypeVar
 
 import torch
 from fairseq2.typing import DataType, Device
-from torch.nn import (
-    ELU,
-    LSTM,
-    Conv1d,
-    ConvTranspose1d,
-    GroupNorm,
-    Identity,
-    Module,
-    Sequential,
-)
+from torch.nn import (ELU, LSTM, Conv1d, ConvTranspose1d, GroupNorm, Identity,
+                      Module, Sequential)
 from torch.nn import functional as F
-from torch.nn.utils import spectral_norm, weight_norm  # type: ignore[attr-defined]
+from torch.nn.utils import spectral_norm  # type: ignore[attr-defined]
+from torch.nn.utils import weight_norm
 
 CONV_NORMALIZATIONS = frozenset(
     ["none", "weight_norm", "spectral_norm", "time_group_norm"]

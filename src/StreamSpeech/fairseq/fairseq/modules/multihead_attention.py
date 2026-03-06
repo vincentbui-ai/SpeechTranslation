@@ -20,9 +20,10 @@ except ImportError:
     _xformers_available = False
 
 from fairseq import utils
+from fairseq.models.fairseq_incremental_decoder import \
+    FairseqIncrementalDecoder
 from fairseq.modules.fairseq_dropout import FairseqDropout
 from fairseq.modules.quant_noise import quant_noise
-from fairseq.models.fairseq_incremental_decoder import FairseqIncrementalDecoder
 
 
 # TODO: move this into xformers?

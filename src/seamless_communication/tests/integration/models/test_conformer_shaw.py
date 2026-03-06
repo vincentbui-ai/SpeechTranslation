@@ -5,17 +5,12 @@
 # LICENSE file in the root directory of this source tree.
 
 import torch
-
 from fairseq2.data.audio import AudioDecoderOutput
 from fairseq2.nn.padding import get_seqs_and_padding_mask
 
-from seamless_communication.models.conformer_shaw import load_conformer_shaw_model
-
-from tests.common import (
-    convert_to_collated_fbank,
-    get_default_dtype,
-    device,
-)
+from seamless_communication.models.conformer_shaw import \
+    load_conformer_shaw_model
+from tests.common import convert_to_collated_fbank, device, get_default_dtype
 
 REF_MEAN, REF_STD = -0.0001, 0.1547
 

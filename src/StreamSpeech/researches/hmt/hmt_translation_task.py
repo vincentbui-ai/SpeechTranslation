@@ -3,33 +3,27 @@
 # This source code is licensed under the MIT license found in the
 # LICENSE file in the root directory of this source tree.
 
-from dataclasses import dataclass, field
 import itertools
 import json
 import logging
 import os
-from typing import Optional
 from argparse import Namespace
-from omegaconf import II
+from dataclasses import dataclass, field
+from typing import Optional
+
 import numpy as np
-from fairseq import metrics, utils, search
-from fairseq.data import (
-    AppendTokenDataset,
-    ConcatDataset,
-    LanguagePairDataset,
-    PrependTokenDataset,
-    StripTokenDataset,
-    TruncateDataset,
-    data_utils,
-    encoders,
-    indexed_dataset,
-)
+from fairseq import metrics, search, utils
+from fairseq.data import (AppendTokenDataset, ConcatDataset,
+                          LanguagePairDataset, PrependTokenDataset,
+                          StripTokenDataset, TruncateDataset, data_utils,
+                          encoders, indexed_dataset)
 from fairseq.data.indexed_dataset import get_available_dataset_impl
 from fairseq.dataclass import ChoiceEnum, FairseqDataclass
 from fairseq.tasks import FairseqTask, register_task
+from omegaconf import II
+
 from .hmt_sequence_generator import HmtSequenceGenerator
 from .hmt_sim_sequence_generator import HmtSimSequenceGenerator
-
 
 EVAL_BLEU_ORDER = 4
 
@@ -536,10 +530,8 @@ class HmtTranslationTask(FairseqTask):
                 compute_alignment=getattr(args, "print_alignment", False),
             )
 
-        from fairseq.sequence_generator import (
-            SequenceGenerator,
-            SequenceGeneratorWithAlignment,
-        )
+        from fairseq.sequence_generator import (SequenceGenerator,
+                                                SequenceGeneratorWithAlignment)
 
         # Choose search strategy. Defaults to Beam Search.
         sampling = getattr(args, "sampling", False)

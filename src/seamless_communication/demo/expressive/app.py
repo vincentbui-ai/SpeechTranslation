@@ -8,31 +8,26 @@
 import os
 import pathlib
 import tempfile
+from typing import Tuple
 
 import gradio as gr
 import torch
 import torchaudio
 from fairseq2.assets import InProcAssetMetadataProvider, asset_store
 from fairseq2.data import Collater
-from fairseq2.data.audio import (
-    AudioDecoder,
-    WaveformToFbankConverter,
-    WaveformToFbankOutput,
-)
-
-from seamless_communication.inference import SequenceGeneratorOptions
+from fairseq2.data.audio import (AudioDecoder, WaveformToFbankConverter,
+                                 WaveformToFbankOutput)
 from fairseq2.generation import NGramRepeatBlockProcessor
 from fairseq2.memory import MemoryBlock
 from huggingface_hub import snapshot_download
-from seamless_communication.inference import Translator, SequenceGeneratorOptions
-from seamless_communication.models.unity import (
-    load_gcmvn_stats,
-    load_unity_unit_tokenizer,
-)
-from seamless_communication.cli.expressivity.predict.pretssel_generator import PretsselGenerator
-
-from typing import Tuple
 from utils import LANGUAGE_CODE_TO_NAME
+
+from seamless_communication.cli.expressivity.predict.pretssel_generator import \
+    PretsselGenerator
+from seamless_communication.inference import (SequenceGeneratorOptions,
+                                              Translator)
+from seamless_communication.models.unity import (load_gcmvn_stats,
+                                                 load_unity_unit_tokenizer)
 
 DESCRIPTION = """\
 # Seamless Expressive

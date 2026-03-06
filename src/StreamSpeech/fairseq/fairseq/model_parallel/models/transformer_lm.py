@@ -4,8 +4,8 @@
 # LICENSE file in the root directory of this source tree.
 
 import torch.nn as nn
-
-from fairseq.model_parallel.models.transformer import ModelParallelTransformerDecoder
+from fairseq.model_parallel.models.transformer import \
+    ModelParallelTransformerDecoder
 from fairseq.models import register_model, register_model_architecture
 from fairseq.models.transformer_lm import TransformerLanguageModel
 

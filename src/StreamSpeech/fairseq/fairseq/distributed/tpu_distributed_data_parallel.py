@@ -4,9 +4,8 @@
 # LICENSE file in the root directory of this source tree.
 
 import torch
-from torch import nn
-
 from fairseq.distributed import utils
+from torch import nn
 
 
 class TPUDistributedDataParallel(nn.Module):

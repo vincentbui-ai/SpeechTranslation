@@ -5,14 +5,17 @@
 # LICENSE file in the root directory of this source tree.
 
 from __future__ import annotations
+
+from argparse import Namespace
 from pathlib import Path
 from typing import List, Union
-from .dataloader import GenericDataloader
-from simuleval.data.dataloader import register_dataloader
-from argparse import Namespace
-from urllib.parse import urlparse, parse_qs
+from urllib.parse import parse_qs, urlparse
+
 import yt_dlp as youtube_dl
 from pydub import AudioSegment
+from simuleval.data.dataloader import register_dataloader
+
+from .dataloader import GenericDataloader
 
 try:
     import soundfile

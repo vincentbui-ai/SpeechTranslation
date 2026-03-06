@@ -4,29 +4,31 @@
 # LICENSE file in the root directory of this source tree.
 
 import argparse
+import csv
 import logging
 import os
-import csv
 import tempfile
 from collections import defaultdict
 from pathlib import Path
 
 import torchaudio
+
 try:
     import webrtcvad
 except ImportError:
     raise ImportError("Please install py-webrtcvad: pip install webrtcvad")
-import pandas as pd
-from tqdm import tqdm
-
-from examples.speech_synthesis.preprocessing.denoiser.pretrained import master64
 import examples.speech_synthesis.preprocessing.denoiser.utils as utils
-from examples.speech_synthesis.preprocessing.vad import (
-    frame_generator, vad_collector, read_wave, write_wave, FS_MS, THRESHOLD,
-    SCALE
-)
+import pandas as pd
+from examples.speech_synthesis.preprocessing.denoiser.pretrained import \
+    master64
+from examples.speech_synthesis.preprocessing.vad import (FS_MS, SCALE,
+                                                         THRESHOLD,
+                                                         frame_generator,
+                                                         read_wave,
+                                                         vad_collector,
+                                                         write_wave)
 from examples.speech_to_text.data_utils import save_df_to_tsv
-
+from tqdm import tqdm
 
 log = logging.getLogger(__name__)
 

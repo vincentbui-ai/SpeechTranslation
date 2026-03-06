@@ -13,7 +13,8 @@ import torch
 import torchaudio
 from fairseq2.generation import NGramRepeatBlockProcessor
 
-from seamless_communication.inference import SequenceGeneratorOptions, Translator
+from seamless_communication.inference import (SequenceGeneratorOptions,
+                                              Translator)
 
 logging.basicConfig(
     level=logging.INFO,

@@ -7,16 +7,12 @@
 from typing import Optional
 
 import torch
-
 from fairseq.modules import LayerNorm
-from uni_unity.modules.multihead_attention import MultiheadAttention
-from uni_unity.modules.espnet_multihead_attention import (
-    ESPNETMultiHeadedAttention,
-    RelPositionMultiHeadedAttention,
-    RotaryPositionMultiHeadedAttention,
-)
-
 from fairseq.utils import get_activation_fn
+from uni_unity.modules.espnet_multihead_attention import (
+    ESPNETMultiHeadedAttention, RelPositionMultiHeadedAttention,
+    RotaryPositionMultiHeadedAttention)
+from uni_unity.modules.multihead_attention import MultiheadAttention
 
 
 class ConvolutionModule(torch.nn.Module):

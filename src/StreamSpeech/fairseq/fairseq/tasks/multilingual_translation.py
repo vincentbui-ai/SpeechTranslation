@@ -6,23 +6,18 @@
 import contextlib
 import logging
 import os
-from collections import OrderedDict
 from argparse import ArgumentError
+from collections import OrderedDict
 
 import torch
 from fairseq import options, utils
+from fairseq.data import (Dictionary, LanguagePairDataset,
+                          RoundRobinZipDatasets, TransformEosLangPairDataset)
 from fairseq.logging import metrics
-from fairseq.data import (
-    Dictionary,
-    LanguagePairDataset,
-    RoundRobinZipDatasets,
-    TransformEosLangPairDataset,
-)
 from fairseq.models import FairseqMultiModel
 from fairseq.tasks.translation import load_langpair_dataset
 
 from . import LegacyFairseqTask, register_task
-
 
 logger = logging.getLogger(__name__)
 

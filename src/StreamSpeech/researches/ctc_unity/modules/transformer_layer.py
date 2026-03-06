@@ -8,14 +8,13 @@ from typing import Dict, List, Optional
 
 import torch
 import torch.nn as nn
-from torch import Tensor
-
+from ctc_unity.modules.multihead_attention import MultiheadAttention
 from fairseq import utils
 from fairseq.models.transformer import TransformerConfig
 from fairseq.modules import LayerNorm
-from ctc_unity.modules.multihead_attention import MultiheadAttention
 from fairseq.modules.fairseq_dropout import FairseqDropout
 from fairseq.modules.quant_noise import quant_noise
+from torch import Tensor
 
 
 class TransformerEncoderLayerBase(nn.Module):

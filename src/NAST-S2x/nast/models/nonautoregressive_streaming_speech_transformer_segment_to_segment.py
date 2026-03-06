@@ -3,31 +3,31 @@
 # This source code is licensed under the MIT license found in the
 # LICENSE file in the root directory of this source tree.
 
+import logging
+import math
+from collections import Counter
+from typing import Any, Dict, List, Optional, Union
+
 import torch
 import torch.nn.functional as F
+from fairseq import checkpoint_utils, utils
+from fairseq.distributed import fsdp_wrap
+from fairseq.models import register_model, register_model_architecture
+from fairseq.models.nat import (FairseqNATDecoder, FairseqNATModel,
+                                ensemble_decoder)
+from fairseq.modules.checkpoint_activations import checkpoint_wrapper
+from fairseq.modules.transformer_layer import TransformerDecoderLayerBase
+from fairseq.modules.transformer_sentence_encoder import init_bert_params
+from nast.generators.s2t_nat_generator import DecoderOut
+from nast.models.torch_imputer import best_alignment
 from torch import Tensor
 
-from fairseq import utils
-from nast.generators.s2t_nat_generator import DecoderOut
-from fairseq.models import register_model, register_model_architecture
-from fairseq.models.nat import FairseqNATDecoder, FairseqNATModel, ensemble_decoder
-from fairseq.modules.transformer_sentence_encoder import init_bert_params
-from fairseq.modules.transformer_layer import TransformerDecoderLayerBase
-from fairseq.modules.checkpoint_activations import checkpoint_wrapper
-from fairseq.distributed import fsdp_wrap
-from fairseq import checkpoint_utils
-
-from typing import Union, Optional, Dict, List, Any
-from nast.models.torch_imputer import best_alignment
-from collections import Counter
-import math
-import logging
 logger = logging.getLogger(__name__)
 
 from pathlib import Path
 
-from ..modules.unidirectional_encoder import UnidirectionalAudioTransformerEncoder
-
+from ..modules.unidirectional_encoder import \
+    UnidirectionalAudioTransformerEncoder
 
 DEFAULT_MAX_TEXT_POSITIONS = 1024
 DEFAULT_MAX_AUDIO_POSITIONS = 6000

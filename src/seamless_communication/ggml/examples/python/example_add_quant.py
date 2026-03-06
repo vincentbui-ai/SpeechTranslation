@@ -1,6 +1,6 @@
-from ggml import lib, ffi
-from ggml.utils import init, copy, numpy
 import numpy as np
+from ggml import ffi, lib
+from ggml.utils import copy, init, numpy
 
 ctx = init(mem_size=12*1024*1024) # automatically freed when pointer is GC'd
 n = 256

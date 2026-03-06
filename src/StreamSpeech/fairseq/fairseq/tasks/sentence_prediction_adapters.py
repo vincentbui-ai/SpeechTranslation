@@ -3,17 +3,13 @@
 # This source code is licensed under the MIT license found in the
 # LICENSE file in the root directory of this source tree.
 
+import contextlib
 import logging
 
-import contextlib
-from omegaconf import open_dict, OmegaConf
-
 from fairseq.tasks import register_task
-from fairseq.tasks.sentence_prediction import (
-    SentencePredictionTask,
-    SentencePredictionConfig,
-)
-
+from fairseq.tasks.sentence_prediction import (SentencePredictionConfig,
+                                               SentencePredictionTask)
+from omegaconf import OmegaConf, open_dict
 
 logger = logging.getLogger(__name__)
 

@@ -9,15 +9,12 @@ from typing import Optional
 
 from fairseq import utils
 from fairseq.dataclass import ChoiceEnum, FairseqDataclass
-from fairseq.models import (
-    FairseqLanguageModel,
-    register_model,
-    register_model_architecture,
-)
+from fairseq.models import (FairseqLanguageModel, register_model,
+                            register_model_architecture)
 from fairseq.models.transformer import Embedding
-from .modules.speech_dlm_decoder import CrossChannelTransformerDecoder
 from omegaconf import II
 
+from .modules.speech_dlm_decoder import CrossChannelTransformerDecoder
 
 DEFAULT_MAX_TARGET_POSITIONS = 1024
 
@@ -209,6 +206,7 @@ class SpeechDLM(FairseqLanguageModel):
                 model archive path.
         """
         from fairseq import hub_utils
+
         from .hub_interface import MultichannelGeneratorHubInterface
 
         x = hub_utils.from_pretrained(

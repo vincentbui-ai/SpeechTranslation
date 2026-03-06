@@ -11,8 +11,10 @@ from omegaconf import OmegaConf
 
 log = logging.getLogger(__name__)
 
+from hydra_plugins.hydra_submitit_launcher.submitit_launcher import \
+    BaseSubmititLauncher
+
 from .config import DependencySubmititConf
-from hydra_plugins.hydra_submitit_launcher.submitit_launcher import BaseSubmititLauncher
 
 
 class DependencySubmititLauncher(BaseSubmititLauncher):

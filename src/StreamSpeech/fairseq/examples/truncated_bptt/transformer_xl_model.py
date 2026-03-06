@@ -9,14 +9,10 @@ from typing import Dict, List, Optional
 
 import torch
 from fairseq.dataclass import FairseqDataclass
-from fairseq.models import (
-    FairseqIncrementalDecoder,
-    FairseqLanguageModel,
-    register_model,
-)
+from fairseq.models import (FairseqIncrementalDecoder, FairseqLanguageModel,
+                            register_model)
 from fairseq.modules.checkpoint_activations import checkpoint_wrapper
 from omegaconf import II
-
 
 logger = logging.getLogger(__name__)
 
@@ -51,10 +47,8 @@ class TransformerXLLanguageModel(FairseqLanguageModel):
 class TransformerXLDecoder(FairseqIncrementalDecoder):
     def __init__(self, cfg, task):
         try:
-            from transformers.models.transfo_xl import (
-                TransfoXLConfig,
-                TransfoXLLMHeadModel,
-            )
+            from transformers.models.transfo_xl import (TransfoXLConfig,
+                                                        TransfoXLLMHeadModel)
         except ImportError:
             from transformers.configuration_transfo_xl import TransfoXLConfig
             from transformers.modeling_transfo_xl import TransfoXLLMHeadModel

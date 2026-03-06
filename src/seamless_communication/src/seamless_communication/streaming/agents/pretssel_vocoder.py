@@ -13,16 +13,16 @@ from typing import Any, Dict, List
 import torch
 from fairseq2.assets import asset_store
 from fairseq2.data.audio import WaveformToFbankConverter, WaveformToFbankInput
-from seamless_communication.models.generator.loader import load_pretssel_vocoder_model
-from seamless_communication.models.unity import load_gcmvn_stats
-from seamless_communication.store import add_gated_assets
-from seamless_communication.streaming.agents.common import (
-    AgentStates,
-    NoUpdateTargetMixin,
-)
 from simuleval.agents import TextToSpeechAgent
 from simuleval.agents.actions import ReadAction, WriteAction
 from simuleval.data.segments import SpeechSegment
+
+from seamless_communication.models.generator.loader import \
+    load_pretssel_vocoder_model
+from seamless_communication.models.unity import load_gcmvn_stats
+from seamless_communication.store import add_gated_assets
+from seamless_communication.streaming.agents.common import (
+    AgentStates, NoUpdateTargetMixin)
 
 logging.basicConfig(
     level=logging.INFO,

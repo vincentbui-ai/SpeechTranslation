@@ -4,26 +4,18 @@
 # LICENSE file in the root directory of this source tree.
 
 import logging
-
-from typing import OrderedDict
 from pathlib import Path
-from fairseq import checkpoint_utils
-from fairseq.models import (
-    FairseqEncoderModel,
-    FairseqLanguageModel,
-    register_model,
-    register_model_architecture,
-)
-from fairseq.models.speech_to_speech.s2s_conformer_unity import (
-    UnityConformerModel,
-    unity_conformer_architecture_base,
-)
+from typing import OrderedDict
 
-from fairseq.models.transformer import (
-    TransformerEncoderBase,
-)
-from fairseq.models.speech_to_speech.s2s_transformer import S2STransformerEncoder
+from fairseq import checkpoint_utils
+from fairseq.models import (FairseqEncoderModel, FairseqLanguageModel,
+                            register_model, register_model_architecture)
+from fairseq.models.speech_to_speech.s2s_conformer_unity import (
+    UnityConformerModel, unity_conformer_architecture_base)
+from fairseq.models.speech_to_speech.s2s_transformer import \
+    S2STransformerEncoder
 from fairseq.models.speech_to_text.s2t_transformer import S2TTransformerEncoder
+from fairseq.models.transformer import TransformerEncoderBase
 
 logger = logging.getLogger(__name__)
 

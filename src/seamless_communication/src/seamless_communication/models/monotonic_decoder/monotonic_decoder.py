@@ -11,18 +11,15 @@ from fairseq2.nn.incremental_state import IncrementalStateBag
 from fairseq2.nn.module_list import ModuleList
 from fairseq2.nn.normalization import LayerNorm
 from fairseq2.nn.padding import PaddingMask
-from fairseq2.nn.transformer import (
-    AttentionMaskFactory,
-    CausalAttentionMaskFactory,
-    create_standard_layer_norm,
-)
+from fairseq2.nn.transformer import (AttentionMaskFactory,
+                                     CausalAttentionMaskFactory,
+                                     create_standard_layer_norm)
 from fairseq2.typing import DataType, Device, finaloverride
 from torch import Tensor
 from torch.nn import Module
 
-from seamless_communication.models.monotonic_decoder.monotonic_decoder_layer import (
-    MonotonicTransformerDecoderLayer,
-)
+from seamless_communication.models.monotonic_decoder.monotonic_decoder_layer import \
+    MonotonicTransformerDecoderLayer
 
 
 @final

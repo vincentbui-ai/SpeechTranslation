@@ -1,97 +1,147 @@
+import glob
+import itertools
 import json
+import os
+
+import hydra
+import torch
+import torch.distributed as dist
+import torchaudio
+from hydra.utils import instantiate
+from omegaconf import DictConfig
 from tqdm import tqdm
-from concurrent.futures import ThreadPoolExecutor
 
-from src.llm import GeminiLLM
+from seamless_communication.inference import Translator
 
-# Config
-MODEL_NAME = "gemini-2.0-flash"
-TEMPERATURE = 0
-MAX_OUTPUT_TOKENS = 2048
-TOP_P = 0.95
-TOP_K = 20
-BATCH_SIZE = 8
-THREADS = 64
+TARGET_SR = 16_000
+LANG_MAP = {
+    "English":    "eng",
+    "Vietnamese": "vie",
+    "eng":        "eng",
+    "vie":        "vie",
+}
 
 
-def process_batch(batch_data, model: GeminiLLM):
-    """Translates a batch of records using ori_lang -> tgt_lang direction."""
-    ori_lang = batch_data[0]["ori_lang"]
-    tgt_lang = batch_data[0]["tgt_lang"]
-    transcripts = [item["ori_text"] for item in batch_data]
+def load_dataset(path: str) -> list[dict]:
+    if os.path.isdir(path):
+        files = glob.glob(os.path.join(path, "**/*.jsonl"), recursive=True)
+    else:
+        files = [path]
 
-    prompt = (
-        f"Translate these {ori_lang} lines to {tgt_lang}. "
-        f"Follow these transcription rules strictly in the output:\n"
-        f"1. Numbers must be spelled out in words, not written as numerals "
-        f"(e.g. '2017' -> 'two thousand and seventeen').\n"
-        f"2. Acronyms must be written as they are normally written in {tgt_lang}, "
-        f"following standard capitalization rules. Do NOT transcribe them phonetically "
-        f"(e.g. 'F B I' -> 'FBI').\n"
-        f"3. Use punctuation appropriate for written {tgt_lang}. "
-        f"Capitalize the beginning of new sentences.\n"
-        f"4. Currency symbols, percentages and other symbols must be spelled out "
-        f"(e.g. '$10' -> 'ten dollars', '5%' -> 'five percent').\n"
-        f"Return ONLY a JSON list of strings with the same number of elements as the input: "
-        f"{json.dumps(transcripts, ensure_ascii=False)}"
+    samples = []
+    for fp in files:
+        with open(fp, encoding="utf-8") as f:
+            for line in f:
+                samples.append(json.loads(line))
+    return samples
+
+
+def load_audio(filepath: str) -> tuple[torch.Tensor, int]:
+    filepath = filepath.replace("/raid/voice/khanhnd65/ultimate_testset/", "/data/")
+    wav, sr = torchaudio.load(filepath)
+    if sr != TARGET_SR:
+        wav = torchaudio.functional.resample(wav, sr, TARGET_SR)
+    if wav.shape[0] > 1:
+        wav = wav.mean(0, keepdim=True)
+    return wav.squeeze(0), TARGET_SR
+
+
+def pad_batch(wavs: list[torch.Tensor]) -> torch.Tensor:
+    max_len = max(w.shape[0] for w in wavs)
+    return torch.stack([
+        torch.nn.functional.pad(w, (0, max_len - w.shape[0]))
+        for w in wavs
+    ])
+
+
+@hydra.main(version_base=None, config_path="../config/test", config_name="s2tt")
+def main(config: DictConfig) -> None:
+
+    dist.init_process_group("nccl")
+    rank       = dist.get_rank()
+    world_size = dist.get_world_size()
+
+    device = rank % torch.cuda.device_count()
+    dtype  = torch.float16
+
+    translator = Translator(
+        config.model_name,
+        config.vocoder_name,
+        torch.device(f"cuda:{device}"),
+        dtype=dtype,
     )
 
-    try:
-        response = model.generate_content(prompt)
-        raw_content = response.text.strip()
-        clean_json = raw_content.replace("```json", "").replace("```", "").strip()
-        translated_list = json.loads(clean_json)
+    dataset = load_dataset(config.testset)
 
-        for i, item in enumerate(batch_data):
-            item["tgt_text"] = (
-                translated_list[i] if i < len(translated_list) else "ERROR: Missing"
-            )
+    indices = list(range(len(dataset)))
+    indices = indices[rank::world_size]
 
-    except Exception as e:
-        for item in batch_data:
-            item["tgt_text"] = f"BATCH_ERROR: {str(e)}"
+    indices = [
+        indices[i: i + config.batch_size]
+        for i in range(0, len(indices), config.batch_size)
+    ]
+    indices = indices if rank != 0 else tqdm(indices, desc=f"[GPU {rank}] Inference", unit="batch")
 
-    return batch_data
+    results = []
+    for idx in indices:
+        datas    = [dataset[i] for i in idx]
+        paths    = [d["audio_filepath"] for d in datas]
+        refs     = [d.get("tgt_text", "") for d in datas]
+        ori_texts = [d.get("ori_text", "") for d in datas]
+        src_langs = [LANG_MAP.get(d.get("ori_lang", "eng"), "eng") for d in datas]
+        tgt_langs = [LANG_MAP.get(d.get("tgt_lang", "vie"), "vie") for d in datas]
 
+        wavs = []
+        valid_indices = []
+        for i, path in enumerate(paths):
+            try:
+                wav, _ = load_audio(path)
+                wavs.append(wav)
+                valid_indices.append(i)
+            except Exception:
+                continue
 
-def main(input_file):
-    model = GeminiLLM(
-        model_name=MODEL_NAME,
-        temperature=TEMPERATURE,
-        max_output_tokens=MAX_OUTPUT_TOKENS,
-        top_p=TOP_P,
-        top_k=TOP_K,
-    )
+        if not wavs:
+            continue
 
-    with open(input_file, "r", encoding="utf-8") as f:
-        all_data = [json.loads(line) for line in f if line.strip()]
+        for i, wav in zip(valid_indices, wavs):
+            try:
+                wav_input = wav.unsqueeze(0).to(f"cuda:{device}", dtype=dtype)
+                text, _ = translator.predict(
+                    wav_input,
+                    "S2TT",
+                    tgt_langs[i],
+                    src_lang=src_langs[i],
+                )
+                results.append((
+                    paths[i],
+                    ori_texts[i],
+                    src_langs[i],
+                    tgt_langs[i],
+                    refs[i],
+                    str(text[0]),
+                ))
+            except Exception:
+                continue
 
-    # Skip already translated records
-    pending = [item for item in all_data if not item.get("tgt_text")]
-    already_done = len(all_data) - len(pending)
-    if already_done:
-        print(f"Skipping {already_done} already translated records.")
+    outputs = [None for _ in range(world_size)]
+    dist.gather_object(results, outputs if rank == 0 else None)
 
-    batches = [pending[i : i + BATCH_SIZE] for i in range(0, len(pending), BATCH_SIZE)]
+    if rank == 0:
+        outputs = list(itertools.chain(*outputs))
 
-    with ThreadPoolExecutor(max_workers=THREADS) as executor:
-        list(
-            tqdm(
-                executor.map(lambda batch: process_batch(batch, model), batches),
-                total=len(batches),
-                desc="Translating",
-            )
-        )
+        os.makedirs(config.output_folder, exist_ok=True)
+        output_filepath = os.path.join(config.output_folder, "results.csv")
 
-    # Save back to the same file
-    with open(input_file, "w", encoding="utf-8") as f_out:
-        for record in all_data:
-            f_out.write(json.dumps(record, ensure_ascii=False) + "\n")
+        with open(output_filepath, "w", encoding="utf-8") as f:
+            f.write("FILEPATH,ORI_TEXT,SRC_LANG,TGT_LANG,REFERENCE,HYPOTHESIS\n")
+            for (filepath, ori_text, src_lang, tgt_lang, ref, hyp) in outputs:
+                f.write(f"{filepath},{ori_text},{src_lang},{tgt_lang},{ref},{hyp}\n")
 
-    print(f"Done! Translated {len(pending)} records -> saved to {input_file}")
+        print(f"\n[done] {len(outputs)} samples saved → {output_filepath}")
+
+    dist.destroy_process_group()
 
 
 if __name__ == "__main__":
-    FILES = ["datasets/trainset_english.jsonl"]
-    for file in FILES:
-        main(file)
+    main()

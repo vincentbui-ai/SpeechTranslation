@@ -12,7 +12,6 @@ from dataclasses import dataclass
 from multiprocessing import Pool
 
 import torch
-
 from fairseq.data import Dictionary, indexed_dataset
 from fairseq.file_chunker_utils import Chunker, find_offsets
 from fairseq.file_io import PathManager

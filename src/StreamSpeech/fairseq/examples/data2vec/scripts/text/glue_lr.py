@@ -2,8 +2,8 @@ import os.path as osp
 import re
 from collections import defaultdict
 
-from valids import parser, main as valids_main
-
+from valids import main as valids_main
+from valids import parser
 
 TASK_TO_METRIC = {
     "cola": "mcc",

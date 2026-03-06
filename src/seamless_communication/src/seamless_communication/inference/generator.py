@@ -10,30 +10,18 @@ from typing import List, Optional, Tuple
 import torch
 from fairseq2.data import SequenceData, StringLike
 from fairseq2.data.text import TextTokenizer
-from fairseq2.generation import (
-    BeamSearchSeq2SeqGenerator,
-    Seq2SeqGenerator,
-    SequenceToTextConverter,
-    StepProcessor,
-)
-from fairseq2.nn.padding import (
-    PaddingMask,
-    apply_padding_mask,
-    get_seqs_and_padding_mask,
-    pad_seqs,
-)
+from fairseq2.generation import (BeamSearchSeq2SeqGenerator, Seq2SeqGenerator,
+                                 SequenceToTextConverter, StepProcessor)
+from fairseq2.nn.padding import (PaddingMask, apply_padding_mask,
+                                 get_seqs_and_padding_mask, pad_seqs)
 from fairseq2.nn.utils.module import infer_device
 from torch import Tensor
 
-from seamless_communication.models.unity.model import (
-    UnitYModel,
-    UnitYT2UModel,
-    UnitYX2TModel,
-)
+from seamless_communication.models.unity.model import (UnitYModel,
+                                                       UnitYT2UModel,
+                                                       UnitYX2TModel)
 from seamless_communication.models.unity.unit_tokenizer import (
-    UnitTokenDecoder,
-    UnitTokenizer,
-)
+    UnitTokenDecoder, UnitTokenizer)
 
 
 def remove_consecutive_repeated_ngrams(

@@ -7,25 +7,20 @@
 # https://github.com/microsoft/unilm/tree/master/beit
 
 import logging
-
 from dataclasses import dataclass
 from enum import Enum, auto
 from typing import Any, Optional
 
 import numpy as np
-from omegaconf import II, MISSING
-
 import torch
 import torch.nn as nn
 import torch.nn.functional as F
-
 from fairseq import checkpoint_utils, tasks
-from omegaconf import open_dict
-
 from fairseq.dataclass import FairseqDataclass
 from fairseq.models import BaseFairseqModel, register_model
-from .mae import interpolate_pos_embed
+from omegaconf import II, MISSING, open_dict
 
+from .mae import interpolate_pos_embed
 
 logger = logging.getLogger(__name__)
 

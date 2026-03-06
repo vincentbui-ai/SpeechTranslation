@@ -15,9 +15,7 @@ import torch
 from fairseq.data import Dictionary
 from fairseq.data.audio.speech_to_text_dataset import S2TDataConfig
 from fairseq.data.audio.text_to_speech_dataset import (
-    TextToSpeechDataset,
-    TextToSpeechDatasetCreator,
-)
+    TextToSpeechDataset, TextToSpeechDatasetCreator)
 
 logger = logging.getLogger(__name__)
 

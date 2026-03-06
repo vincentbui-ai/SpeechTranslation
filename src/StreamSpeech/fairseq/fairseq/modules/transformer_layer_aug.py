@@ -6,11 +6,10 @@
 from typing import Dict, List, Optional
 
 import torch
-from numpy.random import uniform
-from torch import Tensor
-
 from fairseq.modules import LayerNorm
 from fairseq.modules.transformer_layer import TransformerDecoderLayerBase
+from numpy.random import uniform
+from torch import Tensor
 
 
 class AugTransformerDecoderLayerBase(TransformerDecoderLayerBase):

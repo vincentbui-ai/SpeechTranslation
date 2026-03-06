@@ -5,12 +5,12 @@
 
 import os
 
-from fairseq import checkpoint_utils, tasks
 import sentencepiece as spm
 import torch
+from fairseq import checkpoint_utils, tasks
 
 try:
-    from simuleval import READ_ACTION, WRITE_ACTION, DEFAULT_EOS
+    from simuleval import DEFAULT_EOS, READ_ACTION, WRITE_ACTION
     from simuleval.agents import TextAgent
 except ImportError:
     print("Please install simuleval 'pip install simuleval'")

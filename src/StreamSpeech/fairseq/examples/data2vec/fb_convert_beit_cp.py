@@ -5,19 +5,15 @@
 # LICENSE file in the root directory of this source tree.
 
 import argparse
+
 import torch
-
-from omegaconf import OmegaConf
-
 from fairseq.criterions.model_criterion import ModelCriterionConfig
 from fairseq.dataclass.configs import FairseqConfig
-
-from tasks import ImageClassificationConfig, ImagePretrainingConfig
 from models.data2vec_image_classification import (
-    Data2VecImageClassificationConfig,
-    Data2VecImageClassificationModel,
-)
+    Data2VecImageClassificationConfig, Data2VecImageClassificationModel)
 from models.data2vec_vision import Data2VecVisionConfig, Data2VecVisionModel
+from omegaconf import OmegaConf
+from tasks import ImageClassificationConfig, ImagePretrainingConfig
 
 
 def get_parser():

@@ -3,48 +3,32 @@
 # This source code is licensed under the MIT license found in the
 # LICENSE file in the root directory of this source tree.
 
-from email.policy import default
-import torch
+import itertools
 import json
 import logging
-import numpy as np
-from pathlib import Path
+import os
 from argparse import Namespace
-from typing_extensions import Concatenate
+from email.policy import default
+from pathlib import Path
+from typing import Optional
 
-from fairseq import utils, metrics
-from fairseq.data import Dictionary, encoders
-from fairseq.data.iterators import GroupedEpochBatchIterator
-from fairseq.data.audio.multi_modality_dataset import (
-    MultiModalityDataset,
-    ModalityDatasetItem,
-)
-
-
+import numpy as np
+import torch
 from diseg.datasets.data_cfg import S2TDataConfig
 from diseg.datasets.speech_transcription_text_triple_dataset import (
-    SpeechToTextTripleDataset,
-    SpeechToTextTripleDatasetCreator,
-    get_features_or_waveform,
-)
-import itertools
-import os
-from typing import Optional
-from omegaconf import II
-from fairseq.data import (
-    AppendTokenDataset,
-    ConcatDataset,
-    LanguagePairDataset,
-    PrependTokenDataset,
-    StripTokenDataset,
-    TruncateDataset,
-    data_utils,
-    encoders,
-    indexed_dataset,
-)
-
+    SpeechToTextTripleDataset, SpeechToTextTripleDatasetCreator,
+    get_features_or_waveform)
+from fairseq import metrics, search, utils
+from fairseq.data import (AppendTokenDataset, ConcatDataset, Dictionary,
+                          LanguagePairDataset, PrependTokenDataset,
+                          StripTokenDataset, TruncateDataset, data_utils,
+                          encoders, indexed_dataset)
+from fairseq.data.audio.multi_modality_dataset import (ModalityDatasetItem,
+                                                       MultiModalityDataset)
+from fairseq.data.iterators import GroupedEpochBatchIterator
 from fairseq.tasks import LegacyFairseqTask, register_task
-from fairseq import search
+from omegaconf import II
+from typing_extensions import Concatenate
 
 logger = logging.getLogger(__name__)
 
@@ -512,9 +496,7 @@ class SpeechToTextMultitask(LegacyFairseqTask):
             )
 
         from fairseq.sequence_generator_debug import (
-            SequenceGenerator,
-            SequenceGeneratorWithAlignment,
-        )
+            SequenceGenerator, SequenceGeneratorWithAlignment)
 
         # Choose search strategy. Defaults to Beam Search.
         sampling = getattr(args, "sampling", False)
@@ -668,6 +650,7 @@ class SpeechToTextMultitask(LegacyFairseqTask):
 
                 def compute_bleu(meters):
                     import inspect
+
                     import sacrebleu
 
                     fn_sig = inspect.getfullargspec(sacrebleu.corpus_bleu)[0]

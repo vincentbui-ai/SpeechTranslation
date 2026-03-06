@@ -1,18 +1,18 @@
-import tqdm
 import argparse
-import pandas as pd
 import os
 import sys
+
+import pandas as pd
+import tqdm
 
 dir_path = os.path.dirname(os.path.realpath(__file__))
 parent_dir_path = os.path.abspath(os.path.join(dir_path, os.pardir))
 sys.path.insert(0, parent_dir_path)
 from pathlib import Path
-from examples.speech_to_text.data_utils import (
-    load_df_from_tsv,
-    save_df_to_tsv,
-    gen_config_yaml,
-)
+
+from examples.speech_to_text.data_utils import (gen_config_yaml,
+                                                load_df_from_tsv,
+                                                save_df_to_tsv)
 from fairseq.data.audio.data_cfg import S2SDataConfig
 
 MANIFEST_COLUMNS = ["audio", "tgt_text"]

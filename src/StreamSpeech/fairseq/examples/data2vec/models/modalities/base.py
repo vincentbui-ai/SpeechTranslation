@@ -5,19 +5,21 @@
 
 import logging
 import math
+from collections import namedtuple
+from dataclasses import dataclass
+from functools import partial
+from typing import Callable, Optional
+
 import numpy as np
 import torch
 import torch.nn as nn
 import torch.nn.functional as F
-from collections import namedtuple
-from dataclasses import dataclass
-from functools import partial
-from omegaconf import MISSING, II
-from typing import Optional, Callable
+from examples.data2vec.data.modality import Modality
 from fairseq.data.data_utils import compute_mask_indices
 from fairseq.modules import GradMultiply
 from fairseq.utils import index_put
-from examples.data2vec.data.modality import Modality
+from omegaconf import II, MISSING
+
 from .modules import D2vDecoderConfig
 
 logger = logging.getLogger(__name__)

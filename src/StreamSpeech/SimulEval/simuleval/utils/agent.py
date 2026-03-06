@@ -5,17 +5,18 @@
 # LICENSE file in the root directory of this source tree.
 
 
+import importlib
+import logging
 import os
 import sys
-import yaml
-import logging
-import importlib
 from argparse import Namespace
-from typing import Union, Optional, Tuple
 from pathlib import Path
+from typing import Optional, Tuple, Union
+
+import yaml
 from simuleval import options
 from simuleval.agents import GenericAgent
-from simuleval.utils.arguments import cli_argument_list, check_argument
+from simuleval.utils.arguments import check_argument, cli_argument_list
 
 EVALUATION_SYSTEM_LIST = []
 

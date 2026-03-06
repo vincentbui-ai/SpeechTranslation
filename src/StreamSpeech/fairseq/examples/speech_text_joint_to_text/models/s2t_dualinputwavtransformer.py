@@ -7,23 +7,18 @@ import logging
 from collections import OrderedDict, namedtuple
 
 import torch.nn as nn
-
 from fairseq import checkpoint_utils, utils
 from fairseq.checkpoint_utils import load_checkpoint_to_cpu
 from fairseq.file_io import PathManager
 from fairseq.models import register_model, register_model_architecture
-from fairseq.models.speech_to_text import (
-    SpeechWavTransformerEncoder,
-    StackedSpeechWavTransformerEncoder,
-    TransformerDecoder,
-)
+from fairseq.models.speech_to_text import (SpeechWavTransformerEncoder,
+                                           StackedSpeechWavTransformerEncoder,
+                                           TransformerDecoder)
 from fairseq.models.transformer import TransformerEncoder
 
-from .s2t_dualinputtransformer import (
-    DualInputEncoder,
-    DualInputS2TTransformerModel,
-    TransformerMultiInputDecoder,
-)
+from .s2t_dualinputtransformer import (DualInputEncoder,
+                                       DualInputS2TTransformerModel,
+                                       TransformerMultiInputDecoder)
 
 logger = logging.getLogger(__name__)
 

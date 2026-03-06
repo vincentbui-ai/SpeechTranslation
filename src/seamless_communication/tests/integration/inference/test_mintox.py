@@ -4,14 +4,16 @@
 # This source code is licensed under the license found in the
 # MIT_LICENSE file in the root directory of this source tree.
 
-from fairseq2.assets import download_manager
-from seamless_communication.inference.translator import Translator
-from seamless_communication.toxicity.etox_bad_word_checker import ETOXBadWordChecker
-from seamless_communication.toxicity.mintox import _extract_bad_words_with_batch_indices
-from tests.common import device, get_default_dtype
-from seamless_communication.toxicity import load_etox_bad_word_checker
-
 import pytest
+from fairseq2.assets import download_manager
+
+from seamless_communication.inference.translator import Translator
+from seamless_communication.toxicity import load_etox_bad_word_checker
+from seamless_communication.toxicity.etox_bad_word_checker import \
+    ETOXBadWordChecker
+from seamless_communication.toxicity.mintox import \
+    _extract_bad_words_with_batch_indices
+from tests.common import device, get_default_dtype
 
 
 @pytest.fixture

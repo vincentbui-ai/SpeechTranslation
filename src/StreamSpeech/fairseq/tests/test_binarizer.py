@@ -9,8 +9,10 @@ import typing as tp
 import unittest
 from tempfile import TemporaryDirectory
 
-from fairseq.binarizer import BinarizeSummary, FileBinarizer, VocabularyDatasetBinarizer
+from fairseq.binarizer import (BinarizeSummary, FileBinarizer,
+                               VocabularyDatasetBinarizer)
 from fairseq.data import Dictionary, indexed_dataset
+
 from tests.utils import make_data, sizes
 
 

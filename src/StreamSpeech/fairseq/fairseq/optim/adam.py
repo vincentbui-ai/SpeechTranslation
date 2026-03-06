@@ -17,7 +17,6 @@ from fairseq.optim import FairseqOptimizer, register_optimizer
 from fairseq.optim.fused_adam import get_fused_adam_class
 from omegaconf import II, OmegaConf
 
-
 logger = logging.getLogger(__name__)
 
 

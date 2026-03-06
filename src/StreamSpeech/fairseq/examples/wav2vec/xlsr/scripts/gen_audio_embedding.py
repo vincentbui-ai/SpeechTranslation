@@ -18,20 +18,22 @@ Usage:
         --infer-xtimes 10 --infer-max-sample-size 160000 --output-path $odir
 
 """
-import torch
-from fairseq import checkpoint_utils, distributed_utils, options, utils
-from fairseq.dataclass.utils import convert_namespace_to_omegaconf
-from fairseq.logging import metrics, progress_bar
-from fairseq import checkpoint_utils, data, options, tasks
-from fairseq.data import FileAudioDataset, AddTargetDataset, Dictionary
-from fairseq.tasks.audio_classification import LabelEncoder
-import ipdb
 import copy
 import sys
-from tqdm import tqdm
 import tempfile
+
+import ipdb
 import numpy as np
 import sklearn
+import torch
+from fairseq import (checkpoint_utils, data, distributed_utils, options, tasks,
+                     utils)
+from fairseq.data import AddTargetDataset, Dictionary, FileAudioDataset
+from fairseq.dataclass.utils import convert_namespace_to_omegaconf
+from fairseq.logging import metrics, progress_bar
+from fairseq.tasks.audio_classification import LabelEncoder
+from tqdm import tqdm
+
 
 def subset_manifest(infer_manifest, veri_pair):
     with open(infer_manifest) as ff, open(veri_pair) as gg, \

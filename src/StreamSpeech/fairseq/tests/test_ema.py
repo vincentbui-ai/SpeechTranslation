@@ -6,12 +6,11 @@
 import unittest
 from copy import deepcopy
 from dataclasses import dataclass
-import pytest
 from typing import Optional
 from unittest.mock import patch
 
+import pytest
 import torch
-
 from fairseq.models.ema import EMA
 
 

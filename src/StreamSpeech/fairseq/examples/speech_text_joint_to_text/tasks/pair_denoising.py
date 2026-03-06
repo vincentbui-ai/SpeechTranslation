@@ -10,21 +10,13 @@ import re
 
 import numpy as np
 import torch
-
-from examples.speech_text_joint_to_text.data.pair_denoising_dataset import (
-    LanguagePairDenoisingDataset,
-)
+from examples.speech_text_joint_to_text.data.pair_denoising_dataset import \
+    LanguagePairDenoisingDataset
 from fairseq import utils
-from fairseq.data import (
-    ConcatDataset,
-    Dictionary,
-    LanguagePairDataset,
-    ResamplingDataset,
-    TransformEosConcatLangPairDataset,
-    TransformEosLangPairDataset,
-    data_utils,
-    indexed_dataset,
-)
+from fairseq.data import (ConcatDataset, Dictionary, LanguagePairDataset,
+                          ResamplingDataset, TransformEosConcatLangPairDataset,
+                          TransformEosLangPairDataset, data_utils,
+                          indexed_dataset)
 from fairseq.data.encoders.utils import get_whole_word_mask
 from fairseq.tasks import register_task
 from fairseq.tasks.translation import TranslationTask

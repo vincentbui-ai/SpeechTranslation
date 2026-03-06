@@ -9,21 +9,12 @@ import torch
 import torch.nn as nn
 import torch.nn.functional as F
 from fairseq import utils
-from fairseq.models import (
-    FairseqEncoder,
-    FairseqEncoderDecoderModel,
-    FairseqIncrementalDecoder,
-    register_model,
-    register_model_architecture,
-)
-from fairseq.modules import (
-    AdaptiveSoftmax,
-    BeamableMM,
-    FairseqDropout,
-    GradMultiply,
-    LearnedPositionalEmbedding,
-    LinearizedConvolution,
-)
+from fairseq.models import (FairseqEncoder, FairseqEncoderDecoderModel,
+                            FairseqIncrementalDecoder, register_model,
+                            register_model_architecture)
+from fairseq.modules import (AdaptiveSoftmax, BeamableMM, FairseqDropout,
+                             GradMultiply, LearnedPositionalEmbedding,
+                             LinearizedConvolution)
 
 
 @register_model("fconv")

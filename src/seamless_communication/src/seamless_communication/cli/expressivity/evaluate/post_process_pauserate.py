@@ -4,10 +4,11 @@
 # This source code is licensed under the license found in the
 # MIT_LICENSE file in the root directory of this source tree.
 
-import pandas as pd
 import csv
-import scipy
 from typing import Dict
+
+import pandas as pd
+import scipy
 
 
 def get_pause(pause_data_tsv: str) -> Dict[str, float]:

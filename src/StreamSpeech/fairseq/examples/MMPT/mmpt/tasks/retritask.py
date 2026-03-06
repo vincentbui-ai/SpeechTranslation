@@ -3,26 +3,21 @@
 # This source code is licensed under the MIT license found in the
 # LICENSE file in the root directory of this source tree.
 import os
-import torch
 import pickle
 import random
 
-from tqdm import tqdm
+import torch
 from torch.utils.data import DataLoader
 from torch.utils.data.distributed import DistributedSampler
-
-from ..processors import (
-    ShardedHow2MetaProcessor,
-    ShardedVideoProcessor,
-    ShardedTextProcessor,
-    VariedLenAligner,
-)
+from tqdm import tqdm
 
 from ..datasets import MMDataset
-from .task import Task
-from ..modules import vectorpool
 from ..evaluators.predictor import Predictor
-from ..utils import set_seed, get_local_rank, get_world_size
+from ..modules import vectorpool
+from ..processors import (ShardedHow2MetaProcessor, ShardedTextProcessor,
+                          ShardedVideoProcessor, VariedLenAligner)
+from ..utils import get_local_rank, get_world_size, set_seed
+from .task import Task
 
 
 class RetriTask(Task):

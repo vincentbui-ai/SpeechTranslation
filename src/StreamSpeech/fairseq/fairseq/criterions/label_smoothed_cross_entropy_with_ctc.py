@@ -8,15 +8,13 @@ from dataclasses import dataclass, field
 
 import torch
 import torch.nn.functional as F
-
 from fairseq import utils
-from fairseq.logging import metrics
 from fairseq.criterions import register_criterion
 from fairseq.criterions.label_smoothed_cross_entropy import (
     LabelSmoothedCrossEntropyCriterion,
-    LabelSmoothedCrossEntropyCriterionConfig,
-)
+    LabelSmoothedCrossEntropyCriterionConfig)
 from fairseq.data.data_utils import lengths_to_mask
+from fairseq.logging import metrics
 
 
 @dataclass

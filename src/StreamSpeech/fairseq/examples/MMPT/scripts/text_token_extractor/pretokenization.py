@@ -3,14 +3,14 @@
 # This source code is licensed under the MIT license found in the
 # LICENSE file in the root directory of this source tree.
 
-import pickle
-import os
 import argparse
-import numpy as np
+import os
+import pickle
 
-from torch.utils.data import Dataset, DataLoader
+import numpy as np
 from mmpt.processors import PKLJSONStrTextProcessor
 from mmpt.utils import ShardedTensor, recursive_config
+from torch.utils.data import DataLoader, Dataset
 
 
 class TokenizerDataset(Dataset):

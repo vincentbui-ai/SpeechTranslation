@@ -1,5 +1,5 @@
-import os
 import argparse
+import os
 import sys
 
 dir_path = os.path.dirname(os.path.realpath(__file__))

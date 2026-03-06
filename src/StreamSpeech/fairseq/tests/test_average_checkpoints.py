@@ -11,8 +11,9 @@ import unittest
 
 import numpy as np
 import torch
-from scripts.average_checkpoints import average_checkpoints
 from torch import nn
+
+from scripts.average_checkpoints import average_checkpoints
 
 
 class ModelWithSharedParameter(nn.Module):

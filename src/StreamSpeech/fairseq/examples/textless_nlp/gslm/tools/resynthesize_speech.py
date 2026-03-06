@@ -11,13 +11,13 @@ import os
 import joblib
 import soundfile as sf
 import torch
-from examples.textless_nlp.gslm.speech2unit.pretrained.utils import get_feature_reader
-from examples.textless_nlp.gslm.unit2speech.tts_data import TacotronInputDataset
-from examples.textless_nlp.gslm.unit2speech.utils import (
-    load_tacotron,
-    load_waveglow,
-    synthesize_audio,
-)
+from examples.textless_nlp.gslm.speech2unit.pretrained.utils import \
+    get_feature_reader
+from examples.textless_nlp.gslm.unit2speech.tts_data import \
+    TacotronInputDataset
+from examples.textless_nlp.gslm.unit2speech.utils import (load_tacotron,
+                                                          load_waveglow,
+                                                          synthesize_audio)
 
 
 def get_logger():

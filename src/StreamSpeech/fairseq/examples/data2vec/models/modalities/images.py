@@ -3,30 +3,23 @@
 # This source code is licensed under the MIT license found in the
 # LICENSE file in the root directory of this source tree.
 
+from dataclasses import dataclass
+from functools import partial
+from typing import Callable, Dict, Optional
+
+import numpy as np
 import torch
 import torch.nn as nn
 import torch.nn.functional as F
-import numpy as np
-from functools import partial
-from dataclasses import dataclass
-from typing import Callable, Dict, Optional
-from timm.models.layers import to_2tuple
-from fairseq.tasks import FairseqTask
-from examples.data2vec.models.mae import get_2d_sincos_pos_embed, PatchEmbed
-from .base import (
-    D2vModalityConfig,
-    ModalitySpecificEncoder,
-    get_alibi_bias,
-    MaskSeed,
-)
-from .modules import (
-    BlockEncoder,
-    Decoder2d,
-    FixedPositionalEncoder,
-    TransformerDecoder,
-    EncDecTransformerDecoder,
-)
 from examples.data2vec.data.modality import Modality
+from examples.data2vec.models.mae import PatchEmbed, get_2d_sincos_pos_embed
+from fairseq.tasks import FairseqTask
+from timm.models.layers import to_2tuple
+
+from .base import (D2vModalityConfig, MaskSeed, ModalitySpecificEncoder,
+                   get_alibi_bias)
+from .modules import (BlockEncoder, Decoder2d, EncDecTransformerDecoder,
+                      FixedPositionalEncoder, TransformerDecoder)
 
 
 @dataclass

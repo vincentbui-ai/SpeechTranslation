@@ -4,25 +4,21 @@
 # LICENSE file in the root directory of this source tree.
 
 
+import io
 import logging
 import os
 import sys
 import time
-import io
 
 import numpy as np
 import torch
 import torch.nn.functional as F
+from fairseq.data.audio.audio_utils import (is_sf_audio_data, parse_path,
+                                            read_from_stored_zip)
+from fairseq.data.text_compressor import TextCompressionLevel, TextCompressor
 
 from .. import FairseqDataset
-from ..data_utils import compute_block_mask_1d, get_buckets, get_bucketed_sizes
-from fairseq.data.audio.audio_utils import (
-    parse_path,
-    read_from_stored_zip,
-    is_sf_audio_data,
-)
-from fairseq.data.text_compressor import TextCompressor, TextCompressionLevel
-
+from ..data_utils import compute_block_mask_1d, get_bucketed_sizes, get_buckets
 
 logger = logging.getLogger(__name__)
 
@@ -372,7 +368,7 @@ class BinarizedAudioDataset(RawAudioDataset):
             **mask_compute_kwargs,
         )
 
-        from fairseq.data import data_utils, Dictionary
+        from fairseq.data import Dictionary, data_utils
 
         self.fnames_dict = Dictionary.load(os.path.join(data_dir, "dict.txt"))
 

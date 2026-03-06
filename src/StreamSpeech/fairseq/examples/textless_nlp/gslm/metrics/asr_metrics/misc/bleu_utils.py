@@ -10,10 +10,12 @@ Copied over from nltk.tranlate.bleu_score. This code has two major changes:
 
 import math
 import sys
-from fractions import Fraction
 import warnings
 from collections import Counter
-from nltk.translate.bleu_score import modified_precision, closest_ref_length, brevity_penalty, SmoothingFunction
+from fractions import Fraction
+
+from nltk.translate.bleu_score import (SmoothingFunction, brevity_penalty,
+                                       closest_ref_length, modified_precision)
 
 
 def corpus_bleu(

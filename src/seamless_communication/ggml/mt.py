@@ -9,22 +9,22 @@
 # in the tokenizer, patches of layers, etc.
 
 from pathlib import Path
-from typing import Any, Mapping, Optional, Literal
-import torch
-from torch.nn.parameter import Parameter
-
-from fairseq2.assets import InProcAssetMetadataProvider, asset_store, download_manager
-from fairseq2.generation.beam_search import BeamSearchSeq2SeqGenerator
-from fairseq2.nn.embedding import StandardEmbedding
-from fairseq2.models.nllb.builder import NllbBuilder, NllbConfig
-from fairseq2.models.nllb.loader import load_nllb_config
-from fairseq2.nn.projection import TiedProjection
-from fairseq2.models.transformer.model import TransformerModel
-from fairseq2.models.utils import ModelLoader
-from fairseq2.typing import Device, DataType
-from fairseq2.models.utils.checkpoint import convert_fairseq_checkpoint
+from typing import Any, Literal, Mapping, Optional
 
 import sentencepiece as spm
+import torch
+from fairseq2.assets import (InProcAssetMetadataProvider, asset_store,
+                             download_manager)
+from fairseq2.generation.beam_search import BeamSearchSeq2SeqGenerator
+from fairseq2.models.nllb.builder import NllbBuilder, NllbConfig
+from fairseq2.models.nllb.loader import load_nllb_config
+from fairseq2.models.transformer.model import TransformerModel
+from fairseq2.models.utils import ModelLoader
+from fairseq2.models.utils.checkpoint import convert_fairseq_checkpoint
+from fairseq2.nn.embedding import StandardEmbedding
+from fairseq2.nn.projection import TiedProjection
+from fairseq2.typing import DataType, Device
+from torch.nn.parameter import Parameter
 
 
 class MTBuilder(NllbBuilder):

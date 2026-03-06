@@ -8,23 +8,15 @@ import os
 from collections import OrderedDict
 
 from fairseq import utils
-from fairseq.data import (
-    BacktranslationDataset,
-    IndexedCachedDataset,
-    IndexedDataset,
-    IndexedRawTextDataset,
-    LanguagePairDataset,
-    NoisingDataset,
-    RoundRobinZipDatasets,
-    data_utils,
-    indexed_dataset,
-)
+from fairseq.data import (BacktranslationDataset, IndexedCachedDataset,
+                          IndexedDataset, IndexedRawTextDataset,
+                          LanguagePairDataset, NoisingDataset,
+                          RoundRobinZipDatasets, data_utils, indexed_dataset)
 from fairseq.models import FairseqMultiModel
 from fairseq.sequence_generator import SequenceGenerator
 
 from . import register_task
 from .multilingual_translation import MultilingualTranslationTask
-
 
 logger = logging.getLogger(__name__)
 

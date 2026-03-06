@@ -4,11 +4,13 @@
 # LICENSE file in the root directory of this source tree.
 
 import unittest
+
 import torch
-from tests.speech import TestFairseqSpeech
-from fairseq.data.data_utils import post_process
 from fairseq import utils
+from fairseq.data.data_utils import post_process
 from omegaconf import open_dict
+
+from tests.speech import TestFairseqSpeech
 
 S3_BASE_URL = "https://dl.fbaipublicfiles.com/fairseq"
 
@@ -69,7 +71,8 @@ class TestWav2Vec2(TestFairseqSpeech):
 
     def build_generator(self, task, models, cfg):
         try:
-            from examples.speech_recognition.w2l_decoder import W2lViterbiDecoder
+            from examples.speech_recognition.w2l_decoder import \
+                W2lViterbiDecoder
         except Exception:
             raise Exception("Cannot run this test without flashlight dependency")
         with open_dict(cfg):

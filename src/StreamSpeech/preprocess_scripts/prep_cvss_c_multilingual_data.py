@@ -4,45 +4,37 @@
 # This source code is licensed under the MIT license found in the
 # LICENSE file in the root directory of this source tree.
 
-import os
 import argparse
 import logging
-from pathlib import Path
+import os
 import shutil
+import sys
+from pathlib import Path
 from tempfile import NamedTemporaryFile
 from typing import Optional, Tuple
 
 import pandas as pd
-import torchaudio
 import soundfile as sf
+import torchaudio
 from torch import Tensor
 from torch.utils.data import Dataset
-from utils import download_url, extract_archive
 from tqdm import tqdm
-import sys
-import os
+from utils import download_url, extract_archive
 
 dir_path = os.path.dirname(os.path.realpath(__file__))
 parent_dir_path = os.path.abspath(os.path.join(dir_path, os.pardir))
 sys.path.insert(0, parent_dir_path)
 import numpy as np
-
-from fairseq.data.audio.audio_utils import convert_waveform
+from data_utils import gen_config_yaml as gen_config_yaml_gcmvn
 from examples.speech_synthesis.data_utils import extract_logmel_spectrogram
 from examples.speech_to_speech.preprocessing.data_utils import (
-    gen_config_yaml,
-    load_units,
-    process_units,
-)
-from examples.speech_to_text.data_utils import (
-    create_zip,
-    extract_fbank_features,
-    get_zip_manifest,
-    load_df_from_tsv,
-    save_df_to_tsv,
-    cal_gcmvn_stats,
-)
-from data_utils import gen_config_yaml as gen_config_yaml_gcmvn
+    gen_config_yaml, load_units, process_units)
+from examples.speech_to_text.data_utils import (cal_gcmvn_stats, create_zip,
+                                                extract_fbank_features,
+                                                get_zip_manifest,
+                                                load_df_from_tsv,
+                                                save_df_to_tsv)
+from fairseq.data.audio.audio_utils import convert_waveform
 
 log = logging.getLogger(__name__)
 

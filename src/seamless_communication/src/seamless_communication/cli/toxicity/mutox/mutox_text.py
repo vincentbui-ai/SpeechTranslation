@@ -5,13 +5,13 @@
 # MIT_LICENSE file in the root directory of this source tree.
 
 import argparse
+import logging
 import sys
 
 import torch
-from seamless_communication.toxicity.mutox.loader import load_mutox_model
 from sonar.inference_pipelines.text import TextToEmbeddingModelPipeline
 
-import logging
+from seamless_communication.toxicity.mutox.loader import load_mutox_model
 
 logging.basicConfig(
     level=logging.INFO,

@@ -4,8 +4,8 @@
 # This source code is licensed under the license found in the
 # LICENSE file in the root directory of this source tree.
 
-from contextlib import closing
 import socket
+from contextlib import closing
 
 
 def find_free_port():

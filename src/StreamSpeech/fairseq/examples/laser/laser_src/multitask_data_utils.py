@@ -6,7 +6,6 @@
 from collections import OrderedDict
 
 import numpy as np
-
 from fairseq.data import BaseWrapperDataset, FairseqDataset, iterators
 
 

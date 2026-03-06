@@ -7,21 +7,16 @@
 # https://github.com/microsoft/unilm/tree/master/beit
 
 import logging
-
 from dataclasses import dataclass
 from typing import Any
-
-from omegaconf import II, MISSING
 
 import torch
 import torch.nn as nn
 import torch.nn.functional as F
-
 from fairseq import checkpoint_utils, tasks
-
 from fairseq.dataclass import FairseqDataclass
 from fairseq.models import BaseFairseqModel, register_model
-
+from omegaconf import II, MISSING
 
 logger = logging.getLogger(__name__)
 

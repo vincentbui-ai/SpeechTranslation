@@ -6,20 +6,19 @@
 # can be found in the PATENTS file in the same directory.
 
 import logging
-import os
-import numpy as np
 import math
-import torch
-
-from sklearn import metrics as sklearn_metrics
+import os
 from dataclasses import dataclass
 
-from fairseq.tasks.audio_pretraining import AudioPretrainingTask, AudioPretrainingConfig
-from fairseq.tasks import register_task
+import numpy as np
+import torch
 from fairseq.logging import metrics
+from fairseq.tasks import register_task
+from fairseq.tasks.audio_pretraining import (AudioPretrainingConfig,
+                                             AudioPretrainingTask)
+from sklearn import metrics as sklearn_metrics
 
 from ..data.add_class_target_dataset import AddClassTargetDataset
-
 
 logger = logging.getLogger(__name__)
 

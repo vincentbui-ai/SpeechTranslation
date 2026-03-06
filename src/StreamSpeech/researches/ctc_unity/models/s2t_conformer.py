@@ -8,28 +8,21 @@ import math
 from pathlib import Path
 
 import torch
-from fairseq import utils
-from fairseq import checkpoint_utils
+from fairseq import checkpoint_utils, utils
 from fairseq.data.data_utils import lengths_to_padding_mask
-from fairseq.models import FairseqEncoder, register_model, register_model_architecture
-
+from fairseq.models import (FairseqEncoder, register_model,
+                            register_model_architecture)
+from fairseq.models.speech_to_text.s2t_transformer import (
+    S2TTransformerEncoder, S2TTransformerModel)
+from fairseq.models.speech_to_text.s2t_transformer import \
+    base_architecture as transformer_base_architecture
+from fairseq.modules import PositionalEmbedding, RelPositionalEncoding
+from uni_unity.modules.conformer_layer import UniConformerEncoderLayer
 # from fairseq.models.speech_to_text.modules.convolution import (
 #     Conv1dSubsampler,
 #     Conv2dSubsampler,
 # )
-from uni_unity.modules.convolution import (
-    Conv1dSubsampler,
-    Conv2dSubsampler,
-)
-from fairseq.models.speech_to_text.s2t_transformer import (
-    S2TTransformerEncoder,
-    S2TTransformerModel,
-)
-from fairseq.models.speech_to_text.s2t_transformer import (
-    base_architecture as transformer_base_architecture,
-)
-from fairseq.modules import PositionalEmbedding, RelPositionalEncoding
-from uni_unity.modules.conformer_layer import UniConformerEncoderLayer
+from uni_unity.modules.convolution import Conv1dSubsampler, Conv2dSubsampler
 
 logger = logging.getLogger(__name__)
 

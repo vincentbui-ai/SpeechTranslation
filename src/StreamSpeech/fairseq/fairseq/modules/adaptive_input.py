@@ -7,9 +7,8 @@
 from typing import List
 
 import torch
-from torch import nn
-
 from fairseq.modules.quant_noise import quant_noise
+from torch import nn
 
 
 class AdaptiveInput(nn.Module):

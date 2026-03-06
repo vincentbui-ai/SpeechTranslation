@@ -10,19 +10,14 @@ import torch
 import torch.nn as nn
 from fairseq import utils
 from fairseq.models import FairseqIncrementalDecoder
-from fairseq.modules import (
-    FairseqDropout,
-    LayerDropModuleList,
-    LayerNorm,
-    PositionalEmbedding,
-)
-from .speech_dlm_decoder_layer import (
-    CrossChannelTransformerDecoderLayer,
-    StandardTransformerDecoderLayer,
-)
+from fairseq.modules import (FairseqDropout, LayerDropModuleList, LayerNorm,
+                             PositionalEmbedding)
 from fairseq.modules.checkpoint_activations import checkpoint_wrapper
 from fairseq.modules.quant_noise import quant_noise as apply_quant_noise_
 from torch import Tensor
+
+from .speech_dlm_decoder_layer import (CrossChannelTransformerDecoderLayer,
+                                       StandardTransformerDecoderLayer)
 
 
 class CrossChannelTransformerDecoder(FairseqIncrementalDecoder):

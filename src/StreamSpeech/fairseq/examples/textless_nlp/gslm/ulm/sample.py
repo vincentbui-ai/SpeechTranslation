@@ -6,14 +6,13 @@
 """
 Sample from a trained LM; hacked fairseq-interactive
 """
-from collections import namedtuple
-import os
 import ast
+import os
+from collections import namedtuple
+
 import numpy as np
-
-from fairseq import checkpoint_utils, options, tasks, utils
-
 import tqdm
+from fairseq import checkpoint_utils, options, tasks, utils
 
 Batch = namedtuple('Batch', 'ids src_tokens src_lengths')
 Translation = namedtuple('Translation', 'src_str hypos pos_scores alignments')

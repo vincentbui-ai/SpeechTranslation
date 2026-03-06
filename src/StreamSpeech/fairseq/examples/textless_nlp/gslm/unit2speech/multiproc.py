@@ -1,8 +1,9 @@
 import os
-import time
-import torch
-import sys
 import subprocess
+import sys
+import time
+
+import torch
 
 argslist = list(sys.argv)[1:]
 log_dir = argslist[-1]

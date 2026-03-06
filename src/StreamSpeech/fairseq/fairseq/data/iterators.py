@@ -17,7 +17,6 @@ import numpy as np
 import torch
 from fairseq.data import data_utils
 
-
 logger = logging.getLogger(__name__)
 
 # Object used by _background_consumer to signal the source is exhausted

@@ -8,7 +8,6 @@ softmax-based NCE loss, used by this project.
 """
 
 import torch
-
 from torch import nn
 
 from .loss import Loss

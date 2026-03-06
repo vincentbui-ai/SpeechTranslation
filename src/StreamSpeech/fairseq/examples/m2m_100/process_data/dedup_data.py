@@ -1,6 +1,6 @@
 import argparse
-from collections import namedtuple
 import os
+from collections import namedtuple
 
 DATADIR = "/path/to/train_data"
 DEDUP_FROM_DIR = "/path/to/eval/data"

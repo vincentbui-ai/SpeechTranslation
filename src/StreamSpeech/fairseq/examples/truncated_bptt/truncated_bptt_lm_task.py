@@ -10,17 +10,11 @@ from typing import List, Optional, Tuple
 
 import torch
 from fairseq import utils
-from fairseq.data import (
-    Dictionary,
-    TokenBlockDataset,
-    data_utils,
-    iterators,
-)
+from fairseq.data import Dictionary, TokenBlockDataset, data_utils, iterators
 from fairseq.dataclass import FairseqDataclass
 from fairseq.distributed import utils as dist_utils
 from fairseq.tasks import FairseqTask, register_task
 from omegaconf import II
-
 
 logger = logging.getLogger(__name__)
 

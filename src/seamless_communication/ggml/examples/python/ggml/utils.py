@@ -1,9 +1,11 @@
 """
   Common helpers for working with ggml + numpy
 """
-from ggml import ffi, lib
-from typing import Union, Optional
+from typing import Optional, Union
+
 import numpy as np
+from ggml import ffi, lib
+
 
 def init(mem_size: int, mem_buffer: ffi.CData = ffi.NULL, no_alloc: bool = False) -> ffi.CData:
     """

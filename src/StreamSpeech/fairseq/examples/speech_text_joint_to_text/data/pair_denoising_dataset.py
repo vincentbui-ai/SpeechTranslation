@@ -8,7 +8,6 @@ import math
 import re
 
 import torch
-
 from fairseq.data import data_utils
 from fairseq.data.language_pair_dataset import LanguagePairDataset
 

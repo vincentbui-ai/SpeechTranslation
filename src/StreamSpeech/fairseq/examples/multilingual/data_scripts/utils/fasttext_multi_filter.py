@@ -6,13 +6,14 @@
 
 #!/bin/python
 
-import fasttext
-from multiprocessing import Pool
-import contextlib
-import sys
 import argparse
-from functools import partial
+import contextlib
 import io
+import sys
+from functools import partial
+from multiprocessing import Pool
+
+import fasttext
 
 model = None
 def init(model_path):

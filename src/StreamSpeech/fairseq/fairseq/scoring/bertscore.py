@@ -6,7 +6,6 @@
 from dataclasses import dataclass, field
 
 import numpy as np
-
 from fairseq.dataclass import FairseqDataclass
 from fairseq.scoring import BaseScorer, register_scorer
 

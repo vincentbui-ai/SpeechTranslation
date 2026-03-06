@@ -6,24 +6,15 @@
 import logging
 
 import torch
-from torch import nn
-
 from fairseq import utils
 from fairseq.data.data_utils import lengths_to_padding_mask
-from fairseq.models import (
-    FairseqEncoder,
-    FairseqEncoderModel,
-    register_model,
-    register_model_architecture,
-)
+from fairseq.models import (FairseqEncoder, FairseqEncoderModel,
+                            register_model, register_model_architecture)
 from fairseq.models.text_to_speech.hub_interface import TTSHubInterface
 from fairseq.models.text_to_speech.tacotron2 import Postnet
-from fairseq.modules import (
-    FairseqDropout,
-    LayerNorm,
-    MultiheadAttention,
-    PositionalEmbedding,
-)
+from fairseq.modules import (FairseqDropout, LayerNorm, MultiheadAttention,
+                             PositionalEmbedding)
+from torch import nn
 
 logger = logging.getLogger(__name__)
 

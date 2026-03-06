@@ -10,45 +10,40 @@ from fairseq2.assets import asset_store, download_manager
 from fairseq2.assets.card import AssetCard
 from fairseq2.data import VocabularyInfo
 from fairseq2.models.nllb.loader import NllbTokenizerLoader
-from fairseq2.models.transformer import (
-    TransformerEmbeddingFrontend,
-    TransformerFrontend,
-)
+from fairseq2.models.transformer import (TransformerEmbeddingFrontend,
+                                         TransformerFrontend)
 from fairseq2.models.utils.arch_registry import ArchitectureRegistry
-from fairseq2.nn.embedding import Embedding, StandardEmbedding, init_scaled_embedding
+from fairseq2.nn.embedding import (Embedding, StandardEmbedding,
+                                   init_scaled_embedding)
 from fairseq2.nn.position_encoder import SinusoidalPositionEncoder
 from fairseq2.nn.projection import Linear, Projection, TiedProjection
-from fairseq2.nn.transformer import (
-    FeedForwardNetwork,
-    MultiheadAttention,
-    StandardFeedForwardNetwork,
-    StandardMultiheadAttention,
-    StandardTransformerDecoder,
-    StandardTransformerDecoderLayer,
-    StandardTransformerEncoder,
-    StandardTransformerEncoderLayer,
-    TransformerDecoder,
-    TransformerDecoderLayer,
-    TransformerEncoder,
-    TransformerEncoderLayer,
-    TransformerNormOrder,
-    create_default_sdpa,
-)
+from fairseq2.nn.transformer import (FeedForwardNetwork, MultiheadAttention,
+                                     StandardFeedForwardNetwork,
+                                     StandardMultiheadAttention,
+                                     StandardTransformerDecoder,
+                                     StandardTransformerDecoderLayer,
+                                     StandardTransformerEncoder,
+                                     StandardTransformerEncoderLayer,
+                                     TransformerDecoder,
+                                     TransformerDecoderLayer,
+                                     TransformerEncoder,
+                                     TransformerEncoderLayer,
+                                     TransformerNormOrder, create_default_sdpa)
 from fairseq2.typing import DataType, Device
 from torch.nn import GELU, ReLU
 
-from seamless_communication.models.unity.char_tokenizer import load_unity_char_tokenizer
-from seamless_communication.models.unity.fft_decoder import FeedForwardTransformer
+from seamless_communication.models.unity.char_tokenizer import \
+    load_unity_char_tokenizer
+from seamless_communication.models.unity.fft_decoder import \
+    FeedForwardTransformer
 from seamless_communication.models.unity.fft_decoder_layer import (
-    Conv1dBlock,
-    FeedForwardTransformerLayer,
-)
+    Conv1dBlock, FeedForwardTransformerLayer)
 from seamless_communication.models.unity.length_regulator import (
-    VarianceAdaptor,
-    VariancePredictor,
-)
-from seamless_communication.models.unity.model import UnitYNART2UModel, UnitYT2UModel
-from seamless_communication.models.unity.nar_decoder_frontend import NARDecoderFrontend
+    VarianceAdaptor, VariancePredictor)
+from seamless_communication.models.unity.model import (UnitYNART2UModel,
+                                                       UnitYT2UModel)
+from seamless_communication.models.unity.nar_decoder_frontend import \
+    NARDecoderFrontend
 
 
 @dataclass

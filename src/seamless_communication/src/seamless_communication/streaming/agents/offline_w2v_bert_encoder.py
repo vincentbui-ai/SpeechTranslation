@@ -14,14 +14,13 @@ from fairseq2.data.data_pipeline import Collater
 from fairseq2.data.text import TextTokenizer
 from fairseq2.models.wav2vec2 import Wav2Vec2EncoderConfig
 from fairseq2.nn.padding import get_seqs_and_padding_mask
-from seamless_communication.models.unity.model import UnitYModel
 from simuleval.agents import SpeechToSpeechAgent
 from simuleval.agents.actions import Action, ReadAction, WriteAction
 from simuleval.data.segments import SpeechSegment
+
+from seamless_communication.models.unity.model import UnitYModel
 from seamless_communication.streaming.agents.common import (
-    AgentStates,
-    NoUpdateTargetMixin,
-)
+    AgentStates, NoUpdateTargetMixin)
 
 
 class OfflineWav2VecBertEncoderAgent(NoUpdateTargetMixin, SpeechToSpeechAgent):  # type: ignore

@@ -15,7 +15,6 @@ from fairseq.data.legacy.masked_lm_dataset import MaskedLMDataset
 from fairseq.data.legacy.masked_lm_dictionary import BertDictionary
 from fairseq.tasks import LegacyFairseqTask, register_task
 
-
 logger = logging.getLogger(__name__)
 
 

@@ -1,15 +1,17 @@
-from typing import NamedTuple, List
-from urllib.parse import urlparse
-import os, sys
-import subprocess
-from subprocess import check_call, check_output
 import glob
-import wget
-import re
 import multiprocessing as mp
-from functools import partial
+import os
 import pathlib
-from collections import OrderedDict 
+import re
+import subprocess
+import sys
+from collections import OrderedDict
+from functools import partial
+from subprocess import check_call, check_output
+from typing import List, NamedTuple
+from urllib.parse import urlparse
+
+import wget
 
 WORKDIR_ROOT = os.environ.get('WORKDIR_ROOT', None)
 

@@ -4,9 +4,9 @@
 # LICENSE file in the root directory of this source tree.
 
 
-from fairseq.models.roberta.hub_interface import RobertaHubInterface
 import torch
 import torch.nn.functional as F
+from fairseq.models.roberta.hub_interface import RobertaHubInterface
 
 
 class XMODHubInterface(RobertaHubInterface):

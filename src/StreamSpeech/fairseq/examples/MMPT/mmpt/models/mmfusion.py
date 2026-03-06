@@ -17,7 +17,6 @@
 
 
 import torch
-
 from torch import nn
 
 try:
@@ -34,8 +33,9 @@ class MMPTModel(nn.Module):
     @classmethod
     def from_pretrained(cls, config, checkpoint="checkpoint_best.pt"):
         import os
-        from ..utils import recursive_config
+
         from ..tasks import Task
+        from ..utils import recursive_config
         config = recursive_config(config)
         mmtask = Task.config_task(config)
         checkpoint_path = os.path.join(config.eval.save_path, checkpoint)

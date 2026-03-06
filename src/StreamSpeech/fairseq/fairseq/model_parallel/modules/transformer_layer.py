@@ -6,12 +6,9 @@
 from fairseq.model_parallel.modules import ModelParallelMultiheadAttention
 from fairseq.modules import TransformerDecoderLayer, TransformerEncoderLayer
 
-
 try:
-    from fairseq.model_parallel.megatron.mpu import (
-        ColumnParallelLinear,
-        RowParallelLinear,
-    )
+    from fairseq.model_parallel.megatron.mpu import (ColumnParallelLinear,
+                                                     RowParallelLinear)
 
     has_megatron_submodule = True
 except (ImportError, ModuleNotFoundError):

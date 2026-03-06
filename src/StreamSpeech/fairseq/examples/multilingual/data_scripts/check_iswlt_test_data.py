@@ -4,9 +4,10 @@
 # LICENSE file in the root directory of this source tree.
 
 
-import os, sys
-import subprocess
+import os
 import re
+import subprocess
+import sys
 from subprocess import check_call, check_output
 
 WORKDIR_ROOT = os.environ.get('WORKDIR_ROOT', None)

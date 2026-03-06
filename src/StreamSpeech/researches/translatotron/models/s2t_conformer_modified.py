@@ -7,12 +7,8 @@ import logging
 
 from fairseq import checkpoint_utils
 from fairseq.models import register_model, register_model_architecture
-
 from fairseq.models.speech_to_text.s2t_conformer import (
-    S2TConformerModel,
-    conformer_base_architecture,
-)
-
+    S2TConformerModel, conformer_base_architecture)
 
 logger = logging.getLogger(__name__)
 

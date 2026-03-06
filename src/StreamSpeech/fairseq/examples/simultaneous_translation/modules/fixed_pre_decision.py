@@ -1,17 +1,15 @@
+import math
 from functools import partial
+from typing import Dict, Optional
 
 import torch
-from torch import Tensor
-import math
 import torch.nn.functional as F
+from torch import Tensor
 
 from . import register_monotonic_attention
-from .monotonic_multihead_attention import (
-    MonotonicAttention,
-    MonotonicInfiniteLookbackAttention,
-    WaitKAttention
-)
-from typing import Dict, Optional
+from .monotonic_multihead_attention import (MonotonicAttention,
+                                            MonotonicInfiniteLookbackAttention,
+                                            WaitKAttention)
 
 
 def fixed_pooling_monotonic_attention(monotonic_attention):

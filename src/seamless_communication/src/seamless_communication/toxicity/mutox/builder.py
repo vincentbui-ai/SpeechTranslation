@@ -5,13 +5,13 @@
 # MIT_LICENSE file in the root directory of this source tree.
 
 import typing as tp
-from seamless_communication.toxicity.mutox.classifier import (
-    MutoxClassifier,
-    MutoxConfig,
-)
+
 import torch
-from torch import nn
 from fairseq2.typing import DataType, Device
+from torch import nn
+
+from seamless_communication.toxicity.mutox.classifier import (MutoxClassifier,
+                                                              MutoxConfig)
 
 
 class MutoxClassifierBuilder:

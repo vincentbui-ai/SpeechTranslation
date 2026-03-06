@@ -1,5 +1,5 @@
-from pathlib import Path
 import os
+from pathlib import Path
 
 cwd = Path(".").resolve()
 print("running 'check_installation.py' from:", cwd)
@@ -15,10 +15,9 @@ print("numpy:", numpy.__version__)
 import fairseq
 
 print("Fairseq installed at:", fairseq.__file__)
+import _imp
 import fairseq.criterions
 import fairseq.dataclass.configs
-
-import _imp
 
 print("Should load following .so suffixes:", _imp.extension_suffixes())
 

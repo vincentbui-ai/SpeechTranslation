@@ -126,7 +126,8 @@ class SpeechRecognitionTask(LegacyFairseqTask):
     def build_generator(self, models, args, **unused):
         w2l_decoder = getattr(args, "w2l_decoder", None)
         if w2l_decoder == "viterbi":
-            from examples.speech_recognition.w2l_decoder import W2lViterbiDecoder
+            from examples.speech_recognition.w2l_decoder import \
+                W2lViterbiDecoder
 
             return W2lViterbiDecoder(args, self.target_dictionary)
         elif w2l_decoder == "kenlm":
@@ -134,7 +135,8 @@ class SpeechRecognitionTask(LegacyFairseqTask):
 
             return W2lKenLMDecoder(args, self.target_dictionary)
         elif w2l_decoder == "fairseqlm":
-            from examples.speech_recognition.w2l_decoder import W2lFairseqLMDecoder
+            from examples.speech_recognition.w2l_decoder import \
+                W2lFairseqLMDecoder
 
             return W2lFairseqLMDecoder(args, self.target_dictionary)
         else:

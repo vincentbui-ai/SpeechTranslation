@@ -7,12 +7,12 @@
 from typing import Final
 
 import torch
+from fairseq2.data.audio import AudioDecoderOutput
 from torch import tensor
 
-from fairseq2.data.audio import AudioDecoderOutput
-from seamless_communication.models.aligner.alignment_extractor import AlignmentExtractor
+from seamless_communication.models.aligner.alignment_extractor import \
+    AlignmentExtractor
 from tests.common import assert_equal, device, get_default_dtype
-
 
 REF_TEXT = "the examination and testimony of the experts enabled the commision to conclude that five shots may have been fired"
 

@@ -13,20 +13,18 @@ from typing import Any, Dict, Iterable, List, Optional, Tuple
 import numpy as np
 import torch
 import torchaudio
-from datasets import Dataset
 from datasets.distributed import split_dataset_by_node
+from fairseq2.data.audio import WaveformToFbankConverter
 from fairseq2.data.text import TextTokenEncoder
 from fairseq2.models.nllb import NllbTokenizer
-from fairseq2.data.audio import WaveformToFbankConverter
 from torch import Tensor
 from torch.nn.functional import pad as pad_tensor
 from torch.utils.data import DataLoader
 
+from datasets import Dataset
 from seamless_communication.datasets.datatypes import LangPairSample
 from seamless_communication.models.unity.unit_tokenizer import (
-    UnitTokenEncoder,
-    UnitTokenizer,
-)
+    UnitTokenEncoder, UnitTokenizer)
 
 logger = logging.getLogger(__name__)
 

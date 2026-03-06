@@ -10,10 +10,10 @@ import random
 
 from fairseq.tasks import LegacyFairseqTask, register_task
 
-from .task import Task
-from .retritask import RetriTask
-from ..datasets import FairseqMMDataset
 from .. import utils
+from ..datasets import FairseqMMDataset
+from .retritask import RetriTask
+from .task import Task
 
 
 @register_task("mmtask")

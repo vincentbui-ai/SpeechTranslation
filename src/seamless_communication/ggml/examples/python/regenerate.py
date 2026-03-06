@@ -2,7 +2,11 @@
 #
 # cffi requires prior C preprocessing of the headers, and it uses pycparser which chokes on a couple of things
 # so we help it a bit (e.g. replace sizeof expressions with their value, remove exotic syntax found in Darwin headers).
-import os, sys, re, subprocess
+import os
+import re
+import subprocess
+import sys
+
 import cffi
 from stubs import generate_stubs
 

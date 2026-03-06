@@ -50,13 +50,14 @@ ggml.ggml_free(ctx)
 ```
 
 """
-import os
-import sys
 import ctypes
-import pathlib
 import importlib.resources
+import os
+import pathlib
+import sys
 from pathlib import Path
 from typing import List, Optional, Sequence, Union
+
 from typing_extensions import TypeAlias
 
 

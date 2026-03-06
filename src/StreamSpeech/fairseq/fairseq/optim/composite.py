@@ -3,18 +3,18 @@
 # This source code is licensed under the MIT license found in the
 # LICENSE file in the root directory of this source tree.
 
+import copy
 import logging
 from collections import defaultdict
 from dataclasses import dataclass, field
-from typing import Dict, Any, List, Optional
+from typing import Any, Dict, List, Optional
 
 import torch.optim
 from fairseq.dataclass import FairseqDataclass
-from fairseq.optim import FairseqOptimizer, register_optimizer, _build_optimizer
+from fairseq.optim import (FairseqOptimizer, _build_optimizer,
+                           register_optimizer)
 from fairseq.optim.lr_scheduler import FairseqLRScheduler, build_lr_scheduler
 from omegaconf import II, open_dict
-import copy
-
 
 logger = logging.getLogger(__name__)
 

@@ -9,16 +9,15 @@ Signal processing-based evaluation using waveforms
 """
 
 import csv
-import numpy as np
 import os.path as op
 
+import numpy as np
 import torch
-import tqdm
-from tabulate import tabulate
 import torchaudio
-
+import tqdm
 from examples.speech_synthesis.utils import batch_mel_spectral_distortion
 from fairseq.tasks.text_to_speech import batch_mel_cepstral_distortion
+from tabulate import tabulate
 
 
 def load_eval_spec(path):

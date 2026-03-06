@@ -3,24 +3,27 @@
 # This source code is licensed under the MIT license found in the
 # LICENSE file in the root directory of this source tree.
 
-import os
-import re
+import argparse
 import glob
 import json
-import tempfile
 import math
+import os
+import re
+import subprocess
+import tempfile
+
+import commons
+import numpy as np
 import torch
+import utils
+from data_utils import (TextAudioCollate, TextAudioLoader,
+                        TextAudioSpeakerCollate, TextAudioSpeakerLoader)
+from models import SynthesizerTrn
+from scipy.io.wavfile import write
 from torch import nn
 from torch.nn import functional as F
 from torch.utils.data import DataLoader
-import numpy as np
-import commons
-import utils
-import argparse
-import subprocess
-from data_utils import TextAudioLoader, TextAudioCollate, TextAudioSpeakerLoader, TextAudioSpeakerCollate
-from models import SynthesizerTrn
-from scipy.io.wavfile import write
+
 
 class TextMapper(object):
     def __init__(self, vocab_file):

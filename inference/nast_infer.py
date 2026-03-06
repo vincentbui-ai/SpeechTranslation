@@ -28,8 +28,8 @@ Usage:
 """
 
 import argparse
-import sys
 import os
+import sys
 import types
 
 REPO_ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -40,10 +40,8 @@ sys.path.insert(0, os.path.join(REPO_ROOT, "src", "StreamSpeech", "researches"))
 
 import torch
 import torchaudio
-
 from nast.agents.nast_speech_agent_s2s import NASTSpeechAgent
 from simuleval.data.segments import SpeechSegment
-
 
 SAMPLE_RATE = 16_000
 

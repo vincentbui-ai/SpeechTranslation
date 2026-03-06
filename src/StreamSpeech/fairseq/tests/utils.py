@@ -13,19 +13,15 @@ import sys
 import typing as tp
 from io import StringIO
 
+import fairseq.distributed.utils as distributed_utils
 import torch
 import torch.nn.functional as F
-
-import fairseq.distributed.utils as distributed_utils
 from fairseq import options, utils
 from fairseq.data import Dictionary
 from fairseq.data.language_pair_dataset import collate
 from fairseq.dataclass.utils import convert_namespace_to_omegaconf
-from fairseq.models import (
-    FairseqEncoder,
-    FairseqEncoderDecoderModel,
-    FairseqIncrementalDecoder,
-)
+from fairseq.models import (FairseqEncoder, FairseqEncoderDecoderModel,
+                            FairseqIncrementalDecoder)
 from fairseq.models.fairseq_encoder import EncoderOut
 from fairseq.tasks import LegacyFairseqTask
 from fairseq_cli import generate, interactive, preprocess, train, validate

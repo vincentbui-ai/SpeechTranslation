@@ -7,16 +7,11 @@ import unittest
 from typing import Dict, List
 
 import torch
+from fairseq import utils
+from fairseq.data import (Dictionary, LanguagePairDataset, TransformEosDataset,
+                          data_utils, noising)
 
 import tests.utils as test_utils
-from fairseq import utils
-from fairseq.data import (
-    Dictionary,
-    LanguagePairDataset,
-    TransformEosDataset,
-    data_utils,
-    noising,
-)
 
 
 class TestDataNoising(unittest.TestCase):

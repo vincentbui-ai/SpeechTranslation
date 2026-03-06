@@ -3,16 +3,16 @@
 # This source code is licensed under the MIT license found in the
 # LICENSE file in the root directory of this source tree.
 
-import numpy as np
-import torch
 import json
 
+import numpy as np
+import torch
+from examples.hubert.simple_kmeans.dump_km_label import ApplyKmeans
+# from examples.hubert.simple_kmeans.dump_hubert_feature import HubertFeatureReader
+from examples.textless_nlp.gslm.speech2unit.pretrained.hubert_feature_reader import \
+    HubertFeatureReader
 from fairseq import utils
 from fairseq.models.text_to_speech.vocoder import CodeHiFiGANVocoder
-
-# from examples.hubert.simple_kmeans.dump_hubert_feature import HubertFeatureReader
-from examples.textless_nlp.gslm.speech2unit.pretrained.hubert_feature_reader import HubertFeatureReader
-from examples.hubert.simple_kmeans.dump_km_label import ApplyKmeans
 
 
 # Hubert tokenizer

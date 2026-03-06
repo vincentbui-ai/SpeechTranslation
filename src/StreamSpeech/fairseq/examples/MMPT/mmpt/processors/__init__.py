@@ -2,22 +2,20 @@
 #
 # This source code is licensed under the MIT license found in the
 # LICENSE file in the root directory of this source tree.
-from .processor import *
-
+from .dsprocessor import *
 from .how2processor import *
 from .how2retriprocessor import *
-
-from .dsprocessor import *
+from .processor import *
 
 try:
-    from .rawvideoprocessor import *
     from .codecprocessor import *
-    from .webvidprocessor import *
-    from .expprocessor import *
+    from .expcodecprocessor import *
+    from .expdsprocessor import *
+    from .expfeatureencoder import *
     from .exphow2processor import *
     from .exphow2retriprocessor import *
-    from .expcodecprocessor import *
-    from .expfeatureencoder import *
-    from .expdsprocessor import *
+    from .expprocessor import *
+    from .rawvideoprocessor import *
+    from .webvidprocessor import *
 except ImportError:
     pass

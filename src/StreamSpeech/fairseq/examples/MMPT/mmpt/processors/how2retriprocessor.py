@@ -3,13 +3,9 @@
 # This source code is licensed under the MIT license found in the
 # LICENSE file in the root directory of this source tree.
 
-from .how2processor import (
-    ShardedHow2MetaProcessor,
-    ShardedVideoProcessor,
-    ShardedTextProcessor,
-    VariedLenAligner,
-    OverlappedAligner
-)
+from .how2processor import (OverlappedAligner, ShardedHow2MetaProcessor,
+                            ShardedTextProcessor, ShardedVideoProcessor,
+                            VariedLenAligner)
 
 
 class ShardedHow2VideoRetriMetaProcessor(ShardedHow2MetaProcessor):

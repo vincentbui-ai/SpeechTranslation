@@ -7,15 +7,12 @@ import math
 from dataclasses import dataclass, field
 
 import torch
-
 from fairseq import utils
-from fairseq.logging import metrics
 from fairseq.criterions import register_criterion
 from fairseq.criterions.label_smoothed_cross_entropy import (
     LabelSmoothedCrossEntropyCriterion,
-    LabelSmoothedCrossEntropyCriterionConfig,
-    label_smoothed_nll_loss,
-)
+    LabelSmoothedCrossEntropyCriterionConfig, label_smoothed_nll_loss)
+from fairseq.logging import metrics
 
 
 @dataclass

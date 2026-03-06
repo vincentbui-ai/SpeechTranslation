@@ -7,7 +7,9 @@ import logging
 import unittest
 from typing import Sequence
 
-from fairseq.data import LanguagePairDataset, ListDataset, RoundRobinZipDatasets
+from fairseq.data import (LanguagePairDataset, ListDataset,
+                          RoundRobinZipDatasets)
+
 from tests.test_train import mock_dict
 
 

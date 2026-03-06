@@ -7,14 +7,9 @@ from typing import Optional, Tuple
 
 import torch
 import torch.nn as nn
-from fairseq.modules import (
-    FairseqDropout,
-    LayerDropModuleList,
-    LayerNorm,
-    MultiheadAttention,
-    PositionalEmbedding,
-    TransformerSentenceEncoderLayer,
-)
+from fairseq.modules import (FairseqDropout, LayerDropModuleList, LayerNorm,
+                             MultiheadAttention, PositionalEmbedding,
+                             TransformerSentenceEncoderLayer)
 from fairseq.modules.quant_noise import quant_noise as apply_quant_noise_
 
 

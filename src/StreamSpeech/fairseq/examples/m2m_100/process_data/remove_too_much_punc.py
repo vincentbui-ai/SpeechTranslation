@@ -1,6 +1,7 @@
-import gzip
 import argparse
+import gzip
 from string import punctuation
+
 
 def len_no_punc(s, punc):
     return len([ch for ch in s if ch in punc])

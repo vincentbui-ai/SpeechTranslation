@@ -9,7 +9,6 @@ import math
 import torch
 import torch.nn as nn
 import torch.nn.functional as F
-
 from fairseq.modules.fairseq_dropout import FairseqDropout
 from fairseq.modules.scalar_bias import scalar_bias
 

@@ -40,7 +40,8 @@ import torchaudio
 from fairseq2.assets import InProcAssetMetadataProvider, asset_store
 from fairseq2.assets.card import AssetCard
 
-from seamless_communication.inference import SequenceGeneratorOptions, Translator
+from seamless_communication.inference import (SequenceGeneratorOptions,
+                                              Translator)
 
 logging.basicConfig(
     level=logging.INFO,

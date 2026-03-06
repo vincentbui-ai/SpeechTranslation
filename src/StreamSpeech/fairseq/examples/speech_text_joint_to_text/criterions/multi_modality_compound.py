@@ -6,12 +6,11 @@ import math
 from dataclasses import dataclass, field
 
 from fairseq import utils
-from fairseq.logging import metrics
 from fairseq.criterions import FairseqCriterion, register_criterion
 from fairseq.criterions.ctc import CtcCriterion, CtcCriterionConfig
-from fairseq.criterions.label_smoothed_cross_entropy import (
-    LabelSmoothedCrossEntropyCriterionConfig,
-)
+from fairseq.criterions.label_smoothed_cross_entropy import \
+    LabelSmoothedCrossEntropyCriterionConfig
+from fairseq.logging import metrics
 from fairseq.logging.meters import safe_round
 
 from .multi_modality_cross_entropy import SpeechTextPreTrainCrossEntCriterion

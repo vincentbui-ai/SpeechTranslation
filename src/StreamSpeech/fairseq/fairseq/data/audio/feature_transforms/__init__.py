@@ -1,10 +1,7 @@
 import os
-from fairseq.data.audio import (
-    AudioTransform,
-    CompositeAudioTransform,
-    import_transforms,
-    register_audio_transform,
-)
+
+from fairseq.data.audio import (AudioTransform, CompositeAudioTransform,
+                                import_transforms, register_audio_transform)
 
 
 class AudioFeatureTransform(AudioTransform):

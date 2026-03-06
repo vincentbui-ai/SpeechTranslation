@@ -6,7 +6,6 @@
 import torch
 from fairseq.utils import new_arange
 
-
 # -------------- Helper Functions --------------------------------------------------- #
 
 

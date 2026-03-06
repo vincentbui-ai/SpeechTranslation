@@ -11,15 +11,13 @@ import json
 import logging
 import os
 from pathlib import Path
-from tqdm import tqdm
 
 import torch
+from tqdm import tqdm
 
 from datasets import load_dataset
 from seamless_communication.datasets.huggingface import (
-    Speech2SpeechFleursDatasetBuilder,
-    SpeechTokenizer,
-)
+    Speech2SpeechFleursDatasetBuilder, SpeechTokenizer)
 from seamless_communication.models.unit_extractor import UnitExtractor
 
 logging.basicConfig(

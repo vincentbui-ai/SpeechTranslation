@@ -9,7 +9,6 @@ import numpy as np
 import torch
 from fairseq import utils
 
-
 DecoderOut = namedtuple(
     "IterativeRefinementDecoderOut",
     ["output_tokens", "output_scores", "attn", "step", "max_step", "history"],

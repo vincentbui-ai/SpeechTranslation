@@ -8,23 +8,19 @@
 
 import logging
 import math
-import numpy as np
 import random
-
 from dataclasses import dataclass, field
 from typing import Optional
 
-from omegaconf import II
-
+import numpy as np
 import torch
+import torch.distributed as dist
 import torch.nn as nn
 import torch.nn.functional as F
-import torch.distributed as dist
-
-from fairseq.modules import EMAModule, EMAModuleConfig
 from fairseq.dataclass import FairseqDataclass
 from fairseq.models import BaseFairseqModel, register_model
-
+from fairseq.modules import EMAModule, EMAModuleConfig
+from omegaconf import II
 
 logger = logging.getLogger(__name__)
 

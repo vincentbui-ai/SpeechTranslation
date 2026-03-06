@@ -21,9 +21,7 @@ from torch.nn import Dropout, Module, Parameter
 
 from seamless_communication.models.unity.char_tokenizer import CharTokenizer
 from seamless_communication.models.unity.length_regulator import (
-    HardUpsampling,
-    VarianceAdaptor,
-)
+    HardUpsampling, VarianceAdaptor)
 
 SPACE = "▁"
 

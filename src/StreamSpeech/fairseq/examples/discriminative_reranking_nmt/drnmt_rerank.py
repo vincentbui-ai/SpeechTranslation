@@ -7,19 +7,17 @@
 Score raw text with a trained model.
 """
 
-from collections import namedtuple
 import logging
-from multiprocessing import Pool
-import sys
 import os
 import random
+import sys
+from collections import namedtuple
+from multiprocessing import Pool
 
 import numpy as np
 import sacrebleu
 import torch
-
 from fairseq import checkpoint_utils, options, utils
-
 
 logger = logging.getLogger("fairseq_cli.drnmt_rerank")
 logger.setLevel(logging.INFO)

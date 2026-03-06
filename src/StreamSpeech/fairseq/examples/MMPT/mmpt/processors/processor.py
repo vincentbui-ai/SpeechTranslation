@@ -1,7 +1,8 @@
 # Copyright (c) Facebook, Inc. All Rights Reserved
 
-import numpy as np
 import os
+
+import numpy as np
 import torch
 
 

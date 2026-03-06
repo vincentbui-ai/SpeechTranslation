@@ -1,11 +1,11 @@
 import glob
+import logging
 import os
 from typing import List, Optional, Tuple
 
-import logging
 import numpy as np
-import torchvision.transforms.functional as TF
 import PIL
+import torchvision.transforms.functional as TF
 from PIL import Image
 from torchvision.datasets import VisionDataset
 

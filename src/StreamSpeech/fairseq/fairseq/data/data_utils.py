@@ -7,20 +7,20 @@ try:
     from collections.abc import Iterable
 except ImportError:
     from collections import Iterable
+
 import contextlib
 import itertools
 import logging
+import math
+import os
 import re
 import warnings
 from typing import Optional, Tuple
 
-import math
 import numpy as np
 import torch
-
-from fairseq.file_io import PathManager
 from fairseq import utils
-import os
+from fairseq.file_io import PathManager
 
 logger = logging.getLogger(__name__)
 
@@ -310,11 +310,9 @@ def batch_by_size(
             *required_batch_size_multiple* will be ignored (default: None).
     """
     try:
-        from fairseq.data.data_utils_fast import (
-            batch_by_size_fn,
-            batch_by_size_vec,
-            batch_fixed_shapes_fast,
-        )
+        from fairseq.data.data_utils_fast import (batch_by_size_fn,
+                                                  batch_by_size_vec,
+                                                  batch_fixed_shapes_fast)
     except ImportError:
         raise ImportError(
             "Please build Cython components with: "

@@ -4,17 +4,17 @@
 # This source code is licensed under the license found in the
 # MIT_LICENSE file in the root directory of this source tree.
 
-from pathlib import Path
+import logging
+import os
 import subprocess as sp
 import tempfile
-from typing import Union
-from torch import Tensor
+from dataclasses import dataclass
+from pathlib import Path
+from typing import Optional, Union
+
 import torchaudio
 from fairseq2.memory import MemoryBlock
-from dataclasses import dataclass
-from typing import Optional
-import os
-import logging
+from torch import Tensor
 
 SAMPLING_RATE = 16000
 

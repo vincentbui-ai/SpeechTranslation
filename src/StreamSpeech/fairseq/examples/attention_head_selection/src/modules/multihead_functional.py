@@ -3,17 +3,15 @@
 # This source code is licensed under the MIT license found in the
 # LICENSE file in the root directory of this source tree.
 
-from typing import Optional, Tuple
-import torch
-from torch import Tensor
-from torch.nn.functional import (
-    linear, softmax, dropout, pad,
-    has_torch_function,
-    handle_torch_function,
-    _in_projection_packed,
-)
 import math
 import warnings
+from typing import Optional, Tuple
+
+import torch
+from torch import Tensor
+from torch.nn.functional import (_in_projection_packed, dropout,
+                                 handle_torch_function, has_torch_function,
+                                 linear, pad, softmax)
 
 
 def _scaled_dot_product_attention(

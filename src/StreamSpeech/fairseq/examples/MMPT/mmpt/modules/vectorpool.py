@@ -1,12 +1,13 @@
 # Copyright (c) Facebook, Inc. All Rights Reserved
 
-import torch
 import os
-import numpy as np
 import pickle
 
-from . import retri
+import numpy as np
+import torch
+
 from ..utils import get_local_rank
+from . import retri
 
 
 class VectorPool(object):

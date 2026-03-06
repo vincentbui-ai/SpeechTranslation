@@ -79,7 +79,8 @@ def read_tsv_column(tsv_path: Path, column: str) -> list[dict]:
 def train_spm_model(texts: list[str], model_prefix: Path, lang_tag: str):
     """Train SentencePiece model từ list of texts."""
     model_prefix.parent.mkdir(parents=True, exist_ok=True)
-    import tempfile, os
+    import os
+    import tempfile
     with tempfile.NamedTemporaryFile(mode="w", suffix=".txt", delete=False,
                                      encoding="utf-8") as f:
         tmp_path = f.name

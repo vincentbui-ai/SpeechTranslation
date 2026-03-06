@@ -4,19 +4,17 @@
 # LICENSE file in the root directory of this source tree.
 
 import json
-import torch
 import logging
-import numpy as np
 import math
+from argparse import Namespace
 from pathlib import Path
 
-from argparse import Namespace
-from fairseq import utils, metrics
+import numpy as np
+import torch
+from fairseq import metrics, utils
 from fairseq.tasks import register_task
-from nast.tasks.speech_to_speech_modified import SpeechToSpeechModifiedTask
-
 from nast.tasks.nat_speech_to_unit import NATSpeechToUnitTask
-
+from nast.tasks.speech_to_speech_modified import SpeechToSpeechModifiedTask
 
 logger = logging.getLogger(__name__)
 
@@ -136,6 +134,7 @@ class NATSpeechToUnitCTCModifiedTask(NATSpeechToUnitTask):
 
                 def compute_bleu(meters):
                     import inspect
+
                     import sacrebleu
 
                     fn_sig = inspect.getfullargspec(sacrebleu.compute_bleu)[0]
@@ -154,6 +153,7 @@ class NATSpeechToUnitCTCModifiedTask(NATSpeechToUnitTask):
                 
                 def compute_bleu_unit(meters):
                     import inspect
+
                     import sacrebleu
 
                     fn_sig = inspect.getfullargspec(sacrebleu.compute_bleu)[0]

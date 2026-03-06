@@ -1,11 +1,12 @@
-import shutil
-import os, sys
-from subprocess import check_call, check_output
-import glob
 import argparse
-import shutil
-import pathlib
+import glob
 import itertools
+import os
+import pathlib
+import shutil
+import sys
+from subprocess import check_call, check_output
+
 
 def call_output(cmd):
     print(f"Executing: {cmd}")

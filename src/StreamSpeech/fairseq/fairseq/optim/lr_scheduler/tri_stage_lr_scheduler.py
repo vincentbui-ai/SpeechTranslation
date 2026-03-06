@@ -5,11 +5,12 @@
 
 import math
 from dataclasses import dataclass, field
-from typing import Optional, List, Tuple
-from omegaconf import II
+from typing import List, Optional, Tuple
 
 from fairseq.dataclass import FairseqDataclass
-from fairseq.optim.lr_scheduler import FairseqLRScheduler, register_lr_scheduler
+from fairseq.optim.lr_scheduler import (FairseqLRScheduler,
+                                        register_lr_scheduler)
+from omegaconf import II
 
 
 @dataclass

@@ -4,21 +4,18 @@
 # LICENSE file in the root directory of this source tree.
 
 from dataclasses import dataclass, field
+
 import torch
 from fairseq import utils
-from fairseq.logging import metrics
 from fairseq.criterions import register_criterion
 from fairseq.criterions.label_smoothed_cross_entropy import (
     LabelSmoothedCrossEntropyCriterion,
-    LabelSmoothedCrossEntropyCriterionConfig,
-)
+    LabelSmoothedCrossEntropyCriterionConfig)
+from fairseq.logging import metrics
 
 try:
-    from simuleval.metrics.latency import (
-        AverageLagging,
-        AverageProportion,
-        DifferentiableAverageLagging,
-    )
+    from simuleval.metrics.latency import (AverageLagging, AverageProportion,
+                                           DifferentiableAverageLagging)
 
     LATENCY_METRICS = {
         "average_lagging": AverageLagging,

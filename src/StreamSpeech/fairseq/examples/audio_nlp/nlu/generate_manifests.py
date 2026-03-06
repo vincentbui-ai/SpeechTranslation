@@ -1,6 +1,8 @@
 import argparse
 from pathlib import Path
+
 import soundfile
+
 
 def get_insl_frame(parse):
     out = []

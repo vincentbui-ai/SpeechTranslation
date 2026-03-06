@@ -20,6 +20,7 @@ dir_path = os.path.dirname(__file__)
 resynth_path = os.path.dirname(dir_path) + "/speech-resynthesis"
 sys.path.append(resynth_path)
 from dataset import parse_speaker, parse_style
+
 from .utils import F0Stat
 
 MAX_WAV_VALUE = 32768.0

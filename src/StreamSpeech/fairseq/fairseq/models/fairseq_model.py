@@ -15,14 +15,11 @@ import torch.nn as nn
 import torch.nn.functional as F
 from fairseq import utils
 from fairseq.data import Dictionary
-from fairseq.dataclass.utils import (
-    convert_namespace_to_omegaconf,
-    gen_parser_from_dataclass,
-)
+from fairseq.dataclass.utils import (convert_namespace_to_omegaconf,
+                                     gen_parser_from_dataclass)
 from fairseq.models import FairseqDecoder, FairseqEncoder
 from omegaconf import DictConfig
 from torch import Tensor
-
 
 logger = logging.getLogger(__name__)
 

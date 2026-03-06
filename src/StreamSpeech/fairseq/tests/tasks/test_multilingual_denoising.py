@@ -11,6 +11,7 @@ from fairseq import options
 from fairseq.binarizer import FileBinarizer, VocabularyDatasetBinarizer
 from fairseq.dataclass.utils import convert_namespace_to_omegaconf
 from fairseq.tasks.multilingual_denoising import MultilingualDenoisingTask
+
 from tests.utils import build_vocab, make_data
 
 

@@ -1,5 +1,8 @@
-import os, sys
-import glob, itertools
+import glob
+import itertools
+import os
+import sys
+
 import pandas as pd
 
 WORKDIR_ROOT = os.environ.get('WORKDIR_ROOT', None)

@@ -8,20 +8,15 @@ import math
 from collections import OrderedDict
 
 import torch
-
 from fairseq import utils
-from fairseq.logging import metrics
 from fairseq.criterions import register_criterion
 from fairseq.criterions.ctc import CtcCriterion
 from fairseq.criterions.label_smoothed_cross_entropy_with_rdrop import (
     RdropLabelSmoothedCrossEntropyCriterion,
-    RdropLabelSmoothedCrossEntropyCriterionConfig,
-    duplicate_input,
-)
-from fairseq.criterions.tacotron2_loss import (
-    Tacotron2Criterion,
-    Tacotron2CriterionConfig,
-)
+    RdropLabelSmoothedCrossEntropyCriterionConfig, duplicate_input)
+from fairseq.criterions.tacotron2_loss import (Tacotron2Criterion,
+                                               Tacotron2CriterionConfig)
+from fairseq.logging import metrics
 
 logger = logging.getLogger(__name__)
 

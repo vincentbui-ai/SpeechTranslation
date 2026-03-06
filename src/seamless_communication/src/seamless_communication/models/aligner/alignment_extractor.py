@@ -11,11 +11,12 @@ import numpy
 import torch
 import torch.nn as nn
 import torchaudio
-from fairseq2.typing import DataType, Device
 from fairseq2.data.typing import StringLike
+from fairseq2.typing import DataType, Device
 from torch import Tensor
 
-from seamless_communication.models.aligner.loader import load_unity2_alignment_model
+from seamless_communication.models.aligner.loader import \
+    load_unity2_alignment_model
 from seamless_communication.models.unit_extractor import UnitExtractor
 
 try:

@@ -4,23 +4,18 @@
 # LICENSE file in the root directory of this source tree.
 
 import json
-import torch
 import logging
-import numpy as np
-
 from argparse import Namespace
-from fairseq import utils, metrics
+
+import numpy as np
+import torch
+from fairseq import metrics, utils
+from fairseq.optim.amp_optimizer import AMPOptimizer
 from fairseq.tasks import register_task
 from fairseq.utils import new_arange
-from fairseq.optim.amp_optimizer import AMPOptimizer
-
-from nast.tasks.speech_to_text_modified import SpeechToTextModifiedTask
-
 from nast.datasets.nat_speech_to_text_dataset import (
-    NATSpeechToTextDataset,
-    NATSpeechToTextDatasetCreator,
-)
-
+    NATSpeechToTextDataset, NATSpeechToTextDatasetCreator)
+from nast.tasks.speech_to_text_modified import SpeechToTextModifiedTask
 
 logger = logging.getLogger(__name__)
 
@@ -312,6 +307,7 @@ class NATSpeechToTextTask(SpeechToTextModifiedTask):
 
                 def compute_bleu(meters):
                     import inspect
+
                     import sacrebleu
 
                     fn_sig = inspect.getfullargspec(sacrebleu.compute_bleu)[0]

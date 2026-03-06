@@ -6,11 +6,12 @@
 
 from __future__ import annotations
 
-from argparse import Namespace
-import torch
 import typing as tp
-import numpy as np
 import warnings
+from argparse import Namespace
+
+import numpy as np
+import torch
 
 SAMPLING_RATE = 16000
 

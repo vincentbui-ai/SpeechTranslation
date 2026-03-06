@@ -3,12 +3,11 @@
 # This source code is licensed under the MIT license found in the
 # LICENSE file in the root directory of this source tree.
 import torch
-from fairseq import utils
 import torch.nn as nn
-
+from ctc_unity.modules.transformer_layer import TransformerEncoderLayer
+from fairseq import utils
 from fairseq.models import FairseqEncoder
 from fairseq.modules import LayerNorm
-from ctc_unity.modules.transformer_layer import TransformerEncoderLayer
 
 
 class CTCDecoderWithTransformerLayer(FairseqEncoder):

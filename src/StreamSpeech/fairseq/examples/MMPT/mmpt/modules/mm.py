@@ -17,14 +17,10 @@
 
 
 import torch
-
 from torch import nn
 
 try:
-    from transformers.modeling_bert import (
-        BertEmbeddings,
-        ACT2FN,
-    )
+    from transformers.modeling_bert import ACT2FN, BertEmbeddings
 except ImportError:
     pass
 

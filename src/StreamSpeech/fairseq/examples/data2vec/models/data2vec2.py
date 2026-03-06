@@ -6,48 +6,31 @@
 import logging
 import math
 from dataclasses import dataclass, field
-from typing import Optional, Callable
 from functools import partial
+from typing import Callable, Optional
+
 import numpy as np
-
-from omegaconf import II
-
 import torch
+import torch.distributed as dist
 import torch.nn as nn
 import torch.nn.functional as F
-import torch.distributed as dist
-
-from fairseq.modules import EMAModule, EMAModuleConfig
-
+from examples.data2vec.data.modality import Modality
+from examples.data2vec.models.modalities.audio import (AudioEncoder,
+                                                       D2vAudioConfig)
+from examples.data2vec.models.modalities.base import (D2vModalityConfig,
+                                                      MaskSeed,
+                                                      ModalitySpecificEncoder,
+                                                      get_annealed_rate)
+from examples.data2vec.models.modalities.images import (D2vImageConfig,
+                                                        ImageEncoder)
+from examples.data2vec.models.modalities.modules import (AltBlock,
+                                                         D2vDecoderConfig,
+                                                         Decoder1d)
+from examples.data2vec.models.modalities.text import D2vTextConfig, TextEncoder
 from fairseq.dataclass import FairseqDataclass
 from fairseq.models import BaseFairseqModel, register_model
-
-from examples.data2vec.data.modality import Modality
-
-from examples.data2vec.models.modalities.base import (
-    MaskSeed,
-    D2vModalityConfig,
-    ModalitySpecificEncoder,
-    get_annealed_rate,
-)
-from examples.data2vec.models.modalities.modules import (
-    D2vDecoderConfig,
-    AltBlock,
-    Decoder1d,
-)
-
-from examples.data2vec.models.modalities.audio import (
-    D2vAudioConfig,
-    AudioEncoder,
-)
-from examples.data2vec.models.modalities.images import (
-    D2vImageConfig,
-    ImageEncoder,
-)
-from examples.data2vec.models.modalities.text import (
-    D2vTextConfig,
-    TextEncoder,
-)
+from fairseq.modules import EMAModule, EMAModuleConfig
+from omegaconf import II
 
 logger = logging.getLogger(__name__)
 
@@ -240,7 +223,8 @@ class Data2VecMultiModel(BaseFairseqModel):
         if self.cfg.mae_init:
             self.apply(self._init_weights)
         else:
-            from fairseq.modules.transformer_sentence_encoder import init_bert_params
+            from fairseq.modules.transformer_sentence_encoder import \
+                init_bert_params
 
             self.apply(init_bert_params)
 

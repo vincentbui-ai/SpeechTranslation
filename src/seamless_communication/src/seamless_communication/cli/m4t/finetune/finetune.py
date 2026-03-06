@@ -11,12 +11,11 @@ from pathlib import Path
 
 import torch
 
-from seamless_communication.cli.m4t.finetune import dataloader, dist_utils, trainer
-from seamless_communication.models.unity import (
-    load_unity_model,
-    load_unity_text_tokenizer,
-    load_unity_unit_tokenizer,
-)
+from seamless_communication.cli.m4t.finetune import (dataloader, dist_utils,
+                                                     trainer)
+from seamless_communication.models.unity import (load_unity_model,
+                                                 load_unity_text_tokenizer,
+                                                 load_unity_unit_tokenizer)
 
 logging.basicConfig(
     level=logging.INFO,

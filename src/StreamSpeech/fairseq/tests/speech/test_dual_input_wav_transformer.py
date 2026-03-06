@@ -7,14 +7,14 @@ import unittest
 from collections import namedtuple
 from pathlib import Path
 
-import torch
-from tqdm import tqdm
-
 import fairseq
+import torch
 from fairseq import utils
 from fairseq.checkpoint_utils import load_model_ensemble_and_task
 from fairseq.scoring.bleu import SacrebleuScorer
 from fairseq.tasks import import_tasks
+from tqdm import tqdm
+
 from tests.speech import S3_BASE_URL, TestFairseqSpeech
 
 

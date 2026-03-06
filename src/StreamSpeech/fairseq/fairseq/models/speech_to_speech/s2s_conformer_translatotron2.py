@@ -6,24 +6,16 @@
 import copy
 import logging
 
-from fairseq.models import (
-    FairseqEncoderModel,
-    FairseqLanguageModel,
-    register_model,
-    register_model_architecture,
-)
+from fairseq.models import (FairseqEncoderModel, FairseqLanguageModel,
+                            register_model, register_model_architecture)
 from fairseq.models.speech_to_speech.modules.ctc_decoder import CTCDecoder
-from fairseq.models.speech_to_speech.modules.transformer_encoder import (
-    TransformerEncoderNoEmb,
-)
+from fairseq.models.speech_to_speech.modules.transformer_encoder import \
+    TransformerEncoderNoEmb
 from fairseq.models.speech_to_speech.s2s_conformer import S2SpecTConformerModel
-from fairseq.models.speech_to_speech.s2s_conformer_unity import (
-    multitask_text_transformer_decoder_arch,
-)
+from fairseq.models.speech_to_speech.s2s_conformer_unity import \
+    multitask_text_transformer_decoder_arch
 from fairseq.models.speech_to_speech.s2s_transformer import (
-    base_multitask_text_transformer_decoder_arch,
-    s2spect_architecture_base,
-)
+    base_multitask_text_transformer_decoder_arch, s2spect_architecture_base)
 from fairseq.models.text_to_speech import TTSTransformerDecoder
 from fairseq.models.transformer import TransformerDecoder, TransformerModelBase
 

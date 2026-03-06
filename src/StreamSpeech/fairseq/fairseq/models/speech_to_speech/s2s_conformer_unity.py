@@ -6,27 +6,20 @@
 import copy
 import logging
 
-from fairseq.models import (
-    FairseqEncoder,
-    FairseqEncoderModel,
-    FairseqLanguageModel,
-    register_model,
-    register_model_architecture,
-)
+from fairseq.models import (FairseqEncoder, FairseqEncoderModel,
+                            FairseqLanguageModel, register_model,
+                            register_model_architecture)
 from fairseq.models.speech_to_speech.modules.ctc_decoder import CTCDecoder
-from fairseq.models.speech_to_speech.modules.stacked_embedding import StackedEmbedding
-from fairseq.models.speech_to_speech.modules.transformer_decoder_aug import (
-    AugTransformerUnitDecoder,
-)
-from fairseq.models.speech_to_speech.modules.transformer_encoder import (
-    TransformerEncoderNoEmb,
-)
+from fairseq.models.speech_to_speech.modules.stacked_embedding import \
+    StackedEmbedding
+from fairseq.models.speech_to_speech.modules.transformer_decoder_aug import \
+    AugTransformerUnitDecoder
+from fairseq.models.speech_to_speech.modules.transformer_encoder import \
+    TransformerEncoderNoEmb
 from fairseq.models.speech_to_speech.s2s_conformer import S2UTConformerModel
 from fairseq.models.speech_to_speech.s2s_transformer import (
-    TransformerUnitDecoder,
-    base_multitask_text_transformer_decoder_arch,
-    s2ut_architecture_base,
-)
+    TransformerUnitDecoder, base_multitask_text_transformer_decoder_arch,
+    s2ut_architecture_base)
 from fairseq.models.transformer import TransformerDecoder, TransformerModelBase
 
 logger = logging.getLogger(__name__)

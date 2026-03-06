@@ -8,16 +8,15 @@ from pathlib import Path
 from typing import Any, Dict, List, Optional
 
 import torch
-from torch import Tensor
-
+from ctc_unity.modules.transformer_decoder import TransformerDecoder
 from fairseq import checkpoint_utils, utils
 from fairseq.models.speech_to_speech.modules.ctc_decoder import CTCDecoder
-from fairseq.models.speech_to_speech.modules.stacked_embedding import StackedEmbedding
+from fairseq.models.speech_to_speech.modules.stacked_embedding import \
+    StackedEmbedding
 from fairseq.models.speech_to_text import S2TTransformerEncoder
 from fairseq.models.text_to_speech import TTSTransformerDecoder
 from fairseq.models.transformer import Linear, TransformerModelBase
-
-from ctc_unity.modules.transformer_decoder import TransformerDecoder
+from torch import Tensor
 
 logger = logging.getLogger(__name__)
 

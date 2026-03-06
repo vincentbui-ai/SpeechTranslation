@@ -9,22 +9,18 @@ import re
 from dataclasses import dataclass, field
 from typing import Any, Optional
 
+import numpy as np
 import torch
 import torch.nn as nn
 import torch.nn.functional as F
-import numpy as np
-from omegaconf import II, MISSING, open_dict
-
 from fairseq import checkpoint_utils, tasks
 from fairseq.dataclass import FairseqDataclass
 from fairseq.dataclass.utils import convert_namespace_to_omegaconf
-from fairseq.models import (
-    BaseFairseqModel,
-    register_model,
-)
+from fairseq.models import BaseFairseqModel, register_model
 from fairseq.models.wav2vec.wav2vec2 import MASKING_DISTRIBUTION_CHOICES
 from fairseq.modules import TransposeLast
 from fairseq.tasks import FairseqTask
+from omegaconf import II, MISSING, open_dict
 
 logger = logging.getLogger(__name__)
 

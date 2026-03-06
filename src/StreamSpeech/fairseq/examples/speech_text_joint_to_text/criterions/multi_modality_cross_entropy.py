@@ -3,14 +3,11 @@
 # This source code is licensed under the MIT license found in the
 # LICENSE file in the root directory of this source tree.
 import torch
-
 from fairseq import utils
 from fairseq.criterions import register_criterion
 from fairseq.criterions.label_smoothed_cross_entropy import (
     LabelSmoothedCrossEntropyCriterion,
-    LabelSmoothedCrossEntropyCriterionConfig,
-    label_smoothed_nll_loss,
-)
+    LabelSmoothedCrossEntropyCriterionConfig, label_smoothed_nll_loss)
 
 
 @register_criterion(

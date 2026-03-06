@@ -4,16 +4,16 @@
 # LICENSE file in the root directory of this source tree.
 
 
+import io
 import mmap
 from pathlib import Path
-import io
 from typing import BinaryIO, List, Optional, Tuple, Union
 
 import numpy as np
 import torch
 import torch.nn.functional as F
-
-from fairseq.data.audio.waveform_transforms import CompositeAudioWaveformTransform
+from fairseq.data.audio.waveform_transforms import \
+    CompositeAudioWaveformTransform
 
 SF_AUDIO_FILE_EXTENSIONS = {".wav", ".flac", ".ogg"}
 FEATURE_OR_SF_AUDIO_FILE_EXTENSIONS = {".npy", ".wav", ".flac", ".ogg"}

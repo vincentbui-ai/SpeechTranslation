@@ -8,8 +8,8 @@
 Mixins + common for fairseq2 simuleval agents
 """
 
-from simuleval.data.segments import Segment
 from simuleval.agents.states import AgentStates as AgentStatesOrig
+from simuleval.data.segments import Segment
 
 
 class EarlyStoppingMixin:

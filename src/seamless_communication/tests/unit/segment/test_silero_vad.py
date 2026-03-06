@@ -7,8 +7,11 @@
 import unittest
 from argparse import Namespace
 from unittest.mock import Mock
-from seamless_communication.segment.silero_vad import SileroVADSegmenter, Segment
+
 import numpy as np
+
+from seamless_communication.segment.silero_vad import (Segment,
+                                                       SileroVADSegmenter)
 
 
 class TestSileroVADSegmenter(unittest.TestCase):

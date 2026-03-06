@@ -9,14 +9,14 @@ from typing import Iterable, Optional, Tuple, final
 from fairseq2.nn.module_list import ModuleList
 from fairseq2.nn.normalization import LayerNorm
 from fairseq2.nn.padding import PaddingMask
-from fairseq2.nn.transformer import TransformerNormOrder, create_standard_layer_norm
+from fairseq2.nn.transformer import (TransformerNormOrder,
+                                     create_standard_layer_norm)
 from fairseq2.typing import DataType, Device, finaloverride
 from torch import Tensor
 from torch.nn import Module
 
-from seamless_communication.models.unity.fft_decoder_layer import (
-    FeedForwardTransformerLayer,
-)
+from seamless_communication.models.unity.fft_decoder_layer import \
+    FeedForwardTransformerLayer
 
 
 @final

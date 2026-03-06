@@ -9,9 +9,8 @@ import time
 import unittest
 
 import torch
-from torch import nn
-
 from fairseq.distributed import DistributedTimeoutWrapper
+from torch import nn
 
 
 class ModuleWithDelay(nn.Module):

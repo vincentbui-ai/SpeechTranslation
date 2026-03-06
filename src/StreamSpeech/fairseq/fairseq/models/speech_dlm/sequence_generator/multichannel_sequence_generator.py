@@ -6,16 +6,16 @@
 import math
 from typing import Dict, List, Optional
 
-from omegaconf.listconfig import ListConfig
-from omegaconf.dictconfig import DictConfig
-
 import torch
 import torch.nn as nn
 from fairseq.models import FairseqIncrementalDecoder
-from torch import Tensor
-from fairseq.ngram_repeat_block import NGramRepeatBlock
-from .multichannel_search import ContiguousMultichannelBeamSearch
 from fairseq.models.speech_dlm import SpeechDLM
+from fairseq.ngram_repeat_block import NGramRepeatBlock
+from omegaconf.dictconfig import DictConfig
+from omegaconf.listconfig import ListConfig
+from torch import Tensor
+
+from .multichannel_search import ContiguousMultichannelBeamSearch
 
 
 class MultichannelSequenceGenerator(nn.Module):

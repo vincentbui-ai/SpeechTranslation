@@ -5,19 +5,15 @@
 # MIT_LICENSE file in the root directory of this source tree.
 
 import argparse
-
-import torch
-from tqdm import tqdm
+import logging
 from pathlib import Path
 
-from sonar.inference_pipelines.speech import (
-    SpeechInferenceParams,
-)
-from seamless_communication.toxicity.mutox.speech_pipeline import (
-    MutoxSpeechClassifierPipeline,
-)
+import torch
+from sonar.inference_pipelines.speech import SpeechInferenceParams
+from tqdm import tqdm
 
-import logging
+from seamless_communication.toxicity.mutox.speech_pipeline import \
+    MutoxSpeechClassifierPipeline
 
 logging.basicConfig(
     level=logging.INFO,

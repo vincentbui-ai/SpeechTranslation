@@ -8,14 +8,10 @@ from pathlib import Path
 from typing import Dict, List, NamedTuple, Optional
 
 import torch
-
 from fairseq.data import ConcatDataset, Dictionary, ResamplingDataset
 from fairseq.data import data_utils as fairseq_data_utils
 from fairseq.data.audio.speech_to_text_dataset import (
-    S2TDataConfig,
-    SpeechToTextDataset,
-    SpeechToTextDatasetCreator,
-)
+    S2TDataConfig, SpeechToTextDataset, SpeechToTextDatasetCreator)
 
 logger = logging.getLogger(__name__)
 

@@ -3,23 +3,18 @@
 # This source code is licensed under the MIT license found in the
 # LICENSE file in the root directory of this source tree.
 
-from typing import Any, List, Dict, Optional
+from typing import Any, Dict, List, Optional
+
 import torch
 import torch.nn as nn
-from torch import Tensor
-
+from fairseq.models.transformer import (TransformerDecoder, TransformerEncoder,
+                                        TransformerModel)
 from fairseq.utils import safe_hasattr
-from fairseq.models.transformer import (
-    TransformerModel,
-    TransformerEncoder,
-    TransformerDecoder
-)
+from torch import Tensor
 
 from ..modules.attn_head_selector import AttnHeadSelector
 from ..modules.head_selection_transformer_layer import (
-    HeadSelectionTransformerEncoderLayer,
-    HeadSelectionTransformerDecoderLayer
-)
+    HeadSelectionTransformerDecoderLayer, HeadSelectionTransformerEncoderLayer)
 
 
 class HeadSelectionTransformerModel(TransformerModel):

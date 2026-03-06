@@ -11,10 +11,8 @@ import fairseq
 import soundfile as sf
 import torch
 import torch.nn.functional as F
-
-from feature_utils import get_path_iterator, dump_feature
 from fairseq.data.audio.audio_utils import get_features_or_waveform
-
+from feature_utils import dump_feature, get_path_iterator
 
 logging.basicConfig(
     format="%(asctime)s | %(levelname)s | %(name)s | %(message)s",

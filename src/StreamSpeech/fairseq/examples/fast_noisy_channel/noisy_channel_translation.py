@@ -3,12 +3,13 @@
 # This source code is licensed under the MIT license found in the
 # LICENSE file in the root directory of this source tree.
 
-from fairseq.tasks.translation import TranslationTask
-from fairseq.tasks.language_modeling import LanguageModelingTask
-from fairseq import checkpoint_utils
 import argparse
-from fairseq.tasks import register_task
+
 import torch
+from fairseq import checkpoint_utils
+from fairseq.tasks import register_task
+from fairseq.tasks.language_modeling import LanguageModelingTask
+from fairseq.tasks.translation import TranslationTask
 
 
 @register_task("noisy_channel_translation")
@@ -53,7 +54,8 @@ class NoisyChannelTranslation(TranslationTask):
         if getattr(args, "score_reference", False):
             raise NotImplementedError()
         else:
-            from .noisy_channel_sequence_generator import NoisyChannelSequenceGenerator
+            from .noisy_channel_sequence_generator import \
+                NoisyChannelSequenceGenerator
             use_cuda = torch.cuda.is_available() and not self.args.cpu
             assert self.args.lm_model is not None, '--lm-model required for noisy channel generation!'
             assert self.args.lm_data is not None, '--lm-data required for noisy channel generation to map between LM and bitext vocabs'

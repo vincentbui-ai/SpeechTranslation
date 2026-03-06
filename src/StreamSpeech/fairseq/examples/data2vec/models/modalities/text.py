@@ -8,14 +8,15 @@ from dataclasses import dataclass
 from functools import partial
 from typing import Callable, Dict, Optional
 
+import numpy as np
 import torch.nn as nn
 import torch.nn.functional as F
-import numpy as np
-from fairseq.modules import PositionalEmbedding, FairseqDropout, LayerNorm
+from examples.data2vec.data.modality import Modality
+from fairseq.modules import FairseqDropout, LayerNorm, PositionalEmbedding
 from fairseq.tasks import FairseqTask
+
 from .base import D2vModalityConfig, ModalitySpecificEncoder, get_alibi_bias
 from .modules import BlockEncoder, Decoder1d
-from examples.data2vec.data.modality import Modality
 
 
 @dataclass

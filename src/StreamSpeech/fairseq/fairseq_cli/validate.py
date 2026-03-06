@@ -11,12 +11,11 @@ from argparse import Namespace
 from itertools import chain
 
 import torch
-from omegaconf import DictConfig
-
 from fairseq import checkpoint_utils, distributed_utils, options, utils
 from fairseq.dataclass.utils import convert_namespace_to_omegaconf
 from fairseq.logging import metrics, progress_bar
 from fairseq.utils import reset_logging
+from omegaconf import DictConfig
 
 logging.basicConfig(
     format="%(asctime)s | %(levelname)s | %(name)s | %(message)s",

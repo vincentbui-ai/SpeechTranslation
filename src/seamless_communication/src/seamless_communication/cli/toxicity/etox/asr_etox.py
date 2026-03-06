@@ -5,27 +5,26 @@
 # MIT_LICENSE file in the root directory of this source tree.
 
 import argparse
+import logging
 import tempfile
 import typing as tp
-import torchaudio
-from tqdm import tqdm
-from seamless_communication.cli.eval_utils.compute_metrics import init_whisper_model
-from seamless_communication.cli.eval_utils.lang_mapping import LANG3_LANG2
-from seamless_communication.inference.translator import Modality
-import torch
-
 from pathlib import Path
-from seamless_communication.inference import Translator
+
+import torch
+import torchaudio
 from fairseq2.data import Collater, DataPipeline, FileMapper
 from fairseq2.data.audio import AudioDecoder, WaveformToFbankConverter
 from fairseq2.data.text import StrSplitter, read_text
 from fairseq2.typing import DataType, Device
-
-from seamless_communication.toxicity import load_etox_bad_word_checker
-
+from tqdm import tqdm
 from whisper.model import Whisper
 
-import logging
+from seamless_communication.cli.eval_utils.compute_metrics import \
+    init_whisper_model
+from seamless_communication.cli.eval_utils.lang_mapping import LANG3_LANG2
+from seamless_communication.inference import Translator
+from seamless_communication.inference.translator import Modality
+from seamless_communication.toxicity import load_etox_bad_word_checker
 
 logging.basicConfig(
     level=logging.INFO,

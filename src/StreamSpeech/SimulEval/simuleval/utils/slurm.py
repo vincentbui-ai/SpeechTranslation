@@ -4,15 +4,16 @@
 # This source code is licensed under the license found in the
 # LICENSE file in the root directory of this source tree.
 
+import logging
 import os
 import re
-import sys
-import logging
 import subprocess
-from typing import Optional, Dict
+import sys
+from typing import Dict, Optional
+
 from simuleval import options
-from simuleval.utils.arguments import cli_argument_list
 from simuleval.utils.agent import get_agent_class
+from simuleval.utils.arguments import cli_argument_list
 
 logger = logging.getLogger("simuleval.slurm")
 

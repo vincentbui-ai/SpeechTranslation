@@ -7,9 +7,8 @@ import itertools
 import random
 
 import torch
-from torch.utils import benchmark
-
 from fairseq.modules.multihead_attention import MultiheadAttention
+from torch.utils import benchmark
 
 BATCH = [20, 41, 97]
 SEQ = 64

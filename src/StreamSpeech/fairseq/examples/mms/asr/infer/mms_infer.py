@@ -5,13 +5,15 @@
 # LICENSE file in the root directory of this source tree.
 
 import argparse
-import soundfile as sf
-import tempfile
-from pathlib import Path
 import os
+import re
 import subprocess
 import sys
-import re
+import tempfile
+from pathlib import Path
+
+import soundfile as sf
+
 
 def parser():
     parser = argparse.ArgumentParser(description="ASR inference script for MMS model")

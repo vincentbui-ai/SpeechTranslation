@@ -7,14 +7,9 @@ import math
 
 import torch
 import torch.nn.functional as F
-from fairseq.models.nat import (
-    _apply_del_words,
-    _apply_ins_masks,
-    _apply_ins_words,
-    _fill,
-    _skip,
-    _skip_encoder_out,
-)
+from fairseq.models.nat import (_apply_del_words, _apply_ins_masks,
+                                _apply_ins_words, _fill, _skip,
+                                _skip_encoder_out)
 
 
 class _EnsembleModelEncoder(object):

@@ -5,25 +5,25 @@
 # the root directory of this source tree. An additional grant of patent rights
 # can be found in the PATENTS file in the same directory.
 
-from collections import OrderedDict
 import itertools
 import logging
 import os
 import sys
+from collections import OrderedDict
 from dataclasses import dataclass, field
 from typing import Optional
 
 import numpy as np
 import torch
-from omegaconf import II, MISSING
-from sklearn import metrics as sklearn_metrics
-
 from fairseq.data import AddTargetDataset, Dictionary, FileAudioDataset
 from fairseq.data.multi_corpus_dataset import MultiCorpusDataset
 from fairseq.data.text_compressor import TextCompressionLevel, TextCompressor
 from fairseq.dataclass import FairseqDataclass
-from fairseq.tasks.audio_pretraining import AudioPretrainingConfig, AudioPretrainingTask
-from fairseq.tasks.audio_finetuning import label_len_fn, LabelEncoder
+from fairseq.tasks.audio_finetuning import LabelEncoder, label_len_fn
+from fairseq.tasks.audio_pretraining import (AudioPretrainingConfig,
+                                             AudioPretrainingTask)
+from omegaconf import II, MISSING
+from sklearn import metrics as sklearn_metrics
 
 from .. import utils
 from ..logging import metrics

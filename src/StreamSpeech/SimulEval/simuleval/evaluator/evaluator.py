@@ -4,23 +4,23 @@
 # This source code is licensed under the license found in the
 # LICENSE file in the root directory of this source tree.
 
-import pandas
-import os
+import json
+import logging
 import numbers
+import os
 from argparse import Namespace
+from pathlib import Path
 from typing import Dict, Generator, Optional
+
+import pandas
+import yaml
+from simuleval.data.dataloader import GenericDataloader, build_dataloader
+from tqdm import tqdm
+
+from .instance import INSTANCE_TYPE_DICT, LogInstance
 from .scorers import get_scorer_class
 from .scorers.latency_scorer import LatencyScorer
 from .scorers.quality_scorer import QualityScorer
-
-from .instance import INSTANCE_TYPE_DICT, LogInstance
-import yaml
-import logging
-import json
-from tqdm import tqdm
-from pathlib import Path
-from simuleval.data.dataloader import GenericDataloader, build_dataloader
-
 
 logger = logging.getLogger("simuleval.sentence_level_evaluator")
 

@@ -1,7 +1,6 @@
 # Copyright (c) Howto100M authors and Facebook, Inc. All Rights Reserved
 
 import torch as th
-
 from torch import nn
 
 

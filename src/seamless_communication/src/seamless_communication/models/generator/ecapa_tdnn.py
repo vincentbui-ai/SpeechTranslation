@@ -10,7 +10,8 @@ import torch
 import torch.nn.functional as F
 from fairseq2.nn.padding import PaddingMask, to_padding_mask
 from torch import Tensor
-from torch.nn import Conv1d, LayerNorm, Module, ModuleList, ReLU, Sigmoid, Tanh, init
+from torch.nn import (Conv1d, LayerNorm, Module, ModuleList, ReLU, Sigmoid,
+                      Tanh, init)
 
 
 class ECAPA_TDNN(Module):

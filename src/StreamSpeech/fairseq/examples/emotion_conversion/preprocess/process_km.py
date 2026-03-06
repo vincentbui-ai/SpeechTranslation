@@ -1,8 +1,8 @@
-import sys
 import argparse
-from tqdm import tqdm
-from build_emov_translation_manifests import dedup, remove_under_k
+import sys
 
+from build_emov_translation_manifests import dedup, remove_under_k
+from tqdm import tqdm
 
 if __name__ == "__main__":
     """

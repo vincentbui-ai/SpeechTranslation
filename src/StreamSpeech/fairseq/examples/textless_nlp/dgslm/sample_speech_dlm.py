@@ -3,12 +3,12 @@
 # This source code is licensed under the MIT license found in the
 # LICENSE file in the root directory of this source tree.
 
-import os
-import ast
 import argparse
+import ast
 import logging
-import torch
+import os
 
+import torch
 from fairseq import utils
 from fairseq.models.speech_dlm import SpeechDLM
 

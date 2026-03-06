@@ -7,9 +7,9 @@ import inspect
 from typing import Any, Dict, List
 
 from fairseq import utils
-from fairseq.logging import metrics
 from fairseq.dataclass import FairseqDataclass
 from fairseq.dataclass.utils import gen_parser_from_dataclass
+from fairseq.logging import metrics
 from torch.nn.modules.loss import _Loss
 
 

@@ -8,19 +8,10 @@ import os
 
 import numpy as np
 import torch
-from fairseq.data import (
-    Dictionary,
-    IdDataset,
-    ListDataset,
-    NestedDictionaryDataset,
-    NumelDataset,
-    NumSamplesDataset,
-    RawLabelDataset,
-    RightPadDataset,
-    SortDataset,
-    data_utils,
-    encoders,
-)
+from fairseq.data import (Dictionary, IdDataset, ListDataset,
+                          NestedDictionaryDataset, NumelDataset,
+                          NumSamplesDataset, RawLabelDataset, RightPadDataset,
+                          SortDataset, data_utils, encoders)
 from fairseq.tasks import LegacyFairseqTask, register_task
 
 

@@ -6,26 +6,25 @@
 
 import dataclasses
 import logging
+import re
 import struct
 from enum import Enum
 from io import BufferedWriter
 from pathlib import Path
-from typing import Any, Callable, Dict, List, Optional, Mapping, Tuple, Union, Sequence, Set, final
-import re
-
-import torch
-from fairseq2.assets import AssetCard
-from fairseq2.models.transformer.frontend import TransformerEmbeddingFrontend
-from fairseq2.nn import SinusoidalPositionEncoder
-from fairseq2.nn.transformer import RelativePositionalEncoding
-from fairseq2.data.text import SentencePieceEncoder, SentencePieceTokenizerBase
-from fairseq2.data.typing import PathLike
-from fairseq2.typing import Device, finaloverride
-from fairseq2.models.utils import TokenizerLoaderBase, ModelLoader
-from fairseq2.models.utils.checkpoint import convert_model_state_dict
-from fairseq2.assets import asset_store, download_manager
+from typing import (Any, Callable, Dict, List, Mapping, Optional, Sequence,
+                    Set, Tuple, Union, final)
 
 import ggml
+import torch
+from fairseq2.assets import AssetCard, asset_store, download_manager
+from fairseq2.data.text import SentencePieceEncoder, SentencePieceTokenizerBase
+from fairseq2.data.typing import PathLike
+from fairseq2.models.transformer.frontend import TransformerEmbeddingFrontend
+from fairseq2.models.utils import ModelLoader, TokenizerLoaderBase
+from fairseq2.models.utils.checkpoint import convert_model_state_dict
+from fairseq2.nn import SinusoidalPositionEncoder
+from fairseq2.nn.transformer import RelativePositionalEncoding
+from fairseq2.typing import Device, finaloverride
 
 Preprocessor = Callable[[Any], Any]
 log = logging.getLogger("ggml_convert")
@@ -202,7 +201,8 @@ def convert_unity_model(
     hparams: Optional[Dict[str, Any]] = None,
 ):
     from seamless_communication.models import unity
-    from seamless_communication.models.unity.builder import UnitYConfig, create_unity_model
+    from seamless_communication.models.unity.builder import (
+        UnitYConfig, create_unity_model)
     from seamless_communication.models.unity.model import UnitYModel
 
     load_unity_model_without_conversion = ModelLoader[UnitYModel, UnitYConfig](
@@ -237,7 +237,8 @@ def convert_nllb_model(
     model_name: str,
     hparams: Optional[Dict[str, Any]] = None,
 ):
-    from fairseq2.models.nllb.loader import load_nllb_tokenizer, load_nllb_model, load_nllb_config
+    from fairseq2.models.nllb.loader import (load_nllb_config, load_nllb_model,
+                                             load_nllb_tokenizer)
 
     model_config = load_nllb_config(model_name)
     hparams = flatten_config(
@@ -256,7 +257,7 @@ def convert_bitext_model(
     model_name: str,
     hparams: Optional[Dict[str, Any]] = None,
 ):
-    from mt import load_mt_model, load_vocab  #, test_mt
+    from mt import load_mt_model, load_vocab  # , test_mt
 
     hparams = hparams or {}
     hparams["multilingual"] = False

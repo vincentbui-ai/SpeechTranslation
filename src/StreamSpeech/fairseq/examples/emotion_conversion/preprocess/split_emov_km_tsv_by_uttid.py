@@ -1,12 +1,13 @@
-from pathlib import Path
-import os
-import sys
 import argparse
+import os
 import random
+import sys
+from pathlib import Path
+
 import numpy as np
-from tqdm import tqdm
-from sklearn.model_selection import train_test_split
 from build_translation_manifests import get_utt_id
+from sklearn.model_selection import train_test_split
+from tqdm import tqdm
 
 
 def train_val_test_split(tsv_lines, km_lines, valid_percent, test_percent, seed=42):

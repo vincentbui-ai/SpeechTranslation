@@ -1,21 +1,19 @@
 # Copyright Howto100M authors.
 # Copyright (c) Facebook, Inc. All Rights Reserved
 
+import argparse
+import math
+
+import numpy as np
 import torch as th
 import torch.nn.functional as F
-import math
-import numpy as np
-import argparse
-
-from torch.utils.data import DataLoader
 from model import get_model
+from pathbuilder import PathBuilder
 from preprocessing import Preprocessing
 from random_sequence_shuffler import RandomSequenceSampler
-
+from torch.utils.data import DataLoader
 from tqdm import tqdm
-from pathbuilder import PathBuilder
 from videoreader import VideoLoader
-
 
 parser = argparse.ArgumentParser(description='Easy video feature extractor')
 
