@@ -25,8 +25,6 @@ import argparse
 import csv
 from pathlib import Path
 
-import numpy as np
-
 try:
     import torch
     import torchaudio
@@ -115,19 +113,37 @@ def main():
     if total_frames < 2:
         raise RuntimeError("Không đủ dữ liệu để tính GCMVN stats")
 
-    # Convert to numpy only at the end
+    # Compute final statistics using torch
     variance = running_m2 / (total_frames - 1)
     std      = torch.sqrt(variance)
     
-    # Convert to numpy arrays
-    mean_np = running_mean.cpu().numpy().astype(np.float32)
-    std_np = std.cpu().numpy().astype(np.float32)
+    # Convert to python floats for printing (avoid numpy issues)
+    mean_list = running_mean.tolist()
+    std_list = std.tolist()
+    
+    mean_min = min(mean_list)
+    mean_max = max(mean_list)
+    std_min = min(std_list)
+    std_max = max(std_list)
 
-    np.savez(output, mean=mean_np, std=std_np)
-    print(f"\n[DONE] GCMVN stats from {total_frames:,} frames ({errors} errors)")
-    print(f"  mean range: [{mean_np.min():.4f}, {mean_np.max():.4f}]")
-    print(f"  std  range: [{std_np.min():.4f},  {std_np.max():.4f}]")
-    print(f"  Saved -> {output}")
+    # Convert to numpy arrays for saving (import numpy here to avoid early import issues)
+    try:
+        import numpy as np
+        mean_np = np.array(mean_list, dtype=np.float32)
+        std_np = np.array(std_list, dtype=np.float32)
+        np.savez(output, mean=mean_np, std=std_np)
+        
+        print(f"\n[DONE] GCMVN stats from {total_frames:,} frames ({errors} errors)")
+        print(f"  mean range: [{mean_min:.4f}, {mean_max:.4f}]")
+        print(f"  std  range: [{std_min:.4f},  {std_max:.4f}]")
+        print(f"  Saved -> {output}")
+    except Exception as e:
+        print(f"\n[ERROR] Failed to save with numpy: {e}")
+        print("Try: pip install numpy==1.23.5")
+        # Save as torch tensors instead
+        torch.save({'mean': running_mean, 'std': std}, output.with_suffix('.pt'))
+        print(f"  Saved as PyTorch format instead: {output.with_suffix('.pt')}")
+        raise
 
 
 if __name__ == "__main__":
