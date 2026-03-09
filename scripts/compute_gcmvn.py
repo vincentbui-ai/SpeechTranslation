@@ -116,14 +116,17 @@ def main():
         raise RuntimeError("Không đủ dữ liệu để tính GCMVN stats")
 
     # Convert to numpy only at the end
-    variance = (running_m2 / (total_frames - 1)).numpy()
-    std      = np.sqrt(variance).astype(np.float32)
-    mean     = running_mean.numpy().astype(np.float32)
+    variance = running_m2 / (total_frames - 1)
+    std      = torch.sqrt(variance)
+    
+    # Convert to numpy arrays
+    mean_np = running_mean.cpu().numpy().astype(np.float32)
+    std_np = std.cpu().numpy().astype(np.float32)
 
-    np.savez(output, mean=mean, std=std)
+    np.savez(output, mean=mean_np, std=std_np)
     print(f"\n[DONE] GCMVN stats from {total_frames:,} frames ({errors} errors)")
-    print(f"  mean range: [{mean.min():.4f}, {mean.max():.4f}]")
-    print(f"  std  range: [{std.min():.4f},  {std.max():.4f}]")
+    print(f"  mean range: [{mean_np.min():.4f}, {mean_np.max():.4f}]")
+    print(f"  std  range: [{std_np.min():.4f},  {std_np.max():.4f}]")
     print(f"  Saved -> {output}")
 
 
