@@ -126,24 +126,24 @@ def main():
     std_min = min(std_list)
     std_max = max(std_list)
 
-    # Convert to numpy arrays for saving (import numpy here to avoid early import issues)
+    # Print results before saving
+    print(f"\n[DONE] GCMVN stats from {total_frames:,} frames ({errors} errors)")
+    print(f"  mean range: [{mean_min:.4f}, {mean_max:.4f}]")
+    print(f"  std  range: [{std_min:.4f},  {std_max:.4f}]")
+    
+    # Convert to numpy arrays for saving
     try:
         import numpy as np
         mean_np = np.array(mean_list, dtype=np.float32)
         std_np = np.array(std_list, dtype=np.float32)
         np.savez(output, mean=mean_np, std=std_np)
-        
-        print(f"\n[DONE] GCMVN stats from {total_frames:,} frames ({errors} errors)")
-        print(f"  mean range: [{mean_min:.4f}, {mean_max:.4f}]")
-        print(f"  std  range: [{std_min:.4f},  {std_max:.4f}]")
         print(f"  Saved -> {output}")
     except Exception as e:
-        print(f"\n[ERROR] Failed to save with numpy: {e}")
-        print("Try: pip install numpy==1.23.5")
+        print(f"\n[WARN] Failed to save with numpy: {e}")
+        print("  Try: pip install numpy==1.23.5")
         # Save as torch tensors instead
-        torch.save({'mean': running_mean, 'std': std}, output.with_suffix('.pt'))
-        print(f"  Saved as PyTorch format instead: {output.with_suffix('.pt')}")
-        raise
+        torch.save({'mean': running_mean.float(), 'std': std.float()}, output.with_suffix('.pt'))
+        print(f"  Saved as PyTorch format: {output.with_suffix('.pt')}")
 
 
 if __name__ == "__main__":
