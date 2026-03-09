@@ -38,7 +38,7 @@ except ImportError:
 NUM_MEL_BINS = 80
 
 
-def compute_fbank(audio_path: str) -> np.ndarray:
+def compute_fbank(audio_path: str) -> torch.Tensor:
     """Trích xuất 80-dim filterbank features từ audio file."""
     waveform, sr = torchaudio.load(audio_path)
 
@@ -58,7 +58,7 @@ def compute_fbank(audio_path: str) -> np.ndarray:
         sample_frequency=16000,
         use_energy=False,
     )
-    return features.numpy()  # (T, 80)
+    return features  # (T, 80) - keep as torch.Tensor
 
 
 def main():
@@ -87,10 +87,10 @@ def main():
     print(f"Total samples in TSV: {len(audio_paths):,}")
     print(f"Using up to {args.max_samples:,} samples for GCMVN computation")
 
-    # Tính running mean và variance (Welford's online algorithm)
+    # Tính running mean và variance using torch (avoid numpy compatibility issues)
     total_frames = 0
-    running_mean = np.zeros(NUM_MEL_BINS, dtype=np.float64)
-    running_m2   = np.zeros(NUM_MEL_BINS, dtype=np.float64)
+    running_mean = torch.zeros(NUM_MEL_BINS, dtype=torch.float64)
+    running_m2   = torch.zeros(NUM_MEL_BINS, dtype=torch.float64)
 
     errors = 0
     for i, audio_path in enumerate(audio_paths[:args.max_samples]):
@@ -98,7 +98,7 @@ def main():
             print(f"  Processing {i:,}/{min(len(audio_paths), args.max_samples):,} ...")
 
         try:
-            feats = compute_fbank(audio_path)  # (T, 80)
+            feats = compute_fbank(audio_path)  # (T, 80) - torch.Tensor
         except Exception as e:
             errors += 1
             if errors <= 10:
@@ -115,9 +115,10 @@ def main():
     if total_frames < 2:
         raise RuntimeError("Không đủ dữ liệu để tính GCMVN stats")
 
-    variance = running_m2 / (total_frames - 1)
+    # Convert to numpy only at the end
+    variance = (running_m2 / (total_frames - 1)).numpy()
     std      = np.sqrt(variance).astype(np.float32)
-    mean     = running_mean.astype(np.float32)
+    mean     = running_mean.numpy().astype(np.float32)
 
     np.savez(output, mean=mean, std=std)
     print(f"\n[DONE] GCMVN stats from {total_frames:,} frames ({errors} errors)")
