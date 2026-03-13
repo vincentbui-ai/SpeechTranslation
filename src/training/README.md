@@ -198,6 +198,32 @@ Your metadata files should follow this structure:
 - `target_lang`: Target language name (Vietnamese/English)
 - `target_audio`: Path to target audio file (required for Model 2)
 
+### Multiple Input Files
+
+You can organize your data in multiple files (recommended for large datasets):
+
+**Option 1: Pre-split Files**
+```
+datasets/
+├── trainset_vietnamese.json    # Vietnamese training samples
+├── trainset_english.json       # English training samples
+├── valset_vietnamese.json      # Vietnamese validation samples
+├── valset_english.json         # English validation samples
+└── testset_vietnamese.json     # Vietnamese test samples
+```
+
+**Option 2: Single File**
+```
+datasets/
+└── metadata.json               # All samples in one file
+```
+
+Each file should contain one JSON object per line (JSONL format):
+```json
+{"source_audio": "...", "source_text": "...", "target_text": "...", ...}
+{"source_audio": "...", "source_text": "...", "target_text": "...", ...}
+```
+
 ## Training Modes
 
 ### Model 1: Text Tasks Only
@@ -311,33 +337,54 @@ Supported language mappings:
 
 ## Advanced Usage
 
-### Custom Data Split
+### Using Pre-split Files (Recommended)
+
+If you already have separate files for train/validation/test:
+
+```bash
+# Use wildcards to match multiple files
+bash src/training/run_training_pipeline.sh \
+    --train_files "datasets/trainset_*.json" \
+    --val_files "datasets/valset_*.json" \
+    --test_files "datasets/testset_*.json"
+
+# Or specify files explicitly
+bash src/training/run_training_pipeline.sh \
+    --train_files datasets/trainset_vie.json datasets/trainset_eng.json \
+    --val_files datasets/valset_vie.json datasets/valset_eng.json \
+    --test_files datasets/testset_vie.json datasets/testset_eng.json
+
+# Convert only (without training)
+python src/training/convert_metadata.py \
+    --train_files "datasets/trainset_*.json" \
+    --val_files "datasets/valset_*.json" \
+    --test_files "datasets/testset_*.json" \
+    --output_dir data/manifests/text \
+    --mode text
+```
+
+### Custom Data Split (Legacy)
+
+If you have a single file that needs to be split:
 
 ```bash
 python src/training/convert_metadata.py \
-    --input_files datasets/*.json \
+    --input_files datasets/metadata.json \
     --output_dir data/manifests \
     --mode text \
     --split \
-    --train_ratio 0.7 \
-    --val_ratio 0.15
+    --train_ratio 0.8 \
+    --val_ratio 0.1
 ```
 
-### Multiple Metadata Files
+### File Naming Convention
 
-```bash
-# Wildcard support
-bash src/training/train_model1_text.sh \
-    --train_dataset "data/manifests/train_*.json" \
-    --eval_dataset "data/manifests/val_*.json" \
-    --save_model_to models/model1_text.pt
+For automatic file detection, use this naming convention:
+- `trainset_*.json` - Training files (e.g., `trainset_vietnamese.json`, `trainset_english.json`)
+- `valset_*.json` - Validation files (e.g., `valset_vietnamese.json`, `valset_english.json`)
+- `testset_*.json` - Test files (e.g., `testset_vietnamese.json`, `testset_english.json`)
 
-# Multiple specific files
-bash src/training/train_model1_text.sh \
-    --train_dataset "data/train_vie_eng.json data/train_eng_vie.json" \
-    --eval_dataset data/eval.json \
-    --save_model_to models/model1_text.pt
-```
+The pipeline will automatically detect and combine these files if you don't specify them explicitly.
 
 ### Freeze Specific Layers
 
