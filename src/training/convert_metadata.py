@@ -29,8 +29,11 @@ Examples:
 import argparse
 import json
 import logging
+from concurrent.futures import ProcessPoolExecutor
 from pathlib import Path
 from typing import Dict, List, Optional
+
+from tqdm import tqdm
 
 logging.basicConfig(
     level=logging.INFO,
@@ -73,8 +76,14 @@ def convert_to_seamless_format(
     
     logger.info(f"Converting {input_file} to {output_file} (mode: {mode})")
     
+    # Pre-count lines for progress bar
     with open(input_file, "r", encoding="utf-8") as f:
-        for line_num, line in enumerate(f, 1):
+        total_lines = sum(1 for _ in f)
+    
+    samples = []
+    
+    with open(input_file, "r", encoding="utf-8") as f:
+        for line_num, line in enumerate(tqdm(f, total=total_lines, desc=f"Reading {input_file.name}"), 1):
             try:
                 data = json.loads(line.strip())
                 
@@ -125,10 +134,11 @@ def convert_to_seamless_format(
                 logger.error(f"Line {line_num}: Error processing - {e}")
                 continue
     
-    # Write output
+    # Write output with buffered I/O for better performance
     output_file.parent.mkdir(parents=True, exist_ok=True)
+    batch_size = 1000
     with open(output_file, "w", encoding="utf-8") as f:
-        for sample in samples:
+        for sample in tqdm(samples, desc=f"Writing {output_file.name}", unit="samples"):
             f.write(json.dumps(sample, ensure_ascii=False) + "\n")
     
     logger.info(f"Converted {stats['total']} samples")
@@ -160,11 +170,19 @@ def resolve_files(patterns: Optional[List[str]]) -> List[Path]:
     return sorted(set(files))
 
 
+def _convert_single_file(args: tuple) -> Dict:
+    """Helper for parallel processing."""
+    input_file, temp_output, mode, extract_units, start_id = args
+    return convert_to_seamless_format(input_file, temp_output, mode, extract_units, start_id)
+
+
 def combine_and_write_manifest(
     input_files: List[Path],
     output_file: Path,
     mode: str = "text",
     extract_units: bool = False,
+    parallel: bool = True,
+    max_workers: int = 4,
 ) -> Dict[str, int]:
     """
     Combine multiple input files into a single manifest.
@@ -174,6 +192,8 @@ def combine_and_write_manifest(
         output_file: Output manifest file
         mode: "text" or "speech"
         extract_units: Whether to extract units
+        parallel: Use multiprocessing for faster conversion
+        max_workers: Number of parallel workers
     
     Returns:
         Combined statistics
@@ -182,35 +202,64 @@ def combine_and_write_manifest(
     all_stats = {"total": 0, "pairs": {}}
     current_id = 0
     
-    for input_file in input_files:
-        logger.info(f"\nProcessing {input_file}")
+    if parallel and len(input_files) > 1:
+        logger.info(f"Processing {len(input_files)} files in parallel with {max_workers} workers")
         
-        # Convert to temporary file
-        temp_output = output_file.parent / f"{input_file.stem}_temp.json"
-        result = convert_to_seamless_format(
-            input_file, temp_output, mode, extract_units, start_id=current_id
-        )
+        # Prepare args for parallel processing
+        task_args = [
+            (input_file, output_file.parent / f"{input_file.stem}_temp.json", mode, extract_units, current_id + i * 100000)
+            for i, input_file in enumerate(input_files)
+        ]
         
-        all_samples.extend(result["samples"])
-        current_id += result["stats"]["total"]
+        # Process files in parallel
+        with ProcessPoolExecutor(max_workers=max_workers) as executor:
+            results = list(tqdm(
+                executor.map(_convert_single_file, task_args),
+                total=len(input_files),
+                desc="Processing files",
+                unit="file"
+            ))
         
-        # Merge stats
-        all_stats["total"] += result["stats"]["total"]
-        for pair, count in result["stats"]["pairs"].items():
-            all_stats["pairs"][pair] = all_stats["pairs"].get(pair, 0) + count
+        # Merge results
+        for result in results:
+            all_samples.extend(result["samples"])
+            
+            all_stats["total"] += result["stats"]["total"]
+            for pair, count in result["stats"]["pairs"].items():
+                all_stats["pairs"][pair] = all_stats["pairs"].get(pair, 0) + count
         
-        # Remove temp file
-        temp_output.unlink(missing_ok=True)
+        # Clean up temp files
+        for input_file in input_files:
+            temp_output = output_file.parent / f"{input_file.stem}_temp.json"
+            temp_output.unlink(missing_ok=True)
+    else:
+        # Sequential processing with tqdm
+        for input_file in tqdm(input_files, desc="Processing files", unit="file"):
+            logger.info(f"\nProcessing {input_file}")
+            
+            temp_output = output_file.parent / f"{input_file.stem}_temp.json"
+            result = convert_to_seamless_format(
+                input_file, temp_output, mode, extract_units, start_id=current_id
+            )
+            
+            all_samples.extend(result["samples"])
+            current_id += result["stats"]["total"]
+            
+            all_stats["total"] += result["stats"]["total"]
+            for pair, count in result["stats"]["pairs"].items():
+                all_stats["pairs"][pair] = all_stats["pairs"].get(pair, 0) + count
+            
+            temp_output.unlink(missing_ok=True)
     
     # Reassign IDs for combined file
-    for idx, sample in enumerate(all_samples):
+    for idx, sample in enumerate(tqdm(all_samples, desc="Reassigning IDs", unit="samples")):
         sample["source"]["id"] = idx
         sample["target"]["id"] = idx
     
     # Write combined file
     output_file.parent.mkdir(parents=True, exist_ok=True)
     with open(output_file, "w", encoding="utf-8") as f:
-        for sample in all_samples:
+        for sample in tqdm(all_samples, desc=f"Writing {output_file.name}", unit="samples"):
             f.write(json.dumps(sample, ensure_ascii=False) + "\n")
     
     logger.info(f"\n{'='*60}")
@@ -239,10 +288,9 @@ def split_combined_manifest(
     
     # Combine all samples
     all_samples = []
-    for input_file in input_files:
+    for input_file in tqdm(input_files, desc="Reading input files", unit="file"):
         logger.info(f"\nProcessing {input_file}")
         
-        # Create individual output file
         temp_output = output_dir / f"{input_file.stem}_manifest.json"
         result = convert_to_seamless_format(
             input_file, temp_output, mode, extract_units, start_id=len(all_samples)
@@ -301,7 +349,7 @@ def split_combined_manifest(
             
             output_file = output_dir / f"{split_name}_manifest.json"
             with open(output_file, "w", encoding="utf-8") as f:
-                for sample in split_samples:
+                for sample in tqdm(split_samples, desc=f"Writing {split_name}", unit="samples"):
                     f.write(json.dumps(sample, ensure_ascii=False) + "\n")
             logger.info(f"Wrote {len(split_samples)} samples to {output_file}")
             stats[split_name] = len(split_samples)
