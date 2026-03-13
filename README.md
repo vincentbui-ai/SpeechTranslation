@@ -90,8 +90,7 @@ Audio files are stored in **FLAC** / **WAV** format, sampled at **16 kHz**.
 
 ## Stage 1 Training Pipeline
 
-Training **StreamSpeech** model (`src/StreamSpeech/`) cho cặp ngôn ngữ VI ↔ EN.
-Kiến trúc **multi-task**: ASR CTC head + ST CTC head + MT Transformer decoder.
+Training **SeamlessM4T** model cho cặp ngôn ngữ VI ↔ EN.
 
 > Dữ liệu audio chỉ tồn tại trên server. Các bước **LOCAL** chỉ cần file JSONL (đã có sẵn). Các bước **SERVER** cần truy cập audio files.
 
@@ -100,12 +99,7 @@ Kiến trúc **multi-task**: ASR CTC head + ST CTC head + MT Transformer decoder
 ```
 SpeechTranslation/
 ├── datasets/                    ← JSONL files (đã có)
-├── src/StreamSpeech/            ← Code gốc StreamSpeech (đã có)
-│   ├── fairseq/
-│   ├── SimulEval/
-│   ├── researches/ctc_unity/    ← Model, criterion, task
-│   ├── preprocess_scripts/      ← Scripts gốc tham khảo
-│   └── configs/fr-en/           ← Configs mẫu FR-EN
+
 ├── scripts/                     ← Scripts pipeline (đã tạo)
 │   ├── prepare_data.py          (LOCAL)
 │   ├── train_spm.py             (LOCAL)
@@ -129,26 +123,11 @@ SpeechTranslation/
     ├── train_asr.tsv, dev_asr.tsv ← audio path + n_frames + VI ori_text
 ```
 
-> **Script gốc tham khảo:**
-> - Bước 2 dựa trên `src/StreamSpeech/preprocess_scripts/create_manifest.py`
-> - Bước 3 dựa trên `src/StreamSpeech/preprocess_scripts/prep_cvss_c_multitask_data.py`
-> - Bước 6 dựa trên logic trong `src/StreamSpeech/preprocess_scripts/prep_cvss_c_multilingual_data.py`
-> - Training dựa trên `src/StreamSpeech/researches/ctc_unity/train_scripts/train.offline-s2st.sh`
+
 
 ---
 
-### Bước 1 — Cài đặt (đã hoàn thành)
-
-```bash
-cd src/StreamSpeech
-pip install -e fairseq/
-pip install -e SimulEval/
-pip install sentencepiece torchaudio soundfile
-```
-
----
-
-### Bước 2 — Chuyển đổi dữ liệu JSONL → TSV `[LOCAL]`
+### Bước 1 — Chuyển đổi dữ liệu JSONL → TSV `[LOCAL]`
 
 Script đọc JSONL và tạo TSV manifests cho fairseq.
 Không cần audio files — `n_frames` tính từ `duration × 16000`.
@@ -168,9 +147,7 @@ python scripts/prepare_data.py \
 
 ---
 
-### Bước 3 — Train SentencePiece + tạo tokenized TSVs `[LOCAL]`
-
-Thực hiện đúng theo `src/StreamSpeech/preprocess_scripts/prep_cvss_c_multitask_data.py`:
+### Bước 2 — Train SentencePiece + tạo tokenized TSVs `[LOCAL]`
 1. Train SPM unigram 6000-token cho VI và EN
 2. Tạo fairseq dict `.txt`
 3. Apply SPM tokenization → `configs/vi-en/{src,tgt}_unigram6000/{train,dev}.tsv`
@@ -195,19 +172,18 @@ head -3 configs/vi-en/tgt_unigram6000/train.tsv
 
 ---
 
-### Bước 4 — Copy files lên server `[LOCAL → SERVER]`
+### Bước 3 — Copy files lên server `[LOCAL → SERVER]`
 
 ```bash
 # Thay YOUR_SERVER và /path/on/server theo thực tế
 rsync -avz data/vi-en/     YOUR_SERVER:/path/on/server/SpeechTranslation/data/vi-en/
 rsync -avz configs/vi-en/  YOUR_SERVER:/path/on/server/SpeechTranslation/configs/vi-en/
 rsync -avz scripts/        YOUR_SERVER:/path/on/server/SpeechTranslation/scripts/
-rsync -avz src/StreamSpeech/ YOUR_SERVER:/path/on/server/SpeechTranslation/src/StreamSpeech/
 ```
 
 ---
 
-### Bước 5 — Cập nhật đường dẫn server trong config `[SERVER]`
+### Bước 4 — Cập nhật đường dẫn server trong config `[SERVER]`
 
 ```bash
 # Trên server — đổi giá trị SERVER_ROOT theo thực tế
@@ -220,9 +196,8 @@ sed -i "s|/PATH/TO/SERVER|$SERVER_ROOT|g" \
 
 ---
 
-### Bước 6 — Tính GCMVN statistics `[SERVER]`
+### Bước 5 — Tính GCMVN statistics `[SERVER]`
 
-Dựa trên `cal_gcmvn_stats()` trong `src/StreamSpeech/preprocess_scripts/prep_cvss_c_multilingual_data.py`.
 Chạy 1 lần, dùng 50,000 samples đầu.
 
 ```bash
@@ -236,28 +211,13 @@ python scripts/compute_gcmvn.py \
 
 ---
 
-### Bước 7 — Tải pretrained checkpoint `[SERVER]`
+### Bước 6 — Tải pretrained checkpoint `[SERVER]`
 
-Fine-tune từ checkpoint FR-EN của StreamSpeech (HuggingFace: `ICTNLP/StreamSpeech_Models`).
-
-```bash
-mkdir -p pretrain_models
-python -c "
-from huggingface_hub import hf_hub_download
-hf_hub_download(
-    repo_id='ICTNLP/StreamSpeech_Models',
-    filename='streamspeech.simultaneous.fr-en.pt',
-    local_dir='pretrain_models/'
-)"
-```
-
-> Nếu không có internet trên server: tải local rồi `scp` lên.
+Tải checkpoint SeamlessM4T từ HuggingFace.
 
 ---
 
-### Bước 8 — Training `[SERVER]`
-
-Dựa trên `src/StreamSpeech/researches/ctc_unity/train_scripts/train.offline-s2st.sh`.
+### Bước 7 — Training `[SERVER]`
 
 Mở `scripts/train.offline-s2tt.vi-en.sh`, cập nhật:
 
@@ -279,7 +239,7 @@ Chạy:
 bash scripts/train.offline-s2tt.vi-en.sh
 ```
 
-Checkpoints lưu tại `checkpoints/streamspeech.offline-s2tt.vi-en/`.
+Checkpoints lưu tại `checkpoints/seamlessm4t.vi-en/`.
 
 ---
 
@@ -287,10 +247,10 @@ Checkpoints lưu tại `checkpoints/streamspeech.offline-s2tt.vi-en/`.
 
 | Bước | Chạy ở đâu | Script gốc tham chiếu |
 |---|---|---|
-| Bước 2 — prepare_data.py | **LOCAL** | `preprocess_scripts/create_manifest.py` |
-| Bước 3 — train_spm.py    | **LOCAL** | `preprocess_scripts/prep_cvss_c_multitask_data.py` |
-| Bước 4 — rsync           | LOCAL → SERVER | — |
-| Bước 5 — sed config      | **SERVER** | — |
-| Bước 6 — compute_gcmvn.py| **SERVER** | `preprocess_scripts/prep_cvss_c_multilingual_data.py` |
-| Bước 7 — tải checkpoint  | **SERVER** | `preprocess_scripts/0.download_pretrain_models.sh` |
-| Bước 8 — training        | **SERVER** | `researches/ctc_unity/train_scripts/train.offline-s2st.sh` |
+| Bước 1 — prepare_data.py | **LOCAL** | — |
+| Bước 2 — train_spm.py    | **LOCAL** | — |
+| Bước 3 — rsync           | LOCAL → SERVER | — |
+| Bước 4 — sed config      | **SERVER** | — |
+| Bước 5 — compute_gcmvn.py| **SERVER** | — |
+| Bước 6 — tải checkpoint  | **SERVER** | — |
+| Bước 7 — training        | **SERVER** | — |

@@ -1,0 +1,64 @@
+FROM nvidia/cuda:12.0.0-devel-ubuntu22.04
+
+# Set environment variables
+ENV DEBIAN_FRONTEND=noninteractive
+ENV PYTHONUNBUFFERED=1
+ENV PIP_NO_CACHE_DIR=1
+
+# Install apt-fast for faster package downloads
+RUN apt-get update && \
+    apt-get install -y \
+        software-properties-common \
+        aria2 && \
+    add-apt-repository -y ppa:apt-fast/stable && \
+    apt-get update && \
+    DEBIAN_FRONTEND=noninteractive apt-get install -y apt-fast
+
+WORKDIR /
+
+    # Install system dependencies with apt-fast
+    RUN --mount=type=cache,target=/var/cache/apt \
+        --mount=type=cache,target=/var/lib/apt \
+        apt-fast update && \
+        \
+        MAXNUM=8 apt-fast install --no-install-recommends -y \
+            python3 \
+            python3-pip \
+            git \
+            ffmpeg \
+            libsndfile1 \
+            libsndfile1-dev \
+            build-essential && \
+        \
+        ln -s /usr/bin/python3 /usr/bin/python && \
+        \
+        rm -rf /var/lib/apt/lists/*
+
+WORKDIR /app
+
+    # Upgrade pip and install PyTorch with CUDA support
+    RUN --mount=type=cache,target=/tmp/pip_cache \
+        PIP_CACHE_DIR=/tmp/pip_cache \
+        pip install --upgrade \
+            pip \
+            setuptools \
+            wheel && \
+        \
+        pip install \
+            torch==2.1.0 \
+            torchvision==0.16.0 \
+            torchaudio==2.1.0 \
+            --index-url https://download.pytorch.org/whl/cu121
+
+    # Copy repository and install seamless_communication
+    COPY . /app/
+
+    RUN --mount=type=cache,target=/tmp/pip_cache \
+        PIP_CACHE_DIR=/tmp/pip_cache \
+        pip install .
+
+    # Verify installation
+    RUN python -c "import seamless_communication; print('seamless_communication installed successfully')" && \
+        python -c "import torch; print(f'PyTorch: {torch.__version__}'); print(f'CUDA: {torch.cuda.is_available()}')"
+
+CMD ["/bin/bash"]

@@ -4,7 +4,7 @@ Guidelines for AI coding agents working on this Vietnamese-English Speech Transl
 
 ## Project Overview
 
-This repository contains training and inference code for Speech-to-Text Translation (ST) models, specifically StreamSpeech and SeamlessM4T, for the Vietnamese ↔ English language pair.
+This repository contains training and inference code for Speech-to-Text Translation (ST) models using SeamlessM4T for the Vietnamese ↔ English language pair.
 
 ## Build / Test / Lint Commands
 
@@ -24,16 +24,7 @@ pre-commit run --all-files
 
 ### Installation
 ```bash
-# Install StreamSpeech dependencies
-cd src/StreamSpeech
-pip install -e fairseq/
-pip install -e SimulEval/
-pip install sentencepiece torchaudio soundfile
-
 # Install SeamlessM4T dependencies
-cd src/seamless_communication
-pip install -e .
-```
 
 ## Code Style Guidelines
 
@@ -144,7 +135,6 @@ SpeechTranslation/
 │   ├── metrics.py              # CER/WER/BLEU evaluation metrics
 │   ├── llm.py                  # Gemini LLM wrapper
 │   ├── early_stopping.py       # Training utilities
-│   ├── StreamSpeech/           # StreamSpeech model code
 │   └── seamless_communication/ # SeamlessM4T model code
 ├── scripts/
 │   ├── prepare_data.py         # JSONL → TSV conversion
@@ -152,7 +142,6 @@ SpeechTranslation/
 │   └── compute_gcmvn.py        # GCMVN statistics
 ├── inference/
 │   ├── seamless_infer.py       # SeamlessM4T inference
-│   ├── streamspeech_infer.py   # StreamSpeech inference
 │   ├── single_infer.py         # Single audio inference
 │   └── batch_infer.py          # Multi-GPU batch inference
 ├── configs/                    # Training configs
