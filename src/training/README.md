@@ -28,15 +28,44 @@ Two models are trained:
 
 ### Option 1: Run Complete Pipeline
 
+**With Pre-split Files (Recommended)**
+
+If you have separate files for train/val/test (e.g., `trainset_vietnamese.json`, `valset_english.json`):
+
 ```bash
-# Train both models
-bash src/training/run_training_pipeline.sh
+# Train both models using pre-split files with wildcards
+bash src/training/run_training_pipeline.sh \
+    --train_files "datasets/trainset_*.json" \
+    --val_files "datasets/valset_*.json" \
+    --test_files "datasets/testset_*.json"
+
+# Or specify files explicitly
+bash src/training/run_training_pipeline.sh \
+    --train_files datasets/trainset_vietnamese.json datasets/trainset_english.json \
+    --val_files datasets/valset_vietnamese.json datasets/valset_english.json
 
 # Train only Model 1 (Text tasks only)
-bash src/training/run_training_pipeline.sh --model1_only --num_gpus 4
+bash src/training/run_training_pipeline.sh --model1_only --num_gpus 4 \
+    --train_files "datasets/trainset_*.json" \
+    --val_files "datasets/valset_*.json"
 
 # Train only Model 2 (Unified model with all tasks)
-bash src/training/run_training_pipeline.sh --model2_only --num_gpus 4
+bash src/training/run_training_pipeline.sh --model2_only --num_gpus 4 \
+    --train_files "datasets/trainset_*.json" \
+    --val_files "datasets/valset_*.json"
+```
+
+**With Single File (Auto-split)**
+
+If you have a single metadata file that needs to be split:
+
+```bash
+# Train both models (will split metadata.json into train/val/test)
+bash src/training/run_training_pipeline.sh --input_files datasets/metadata.json
+
+# Train only Model 1 (Text tasks only)
+bash src/training/run_training_pipeline.sh --model1_only --num_gpus 4 \
+    --input_files datasets/metadata.json
 
 # Skip data preparation (already prepared)
 bash src/training/run_training_pipeline.sh --skip_data_prep --skip_units
@@ -46,8 +75,37 @@ bash src/training/run_training_pipeline.sh --skip_data_prep --skip_units
 
 #### Step 1: Prepare Data
 
+**Method A: Using Pre-split Files (Recommended)**
+
 ```bash
-# Convert metadata for Model 1
+# Convert metadata for Model 1 using separate train/val files
+python src/training/convert_metadata.py \
+    --train_files datasets/trainset_vietnamese.json datasets/trainset_english.json \
+    --val_files datasets/valset_vietnamese.json datasets/valset_english.json \
+    --test_files datasets/testset_vietnamese.json datasets/testset_english.json \
+    --output_dir data/manifests/text \
+    --mode text
+
+# Or use wildcards
+python src/training/convert_metadata.py \
+    --train_files "datasets/trainset_*.json" \
+    --val_files "datasets/valset_*.json" \
+    --test_files "datasets/testset_*.json" \
+    --output_dir data/manifests/text \
+    --mode text
+
+# Convert metadata for Model 2 (needs target audio)
+python src/training/convert_metadata.py \
+    --train_files "datasets/trainset_*.json" \
+    --val_files "datasets/valset_*.json" \
+    --output_dir data/manifests/unified \
+    --mode speech
+```
+
+**Method B: Split Single File**
+
+```bash
+# Convert metadata for Model 1 (auto-split into train/val/test)
 python src/training/convert_metadata.py \
     --input_files datasets/metadata*.json \
     --output_dir data/manifests/text \

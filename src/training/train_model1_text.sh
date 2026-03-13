@@ -10,6 +10,9 @@
 
 set -e
 
+# Set local asset directory for offline mode
+export FAIRSEQ2_ASSET_DIR="/Users/dattay/Documents/SpeechTranslation/seamless_communication/src/seamless_communication/cards"
+
 # Default configuration
 MODEL_NAME="seamlessM4T_v2_large"
 MODE="SPEECH_TO_TEXT"

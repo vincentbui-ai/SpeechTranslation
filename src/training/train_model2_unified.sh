@@ -8,7 +8,7 @@
 # Training script for Model 2: Unified Speech & Text Model
 # Supports ALL 5 tasks:
 #   - S2TT (Speech-to-Text Translation)
-#   - T2TT (Text-to-Text Translation) 
+#   - T2TT (Text-to-Text Translation)
 #   - ASR (Automatic Speech Recognition)
 #   - S2ST (Speech-to-Speech Translation)
 #   - T2ST (Text-to-Speech Translation)
@@ -16,6 +16,9 @@
 # Note: Model 2 = Model 1 + Speech tasks (S2ST, T2ST)
 
 set -e
+
+# Set local asset directory for offline mode
+export FAIRSEQ2_ASSET_DIR="/Users/dattay/Documents/SpeechTranslation/seamless_communication/src/seamless_communication/cards"
 
 # Default configuration
 MODEL_NAME="seamlessM4T_v2_large"

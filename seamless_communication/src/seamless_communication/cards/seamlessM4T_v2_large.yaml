@@ -7,8 +7,8 @@
 name: seamlessM4T_v2_large
 base: unity_nllb-100
 model_arch: base_v2
-char_tokenizer: "https://huggingface.co/facebook/seamless-m4t-v2-large/resolve/main/spm_char_lang38_tc.model"
-checkpoint: "https://huggingface.co/facebook/seamless-m4t-v2-large/resolve/main/seamlessM4T_v2_large.pt"
+char_tokenizer: "file:///Users/dattay/Documents/SpeechTranslation/checkpoints/assets/23fb34348d2f1029e8e9bb80/spm_char_lang38_tc.model"
+checkpoint: "file:///Users/dattay/Documents/SpeechTranslation/checkpoints/assets/9054c5178db3f1a7e423a660/seamlessM4T_v2_large.pt"
 num_units: 10000
 unit_langs:
   - arb
