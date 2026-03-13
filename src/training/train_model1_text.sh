@@ -1,0 +1,189 @@
+#!/bin/bash
+# Copyright (c) Meta Platforms, Inc. and affiliates
+# All rights reserved.
+#
+# This source code is licensed under the license found in the
+# MIT_LICENSE file in the root directory of this source tree.
+
+# Training script for Model 1: Text-based tasks (S2TT, T2TT, ASR)
+# Supports multiple language pairs and multiple training files
+
+set -e
+
+# Default configuration
+MODEL_NAME="seamlessM4T_v2_large"
+MODE="SPEECH_TO_TEXT"
+BATCH_SIZE=8
+LEARNING_RATE=1e-6
+MAX_EPOCHS=20
+PATIENCE=5
+WARMUP_STEPS=100
+EVAL_STEPS=200
+LOG_STEPS=50
+MAX_SRC_TOKENS=4000
+SEED=42
+DEVICE="cuda"
+NUM_GPUS=1
+
+# Parse arguments
+while [[ $# -gt 0 ]]; do
+    case $1 in
+        --train_dataset)
+            TRAIN_DATASET="$2"
+            shift 2
+            ;;
+        --eval_dataset)
+            EVAL_DATASET="$2"
+            shift 2
+            ;;
+        --model_name)
+            MODEL_NAME="$2"
+            shift 2
+            ;;
+        --save_model_to)
+            SAVE_MODEL_TO="$2"
+            shift 2
+            ;;
+        --batch_size)
+            BATCH_SIZE="$2"
+            shift 2
+            ;;
+        --learning_rate)
+            LEARNING_RATE="$2"
+            shift 2
+            ;;
+        --max_epochs)
+            MAX_EPOCHS="$2"
+            shift 2
+            ;;
+        --patience)
+            PATIENCE="$2"
+            shift 2
+            ;;
+        --num_gpus)
+            NUM_GPUS="$2"
+            shift 2
+            ;;
+        --device)
+            DEVICE="$2"
+            shift 2
+            ;;
+        --help)
+            echo "Usage: $0 [options]"
+            echo ""
+            echo "Options:"
+            echo "  --train_dataset PATH     Path to training manifest(s) - supports wildcards"
+            echo "  --eval_dataset PATH      Path to evaluation manifest(s) - supports wildcards"
+            echo "  --model_name NAME        Model name (default: seamlessM4T_v2_large)"
+            echo "  --save_model_to PATH     Path to save trained model"
+            echo "  --batch_size N           Batch size (default: 8)"
+            echo "  --learning_rate FLOAT    Learning rate (default: 1e-6)"
+            echo "  --max_epochs N           Max epochs (default: 20)"
+            echo "  --patience N             Early stopping patience (default: 5)"
+            echo "  --num_gpus N             Number of GPUs (default: 1)"
+            echo "  --device DEVICE          Device (default: cuda)"
+            echo ""
+            echo "Examples:"
+            echo "  $0 --train_dataset data/train_*.json --eval_dataset data/eval.json --save_model_to model.pt"
+            exit 0
+            ;;
+        *)
+            echo "Unknown option: $1"
+            exit 1
+            ;;
+    esac
+done
+
+# Validate required arguments
+if [ -z "$TRAIN_DATASET" ] || [ -z "$EVAL_DATASET" ] || [ -z "$SAVE_MODEL_TO" ]; then
+    echo "Error: Missing required arguments"
+    echo "Use --help for usage information"
+    exit 1
+fi
+
+# Combine multiple training files if wildcard is used
+if [[ "$TRAIN_DATASET" == *"*"* ]]; then
+    echo "Combining training files matching: $TRAIN_DATASET"
+    COMBINED_TRAIN="data/combined_train_manifest.json"
+    python3 -c "
+import json
+import glob
+import sys
+
+files = glob.glob('$TRAIN_DATASET')
+if not files:
+    print('No files found matching pattern')
+    sys.exit(1)
+
+samples = []
+for f in sorted(files):
+    with open(f, 'r') as fp:
+        for line in fp:
+            samples.append(json.loads(line))
+
+# Reassign IDs
+for idx, sample in enumerate(samples):
+    sample['source']['id'] = idx
+    sample['target']['id'] = idx
+
+with open('$COMBINED_TRAIN', 'w') as fp:
+    for sample in samples:
+        fp.write(json.dumps(sample, ensure_ascii=False) + '\n')
+
+print(f'Combined {len(samples)} samples from {len(files)} files')
+"
+    TRAIN_DATASET="$COMBINED_TRAIN"
+fi
+
+# Create output directory
+mkdir -p "$(dirname "$SAVE_MODEL_TO")"
+
+echo "=========================================="
+echo "Training Model 1: Text Tasks (S2TT/T2TT/ASR)"
+echo "=========================================="
+echo "Model: $MODEL_NAME"
+echo "Mode: $MODE"
+echo "Train dataset: $TRAIN_DATASET"
+echo "Eval dataset: $EVAL_DATASET"
+echo "Save to: $SAVE_MODEL_TO"
+echo "Batch size: $BATCH_SIZE"
+echo "Learning rate: $LEARNING_RATE"
+echo "Max epochs: $MAX_EPOCHS"
+echo "Num GPUs: $NUM_GPUS"
+echo "=========================================="
+
+# Build training command
+if [ "$NUM_GPUS" -gt 1 ]; then
+    # Multi-GPU training with torchrun
+    CMD="torchrun \
+        --rdzv-backend=c10d \
+        --rdzv-endpoint=localhost:0 \
+        --nnodes=1 \
+        --nproc-per-node=$NUM_GPUS \
+        --no-python \
+        m4t_finetune"
+else
+    # Single GPU training
+    CMD="python3 -m seamless_communication.cli.m4t.finetune.finetune"
+fi
+
+# Run training
+$CMD \
+    --mode "$MODE" \
+    --train_dataset "$TRAIN_DATASET" \
+    --eval_dataset "$EVAL_DATASET" \
+    --model_name "$MODEL_NAME" \
+    --save_model_to "$SAVE_MODEL_TO" \
+    --batch_size "$BATCH_SIZE" \
+    --learning_rate "$LEARNING_RATE" \
+    --max_epochs "$MAX_EPOCHS" \
+    --patience "$PATIENCE" \
+    --warmup_steps "$WARMUP_STEPS" \
+    --eval_steps "$EVAL_STEPS" \
+    --log_steps "$LOG_STEPS" \
+    --max_src_tokens "$MAX_SRC_TOKENS" \
+    --seed "$SEED" \
+    --device "$DEVICE"
+
+echo ""
+echo "Training complete! Model saved to: $SAVE_MODEL_TO"
