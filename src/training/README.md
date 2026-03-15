@@ -4,7 +4,7 @@ This directory contains scripts for finetuning SeamlessM4T on custom data.
 
 ## Current Status
 
-- `convert_metadata.py` is now intentionally simplified for a **single input file** and a **single output file**.
+- `convert_metadata.py` supports **multiple input files** and writes a **single output manifest**.
 - `--mode text` is implemented.
 - `--mode speech` is **TODO** (not implemented yet).
 
@@ -38,24 +38,24 @@ Language mapping supported:
 
 ### 2) Convert Metadata to Manifest
 
-Run conversion for each split file (`train`, `val`, `test`) separately:
+You can pass one or many input files per output manifest:
 
 ```bash
-# Train manifest (default: S2TT + ASR 1:1)
+# Train manifest from multiple metadata files (default: S2TT + ASR 1:1)
 python3 src/training/convert_metadata.py \
-  --input_file datasets/train_metadata.json \
+  --input_files datasets/train_metadata_vie.json datasets/train_metadata_eng.json \
   --output_file data/manifests/text/train_manifest.json \
   --mode text
 
-# Validation manifest
+# Validation manifest from one file
 python3 src/training/convert_metadata.py \
-  --input_file datasets/val_metadata.json \
+  --input_files datasets/val_metadata.json \
   --output_file data/manifests/text/val_manifest.json \
   --mode text
 
-# Test manifest
+# Test manifest from one file
 python3 src/training/convert_metadata.py \
-  --input_file datasets/test_metadata.json \
+  --input_files datasets/test_metadata.json \
   --output_file data/manifests/text/test_manifest.json \
   --mode text
 ```
@@ -64,7 +64,7 @@ If you want only translation samples (disable ASR duplication):
 
 ```bash
 python3 src/training/convert_metadata.py \
-  --input_file datasets/train_metadata.json \
+  --input_files datasets/train_metadata.json \
   --output_file data/manifests/text/train_manifest.json \
   --mode text \
   --disable_asr
@@ -93,5 +93,6 @@ When speech mode is implemented, this section should be updated with S2ST/T2ST p
 ## Notes
 
 - Input files are expected to be JSONL (`.json` extension is acceptable if each line is one JSON object).
+- Multiple input files are concatenated in the order provided via `--input_files`.
 - The converter logs task statistics (`s2tt`, `asr`) and language-pair statistics.
 - For low-resource finetuning, start with low learning rates (for example `1e-6`).

@@ -4,10 +4,10 @@
 # This source code is licensed under the license found in the
 # MIT_LICENSE file in the root directory of this source tree.
 
-"""Convert one metadata JSONL file to seamless training manifest format.
+"""Convert multiple metadata JSONL files to seamless training manifest format.
 
-This script is intentionally focused on a single input metadata file and a
-single output manifest file.
+This script is intentionally focused on one output manifest built from one or
+more input metadata files.
 
 Text mode behavior:
 - Always keep original S2TT sample (source audio/text/lang -> target text/lang).
@@ -86,7 +86,7 @@ def _count_pair(stats: Dict[str, Any], src_lang: str, tgt_lang: str) -> None:
     stats["pairs"][pair] = stats["pairs"].get(pair, 0) + 1
 
 
-def _load_metadata_records(input_file: Path) -> list[Dict[str, Any]]:
+def _load_metadata_records_from_file(input_file: Path) -> list[Dict[str, Any]]:
     records: list[Dict[str, Any]] = []
     raw_lines: list[str] = []
 
@@ -118,8 +118,16 @@ def _load_metadata_records(input_file: Path) -> list[Dict[str, Any]]:
     return records
 
 
+def _load_metadata_records(input_files: list[Path]) -> list[Dict[str, Any]]:
+    all_records: list[Dict[str, Any]] = []
+    for input_file in input_files:
+        all_records.extend(_load_metadata_records_from_file(input_file))
+
+    return all_records
+
+
 def convert_text_manifest(
-    input_file: Path,
+    input_files: list[Path],
     output_file: Path,
     enable_asr: bool = True,
 ) -> Dict[str, Any]:
@@ -131,8 +139,8 @@ def convert_text_manifest(
     samples = []
 
     logger.info(
-        "Converting text manifest from %s -> %s (ASR duplicate: %s)",
-        input_file,
+        "Converting text manifest from %d file(s) -> %s (ASR duplicate: %s)",
+        len(input_files),
         output_file,
         enable_asr,
     )
@@ -145,29 +153,29 @@ def convert_text_manifest(
         "target_lang",
     }
 
-    records = _load_metadata_records(input_file)
+    records = _load_metadata_records(input_files)
 
     for idx, data in enumerate(
-        tqdm(records, desc=f"Converting {input_file.name}", unit="records"),
+        tqdm(records, desc="Converting records", unit="records"),
         1,
     ):
-            missing = required_keys.difference(data.keys())
-            if missing:
-                logger.error("Record %d: missing keys %s", idx, sorted(missing))
-                continue
+        missing = required_keys.difference(data.keys())
+        if missing:
+            logger.error("Record %d: missing keys %s", idx, sorted(missing))
+            continue
 
-            s2tt = _build_s2tt_sample(data, sample_id=len(samples))
-            samples.append(s2tt)
+        s2tt = _build_s2tt_sample(data, sample_id=len(samples))
+        samples.append(s2tt)
+        stats["total"] += 1
+        stats["tasks"]["s2tt"] += 1
+        _count_pair(stats, s2tt["source"]["lang"], s2tt["target"]["lang"])
+
+        if enable_asr:
+            asr = _build_asr_sample(data, sample_id=len(samples))
+            samples.append(asr)
             stats["total"] += 1
-            stats["tasks"]["s2tt"] += 1
-            _count_pair(stats, s2tt["source"]["lang"], s2tt["target"]["lang"])
-
-            if enable_asr:
-                asr = _build_asr_sample(data, sample_id=len(samples))
-                samples.append(asr)
-                stats["total"] += 1
-                stats["tasks"]["asr"] += 1
-                _count_pair(stats, asr["source"]["lang"], asr["target"]["lang"])
+            stats["tasks"]["asr"] += 1
+            _count_pair(stats, asr["source"]["lang"], asr["target"]["lang"])
 
     output_file.parent.mkdir(parents=True, exist_ok=True)
     with open(output_file, "w", encoding="utf-8") as f:
@@ -182,7 +190,7 @@ def convert_text_manifest(
     return stats
 
 
-def convert_speech_manifest(input_file: Path, output_file: Path) -> None:
+def convert_speech_manifest(input_files: list[Path], output_file: Path) -> None:
     # TODO: implement speech mode conversion for S2ST/T2ST-compatible manifest.
     raise NotImplementedError(
         "mode='speech' is TODO and not implemented yet. "
@@ -192,13 +200,14 @@ def convert_speech_manifest(input_file: Path, output_file: Path) -> None:
 
 def main() -> None:
     parser = argparse.ArgumentParser(
-        description="Convert a single metadata JSONL file to seamless manifest format"
+        description="Convert one or more metadata JSONL files to seamless manifest format"
     )
     parser.add_argument(
-        "--input_file",
+        "--input_files",
         type=Path,
+        nargs="+",
         required=True,
-        help="Path to a single metadata JSONL file (e.g., datasets/metadata.json)",
+        help="Path(s) to metadata JSONL files (e.g., datasets/train_vie.json datasets/train_eng.json)",
     )
     parser.add_argument(
         "--output_file",
@@ -219,12 +228,16 @@ def main() -> None:
     )
     args = parser.parse_args()
 
+    missing_files = [input_file for input_file in args.input_files if not input_file.exists()]
+    if missing_files:
+        parser.error(f"Input file(s) not found: {', '.join(str(p) for p in missing_files)}")
+
     if args.mode == "speech":
-        convert_speech_manifest(args.input_file, args.output_file)
+        convert_speech_manifest(args.input_files, args.output_file)
         return
 
     convert_text_manifest(
-        input_file=args.input_file,
+        input_files=args.input_files,
         output_file=args.output_file,
         enable_asr=not args.disable_asr,
     )
