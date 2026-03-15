@@ -178,20 +178,13 @@ echo "Max epochs: $MAX_EPOCHS"
 echo "Num GPUs: $NUM_GPUS"
 echo "=========================================="
 
-# Build training command
-if [ "$NUM_GPUS" -gt 1 ]; then
-    # Multi-GPU training with torchrun
-    CMD="torchrun \
-        --rdzv-backend=c10d \
-        --rdzv-endpoint=localhost:0 \
-        --nnodes=1 \
-        --nproc-per-node=$NUM_GPUS \
-        --no-python \
-        m4t_finetune"
-else
-    # Single GPU training
-    CMD="python3 -m seamless_communication.cli.m4t.finetune.finetune"
-fi
+# Build training command (always use torchrun, including 1 GPU)
+CMD="torchrun \
+    --rdzv-backend=c10d \
+    --rdzv-endpoint=localhost:0 \
+    --nnodes=1 \
+    --nproc-per-node=$NUM_GPUS \
+    -m seamless_communication.cli.m4t.finetune.finetune"
 
 # Run training
 $CMD \
