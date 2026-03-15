@@ -10,8 +10,31 @@
 
 set -e
 
-# Set local asset directory for offline mode
-export FAIRSEQ2_ASSET_DIR="/Users/dattay/Documents/SpeechTranslation/seamless_communication/src/seamless_communication/cards"
+# Resolve project root from script location
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+PROJECT_ROOT="$(cd "$SCRIPT_DIR/../.." && pwd)"
+
+# Offline/local model settings (can be overridden from shell env)
+export FAIRSEQ2_ASSET_DIR="${FAIRSEQ2_ASSET_DIR:-$PROJECT_ROOT/seamless_communication/src/seamless_communication/cards}"
+export FAIRSEQ2_CACHE_DIR="${FAIRSEQ2_CACHE_DIR:-$FAIRSEQ2_ASSET_DIR}"
+export HF_HUB_OFFLINE="${HF_HUB_OFFLINE:-1}"
+export TRANSFORMERS_OFFLINE="${TRANSFORMERS_OFFLINE:-1}"
+export HF_HOME="${HF_HOME:-$PROJECT_ROOT/checkpoints/hf_home}"
+export TORCH_HOME="${TORCH_HOME:-$PROJECT_ROOT/checkpoints/torch_home}"
+
+mkdir -p "$HF_HOME" "$TORCH_HOME"
+
+if [ ! -d "$FAIRSEQ2_ASSET_DIR" ]; then
+    echo "Error: FAIRSEQ2_ASSET_DIR not found: $FAIRSEQ2_ASSET_DIR"
+    exit 1
+fi
+
+echo "FAIRSEQ2_ASSET_DIR=$FAIRSEQ2_ASSET_DIR"
+echo "FAIRSEQ2_CACHE_DIR=$FAIRSEQ2_CACHE_DIR"
+echo "HF_HUB_OFFLINE=$HF_HUB_OFFLINE"
+echo "TRANSFORMERS_OFFLINE=$TRANSFORMERS_OFFLINE"
+echo "HF_HOME=$HF_HOME"
+echo "TORCH_HOME=$TORCH_HOME"
 
 # Default configuration
 MODEL_NAME="seamlessM4T_v2_large"
