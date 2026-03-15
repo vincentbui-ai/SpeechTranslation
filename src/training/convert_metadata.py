@@ -39,6 +39,9 @@ LANG_MAPPING = {
     "eng": "eng",
 }
 
+# Global hard limit for filtering source audio duration before conversion.
+MAX_DURATION_SEC = 15.0
+
 
 def _normalize_lang(lang: str) -> str:
     return LANG_MAPPING.get(lang, lang)
@@ -135,6 +138,7 @@ def convert_text_manifest(
         "total": 0,
         "tasks": {"s2tt": 0, "asr": 0},
         "pairs": {},
+        "filtered_by_duration": 0,
     }
     samples = []
 
@@ -154,9 +158,32 @@ def convert_text_manifest(
     }
 
     records = _load_metadata_records(input_files)
+    filtered_records: list[Dict[str, Any]] = []
+
+    for idx, data in enumerate(records, 1):
+        duration = data.get("duration")
+        if duration is None:
+            filtered_records.append(data)
+            continue
+
+        try:
+            duration_value = float(duration)
+        except (TypeError, ValueError):
+            logger.warning(
+                "Record %d: invalid duration '%s', keep for conversion",
+                idx,
+                duration,
+            )
+            filtered_records.append(data)
+            continue
+
+        if duration_value <= MAX_DURATION_SEC:
+            filtered_records.append(data)
+        else:
+            stats["filtered_by_duration"] += 1
 
     for idx, data in enumerate(
-        tqdm(records, desc="Converting records", unit="records"),
+        tqdm(filtered_records, desc="Converting records", unit="records"),
         1,
     ):
         missing = required_keys.difference(data.keys())
@@ -183,6 +210,11 @@ def convert_text_manifest(
             f.write(json.dumps(sample, ensure_ascii=False) + "\n")
 
     logger.info("Converted %d samples", stats["total"])
+    logger.info(
+        "Filtered by duration > %.1f sec: %d record(s)",
+        MAX_DURATION_SEC,
+        stats["filtered_by_duration"],
+    )
     logger.info("Task stats: s2tt=%d, asr=%d", stats["tasks"]["s2tt"], stats["tasks"]["asr"])
     for pair, count in sorted(stats["pairs"].items()):
         logger.info("Pair %s: %d", pair, count)
