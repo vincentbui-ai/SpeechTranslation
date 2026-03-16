@@ -35,11 +35,15 @@ from seamless_communication.inference import Translator
 # ---------------------------------------------------------------------------
 
 CHECKPOINT_PATH = "models/translation_v2.pt"
-AUDIO_PATH = "/raid/voice/khanhnd65/ultimate_testset/vietnamese_testset/vlsp2022-task1/wavs/2022_1005_00002640_00003214.wav"
-INPUT_TEXT = "Hello, how are you today?"
-SRC_LANG = "vie"
-TGT_LANG = "eng"
 OUTPUT_DIR = Path("outputs")
+
+# Test case 1: Vietnamese → English
+VIE_AUDIO_PATH = "/raid/voice/khanhnd65/ultimate_testset/vietnamese_testset/vlsp2022-task1/wavs/2022_1005_00002640_00003214.wav"
+VIE_INPUT_TEXT = "Xin chào, bạn khỏe không?"
+
+# Test case 2: English → Vietnamese
+ENG_AUDIO_PATH = "/raid/voice/khanhnd65/ultimate_testset/english_testset/sample_english.wav"
+ENG_INPUT_TEXT = "Hello, how are you today?"
 
 
 # ---------------------------------------------------------------------------
@@ -68,8 +72,101 @@ def print_result(task: str, text: Optional[str]) -> None:
 # ---------------------------------------------------------------------------
 
 
+def run_all_tasks(
+    translator: Translator,
+    audio_path: str,
+    input_text: str,
+    src_lang: str,
+    tgt_lang: str,
+    output_prefix: str,
+) -> None:
+    """
+    Run all 5 tasks for a given language pair.
+
+    Args:
+        translator: Loaded Translator instance.
+        audio_path: Path to input audio file.
+        input_text: Input text for T2ST/T2TT tasks.
+        src_lang: Source language code.
+        tgt_lang: Target language code.
+        output_prefix: Prefix for output files (e.g., "vie2eng").
+    """
+    print(f"\n{'#'*60}")
+    print(f"# Testing: {src_lang.upper()} → {tgt_lang.upper()}")
+    print(f"{'#'*60}")
+
+    # -------------------------------------------------------------------------
+    # Task 1: S2ST (Speech to Speech Translation)
+    # -------------------------------------------------------------------------
+    print("\nRunning Task 1: S2ST (Speech to Speech Translation)...")
+    text_out, speech_out = translator.predict(
+        input=audio_path,
+        task_str="S2ST",
+        src_lang=src_lang,
+        tgt_lang=tgt_lang,
+    )
+    print_result("S2ST", str(text_out[0]) if text_out else None)
+    if speech_out and speech_out.audio_wavs:
+        waveform = speech_out.audio_wavs[0][0].to(torch.float32).cpu()
+        save_audio(
+            waveform, speech_out.sample_rate, OUTPUT_DIR / f"{output_prefix}_s2st.wav"
+        )
+
+    # -------------------------------------------------------------------------
+    # Task 2: S2TT (Speech to Text Translation)
+    # -------------------------------------------------------------------------
+    print("\nRunning Task 2: S2TT (Speech to Text Translation)...")
+    text_out, _ = translator.predict(
+        input=audio_path,
+        task_str="S2TT",
+        src_lang=src_lang,
+        tgt_lang=tgt_lang,
+    )
+    print_result("S2TT", str(text_out[0]) if text_out else None)
+
+    # -------------------------------------------------------------------------
+    # Task 3: T2ST (Text to Speech Translation)
+    # -------------------------------------------------------------------------
+    print("\nRunning Task 3: T2ST (Text to Speech Translation)...")
+    text_out, speech_out = translator.predict(
+        input=input_text,
+        task_str="T2ST",
+        src_lang=src_lang,
+        tgt_lang=tgt_lang,
+    )
+    print_result("T2ST", str(text_out[0]) if text_out else None)
+    if speech_out and speech_out.audio_wavs:
+        waveform = speech_out.audio_wavs[0][0].to(torch.float32).cpu()
+        save_audio(
+            waveform, speech_out.sample_rate, OUTPUT_DIR / f"{output_prefix}_t2st.wav"
+        )
+
+    # -------------------------------------------------------------------------
+    # Task 4: T2TT (Text to Text Translation)
+    # -------------------------------------------------------------------------
+    print("\nRunning Task 4: T2TT (Text to Text Translation)...")
+    text_out, _ = translator.predict(
+        input=input_text,
+        task_str="T2TT",
+        src_lang=src_lang,
+        tgt_lang=tgt_lang,
+    )
+    print_result("T2TT", str(text_out[0]) if text_out else None)
+
+    # -------------------------------------------------------------------------
+    # Task 5: ASR (Automatic Speech Recognition)
+    # -------------------------------------------------------------------------
+    print("\nRunning Task 5: ASR (Automatic Speech Recognition)...")
+    text_out, _ = translator.predict(
+        input=audio_path,
+        task_str="ASR",
+        tgt_lang=src_lang,  # Transcribe in source language
+    )
+    print_result("ASR", str(text_out[0]) if text_out else None)
+
+
 def main() -> None:
-    """Run all 5 tasks with finetuned checkpoint."""
+    """Run all 5 tasks with finetuned checkpoint for both language directions."""
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
     dtype = torch.float16 if device.type == "cuda" else torch.float32
     print(f"Device: {device}, dtype: {dtype}")
@@ -86,72 +183,31 @@ def main() -> None:
     print(f"Loading model: {model_name}")
     translator = Translator(model_name, vocoder_name, device=device, dtype=dtype)
     translator.model.load_state_dict(checkpoint["model"], strict=False)
-    print("Model loaded successfully!\n")
+    print("Model loaded successfully!")
 
     # -------------------------------------------------------------------------
-    # Task 1: S2ST (Speech to Speech Translation)
+    # Test Case 1: Vietnamese → English
     # -------------------------------------------------------------------------
-    print("Running Task 1: S2ST (Speech to Speech Translation)...")
-    text_out, speech_out = translator.predict(
-        input=AUDIO_PATH,
-        task_str="S2ST",
-        src_lang=SRC_LANG,
-        tgt_lang=TGT_LANG,
+    run_all_tasks(
+        translator=translator,
+        audio_path=VIE_AUDIO_PATH,
+        input_text=VIE_INPUT_TEXT,
+        src_lang="vie",
+        tgt_lang="eng",
+        output_prefix="vie2eng",
     )
-    print_result("S2ST", str(text_out[0]) if text_out else None)
-    if speech_out and speech_out.audio_wavs:
-        waveform = speech_out.audio_wavs[0][0].to(torch.float32).cpu()
-        save_audio(waveform, speech_out.sample_rate, OUTPUT_DIR / "s2st_output.wav")
 
     # -------------------------------------------------------------------------
-    # Task 2: S2TT (Speech to Text Translation)
+    # Test Case 2: English → Vietnamese
     # -------------------------------------------------------------------------
-    print("\nRunning Task 2: S2TT (Speech to Text Translation)...")
-    text_out, _ = translator.predict(
-        input=AUDIO_PATH,
-        task_str="S2TT",
-        src_lang=SRC_LANG,
-        tgt_lang=TGT_LANG,
+    run_all_tasks(
+        translator=translator,
+        audio_path=ENG_AUDIO_PATH,
+        input_text=ENG_INPUT_TEXT,
+        src_lang="eng",
+        tgt_lang="vie",
+        output_prefix="eng2vie",
     )
-    print_result("S2TT", str(text_out[0]) if text_out else None)
-
-    # -------------------------------------------------------------------------
-    # Task 3: T2ST (Text to Speech Translation)
-    # -------------------------------------------------------------------------
-    print("\nRunning Task 3: T2ST (Text to Speech Translation)...")
-    text_out, speech_out = translator.predict(
-        input=INPUT_TEXT,
-        task_str="T2ST",
-        src_lang=SRC_LANG,
-        tgt_lang=TGT_LANG,
-    )
-    print_result("T2ST", str(text_out[0]) if text_out else None)
-    if speech_out and speech_out.audio_wavs:
-        waveform = speech_out.audio_wavs[0][0].to(torch.float32).cpu()
-        save_audio(waveform, speech_out.sample_rate, OUTPUT_DIR / "t2st_output.wav")
-
-    # -------------------------------------------------------------------------
-    # Task 4: T2TT (Text to Text Translation)
-    # -------------------------------------------------------------------------
-    print("\nRunning Task 4: T2TT (Text to Text Translation)...")
-    text_out, _ = translator.predict(
-        input=INPUT_TEXT,
-        task_str="T2TT",
-        src_lang=SRC_LANG,
-        tgt_lang=TGT_LANG,
-    )
-    print_result("T2TT", str(text_out[0]) if text_out else None)
-
-    # -------------------------------------------------------------------------
-    # Task 5: ASR (Automatic Speech Recognition)
-    # -------------------------------------------------------------------------
-    print("\nRunning Task 5: ASR (Automatic Speech Recognition)...")
-    text_out, _ = translator.predict(
-        input=AUDIO_PATH,
-        task_str="ASR",
-        tgt_lang=SRC_LANG,  # Transcribe in source language
-    )
-    print_result("ASR", str(text_out[0]) if text_out else None)
 
     # -------------------------------------------------------------------------
     # Summary
