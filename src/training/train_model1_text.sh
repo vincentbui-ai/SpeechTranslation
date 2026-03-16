@@ -50,6 +50,7 @@ MAX_SRC_TOKENS=4000
 SEED=42
 DEVICE="cuda"
 NUM_GPUS=1
+CUDA_VISIBLE_DEVICES_VALUE=""
 
 # Parse arguments
 while [[ $# -gt 0 ]]; do
@@ -94,6 +95,10 @@ while [[ $# -gt 0 ]]; do
             DEVICE="$2"
             shift 2
             ;;
+        --cuda_visible_devices|--cuda_device_visible)
+            CUDA_VISIBLE_DEVICES_VALUE="$2"
+            shift 2
+            ;;
         --help)
             echo "Usage: $0 [options]"
             echo ""
@@ -108,9 +113,11 @@ while [[ $# -gt 0 ]]; do
             echo "  --patience N             Early stopping patience (default: 5)"
             echo "  --num_gpus N             Number of GPUs (default: 1)"
             echo "  --device DEVICE          Device (default: cuda)"
+            echo "  --cuda_visible_devices   CUDA_VISIBLE_DEVICES value (e.g. 6,7)"
             echo ""
             echo "Examples:"
             echo "  $0 --train_dataset data/train_*.json --eval_dataset data/eval.json --save_model_to model.pt"
+            echo "  $0 --train_dataset data/train.json --eval_dataset data/eval.json --save_model_to model.pt --cuda_visible_devices 6,7 --num_gpus 2"
             exit 0
             ;;
         *)
@@ -125,6 +132,20 @@ if [ -z "$TRAIN_DATASET" ] || [ -z "$EVAL_DATASET" ] || [ -z "$SAVE_MODEL_TO" ];
     echo "Error: Missing required arguments"
     echo "Use --help for usage information"
     exit 1
+fi
+
+# Configure CUDA_VISIBLE_DEVICES if requested
+if [ -n "$CUDA_VISIBLE_DEVICES_VALUE" ]; then
+    export CUDA_VISIBLE_DEVICES="$CUDA_VISIBLE_DEVICES_VALUE"
+
+    IFS=',' read -r -a GPU_LIST <<< "$CUDA_VISIBLE_DEVICES_VALUE"
+    SELECTED_GPU_COUNT="${#GPU_LIST[@]}"
+
+    if [ "$NUM_GPUS" -gt "$SELECTED_GPU_COUNT" ]; then
+        echo "Error: --num_gpus ($NUM_GPUS) is greater than selected CUDA devices ($SELECTED_GPU_COUNT)"
+        echo "CUDA_VISIBLE_DEVICES=$CUDA_VISIBLE_DEVICES"
+        exit 1
+    fi
 fi
 
 # Combine multiple training files if wildcard is used
@@ -176,6 +197,7 @@ echo "Batch size: $BATCH_SIZE"
 echo "Learning rate: $LEARNING_RATE"
 echo "Max epochs: $MAX_EPOCHS"
 echo "Num GPUs: $NUM_GPUS"
+echo "CUDA_VISIBLE_DEVICES: ${CUDA_VISIBLE_DEVICES:-<not set>}"
 echo "=========================================="
 
 # Build training command (always use torchrun, including 1 GPU)
