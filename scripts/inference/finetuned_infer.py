@@ -40,10 +40,14 @@ OUTPUT_DIR = Path("outputs")
 # Test case 1: Vietnamese → English
 VIE_AUDIO_PATH = "/raid/voice/khanhnd65/ultimate_testset/vietnamese_testset/vlsp2022-task1/wavs/2022_1005_00002640_00003214.wav"
 VIE_INPUT_TEXT = "Xin chào, bạn khỏe không?"
+VIE_SRC_LANG = "vie"
+VIE_TGT_LANG = "eng"
 
 # Test case 2: English → Vietnamese
 ENG_AUDIO_PATH = "/raid/voice/khanhnd65/ultimate_testset/english_testset/sample_english.wav"
 ENG_INPUT_TEXT = "Hello, how are you today?"
+ENG_SRC_LANG = "eng"
+ENG_TGT_LANG = "vie"
 
 
 # ---------------------------------------------------------------------------
@@ -192,8 +196,8 @@ def main() -> None:
         translator=translator,
         audio_path=VIE_AUDIO_PATH,
         input_text=VIE_INPUT_TEXT,
-        src_lang="vie",
-        tgt_lang="eng",
+        src_lang=VIE_SRC_LANG,
+        tgt_lang=VIE_TGT_LANG,
         output_prefix="vie2eng",
     )
 
@@ -204,8 +208,8 @@ def main() -> None:
         translator=translator,
         audio_path=ENG_AUDIO_PATH,
         input_text=ENG_INPUT_TEXT,
-        src_lang="eng",
-        tgt_lang="vie",
+        src_lang=ENG_SRC_LANG,
+        tgt_lang=ENG_TGT_LANG,
         output_prefix="eng2vie",
     )
 
