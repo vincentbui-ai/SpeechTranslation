@@ -122,8 +122,8 @@ def main() -> None:
     text_out, speech_out = translator.predict(
         input=INPUT_TEXT,
         task_str="T2ST",
-        src_lang="eng",  # Input text is English
-        tgt_lang=SRC_LANG,  # Translate to Vietnamese
+        src_lang=SRC_LANG,
+        tgt_lang=TGT_LANG,
     )
     print_result("T2ST", str(text_out[0]) if text_out else None)
     if speech_out and speech_out.audio_wavs:
@@ -137,8 +137,8 @@ def main() -> None:
     text_out, _ = translator.predict(
         input=INPUT_TEXT,
         task_str="T2TT",
-        src_lang="eng",  # Input text is English
-        tgt_lang=SRC_LANG,  # Translate to Vietnamese
+        src_lang=SRC_LANG,
+        tgt_lang=TGT_LANG,
     )
     print_result("T2TT", str(text_out[0]) if text_out else None)
 
