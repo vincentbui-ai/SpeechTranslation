@@ -114,18 +114,35 @@ def main():
     if rank == 0:
         all_results = [r for g in gathered if g for r in g]
         print(f"[4/4] Computing metrics on {len(all_results)} samples...")
-        refs = [" ".join(remove_punctuation(r[1]).lower().split()) for r in all_results]
-        preds = [" ".join(remove_punctuation(r[2]).lower().split()) for r in all_results]
 
-        wer_score = wer(refs, preds)
-        bleu_score = sacrebleu.corpus_bleu(preds, [refs]).score
+        # Raw metrics (original text)
+        refs_raw = [r[1] for r in all_results]
+        preds_raw = [r[2] for r in all_results]
+        wer_raw = wer(refs_raw, preds_raw)
+        bleu_raw = sacrebleu.corpus_bleu(preds_raw, [refs_raw]).score
 
-        print(f"\nWER: {wer_score * 100:.2f}% | BLEU: {bleu_score:.2f}")
+        # Clean metrics (no punctuation, lowercase)
+        refs_clean = [" ".join(remove_punctuation(r[1]).lower().split()) for r in all_results]
+        preds_clean = [" ".join(remove_punctuation(r[2]).lower().split()) for r in all_results]
+        wer_clean = wer(refs_clean, preds_clean)
+        bleu_clean = sacrebleu.corpus_bleu(preds_clean, [refs_clean]).score
+
+        print(f"\nResults:")
+        print(f"  Total samples: {len(all_results)}")
+        print(f"  WER:  {wer_raw * 100:.2f}%")
+        print(f"  BLEU: {bleu_raw:.2f}")
+        print(f"  WER (no punct, lower):  {wer_clean * 100:.2f}%")
+        print(f"  BLEU (no punct, lower): {bleu_clean:.2f}")
 
         with open(args.output, "w", encoding="utf-8") as f:
             json.dump({
-                "checkpoint": args.checkpoint, "metadata": args.metadata,
-                "num_samples": len(all_results), "wer": wer_score, "bleu": bleu_score,
+                "checkpoint": args.checkpoint,
+                "metadata": args.metadata,
+                "num_samples": len(all_results),
+                "wer": wer_raw,
+                "bleu": bleu_raw,
+                "wer_clean": wer_clean,
+                "bleu_clean": bleu_clean,
                 "samples": [{"audio": r[0], "reference": r[1], "prediction": r[2]} for r in all_results]
             }, f, indent=2, ensure_ascii=False)
         print(f"Results saved to {args.output}")
