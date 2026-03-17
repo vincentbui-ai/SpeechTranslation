@@ -106,8 +106,8 @@ def main():
     if world_size > 1:
         dist.barrier()
         gathered = [None] * world_size
-        dist.gather_object(results, gathered if rank == 0 else None)
-        all_results = [r for g in (gathered if rank == 0 else []) if g for r in g]
+        dist.all_gather_object(gathered, results)
+        all_results = [r for g in gathered if g for r in g]
     else:
         all_results = results
 
