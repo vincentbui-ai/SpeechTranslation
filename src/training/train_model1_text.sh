@@ -24,6 +24,13 @@ export TORCH_HOME="${TORCH_HOME:-$PROJECT_ROOT/checkpoints/torch_home}"
 
 mkdir -p "$HF_HOME" "$TORCH_HOME"
 
+# Multi-GPU stability settings
+export OMP_NUM_THREADS=1                    # Prevent OpenMP thread oversubscription
+export MKL_NUM_THREADS=1                    # Prevent MKL thread conflicts
+export TORCH_NCCL_ASYNC_ERROR_HANDLING=1    # Better error handling for NCCL
+export NCCL_DEBUG=WARN                      # Show NCCL warnings for debugging
+export PYTHONFAULTHANDLER=1                 # Better Python crash diagnostics
+
 if [ ! -d "$FAIRSEQ2_ASSET_DIR" ]; then
     echo "Error: FAIRSEQ2_ASSET_DIR not found: $FAIRSEQ2_ASSET_DIR"
     exit 1
@@ -201,11 +208,13 @@ echo "CUDA_VISIBLE_DEVICES: ${CUDA_VISIBLE_DEVICES:-<not set>}"
 echo "=========================================="
 
 # Build training command (always use torchrun, including 1 GPU)
+# Note: If you encounter DataLoader segfaults, try adding --num_workers=0 to finetune args
 CMD="torchrun \
     --rdzv-backend=c10d \
     --rdzv-endpoint=localhost:0 \
     --nnodes=1 \
     --nproc-per-node=$NUM_GPUS \
+    --master_port=29500 \
     -m seamless_communication.cli.m4t.finetune.finetune"
 
 # Run training
