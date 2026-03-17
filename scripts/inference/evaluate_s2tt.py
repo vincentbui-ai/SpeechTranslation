@@ -2,8 +2,12 @@
 SeamlessM4T S2TT evaluation script with distributed inference.
 
 Usage:
-    python scripts/inference/evaluate_s2tt.py --metadata datasets/metadata.json
-    torchrun --nproc_per_node=4 scripts/inference/evaluate_s2tt.py --metadata datasets/metadata.json
+    # Single GPU
+    CUDA_VISIBLE_DEVICES=0 python scripts/inference/evaluate_s2tt.py --metadata datasets/metadata.json
+
+    # Multi-GPU
+    CUDA_VISIBLE_DEVICES=0,1,2,3 torchrun --nproc_per_node=4 scripts/inference/evaluate_s2tt.py \
+        --metadata datasets/metadata.json --checkpoint models/translation_v2.pt
 """
 
 import argparse
