@@ -102,17 +102,17 @@ def main():
             pred = ""
         results.append((row["source_audio"], row["target_text"], pred, tgt_lang))
 
-    # Gather results
+    # Gather results to rank 0
     if world_size > 1:
         dist.barrier()
         gathered = [None] * world_size
-        dist.all_gather_object(gathered, results)
-        all_results = [r for g in gathered if g for r in g]
+        dist.gather_object(results, gathered if rank == 0 else None)
     else:
-        all_results = results
+        gathered = [results]
 
-    # Compute metrics (rank 0 only)
+    # Compute metrics and save (rank 0 only)
     if rank == 0:
+        all_results = [r for g in gathered if g for r in g]
         print(f"[4/4] Computing metrics on {len(all_results)} samples...")
         refs = [" ".join(remove_punctuation(r[1]).lower().split()) for r in all_results]
         preds = [" ".join(remove_punctuation(r[2]).lower().split()) for r in all_results]
