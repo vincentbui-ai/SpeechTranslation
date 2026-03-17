@@ -17,9 +17,10 @@ import string
 import sys
 from pathlib import Path
 
+import sacrebleu
 import torch
 import torch.distributed as dist
-from torchmetrics.text import BLEUScore, WordErrorRate
+from jiwer import wer
 from tqdm import tqdm
 
 REPO_ROOT = Path(__file__).resolve().parent.parent.parent
@@ -116,21 +117,15 @@ def main():
         refs = [" ".join(remove_punctuation(r[1]).lower().split()) for r in all_results]
         preds = [" ".join(remove_punctuation(r[2]).lower().split()) for r in all_results]
 
-        wer_metric = WordErrorRate()
-        for ref, hyp in zip(refs, preds):
-            wer_metric.update(hyp, ref)
-        wer = wer_metric.compute().item()
+        wer_score = wer(refs, preds)
+        bleu_score = sacrebleu.corpus_bleu(preds, [refs]).score
 
-        bleu_metric = BLEUScore(n_gram=4)
-        bleu_metric.update(preds, [[r] for r in refs])
-        bleu = bleu_metric.compute().item()
-
-        print(f"\nWER: {wer * 100:.2f}% | BLEU: {bleu * 100:.2f}")
+        print(f"\nWER: {wer_score * 100:.2f}% | BLEU: {bleu_score:.2f}")
 
         with open(args.output, "w", encoding="utf-8") as f:
             json.dump({
                 "checkpoint": args.checkpoint, "metadata": args.metadata,
-                "num_samples": len(all_results), "wer": wer, "bleu": bleu,
+                "num_samples": len(all_results), "wer": wer_score, "bleu": bleu_score,
                 "samples": [{"audio": r[0], "reference": r[1], "prediction": r[2]} for r in all_results]
             }, f, indent=2, ensure_ascii=False)
         print(f"Results saved to {args.output}")
