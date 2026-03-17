@@ -48,6 +48,12 @@ def setup_distributed():
     return 0, 1, 0
 
 
+def cleanup_distributed():
+    """Cleanup distributed process group."""
+    if dist.is_initialized():
+        dist.destroy_process_group()
+
+
 def main():
     parser = argparse.ArgumentParser()
     parser.add_argument("--checkpoint", default="models/translation_v2.pt")
@@ -60,95 +66,105 @@ def main():
     device = torch.device(f"cuda:{local_rank}" if torch.cuda.is_available() else "cpu")
     dtype = torch.float16 if device.type == "cuda" else torch.float32
 
-    # Load model
-    if rank == 0:
-        print(f"[1/4] Loading checkpoint: {args.checkpoint}")
-    checkpoint = torch.load(args.checkpoint, map_location=device)
-    model_name = checkpoint["model_name"]
-    vocoder_name = "vocoder_v2" if model_name == "seamlessM4T_v2_large" else "vocoder_36langs"
-    translator = Translator(model_name, vocoder_name, device=device, dtype=dtype)
-    translator.model.load_state_dict(checkpoint["model"], strict=False)
+    try:
+        # Load model
+        if rank == 0:
+            print(f"[1/4] Loading checkpoint: {args.checkpoint}")
+        checkpoint = torch.load(args.checkpoint, map_location=device)
+        model_name = checkpoint["model_name"]
+        vocoder_name = "vocoder_v2" if model_name == "seamlessM4T_v2_large" else "vocoder_36langs"
+        translator = Translator(model_name, vocoder_name, device=device, dtype=dtype)
+        translator.model.load_state_dict(checkpoint["model"], strict=False)
 
-    if world_size > 1:
-        dist.barrier()
+        if world_size > 1:
+            dist.barrier()
 
-    # Load and filter data
-    if rank == 0:
-        print(f"[2/4] Loading metadata: {args.metadata}")
-    with open(args.metadata, "r", encoding="utf-8") as f:
-        rows = [json.loads(line) for line in f if line.strip()]
-    rows = [r for r in rows if len(r.get("source_text", "").split()) >= args.min_words]
-    if rank == 0:
-        print(f"[2/4] Samples after filtering: {len(rows)}")
+        # Load and filter data
+        if rank == 0:
+            print(f"[2/4] Loading metadata: {args.metadata}")
+        with open(args.metadata, "r", encoding="utf-8") as f:
+            rows = [json.loads(line) for line in f if line.strip()]
+        rows = [r for r in rows if len(r.get("source_text", "").split()) >= args.min_words]
+        if rank == 0:
+            print(f"[2/4] Samples after filtering: {len(rows)}")
 
-    # Run inference
-    if rank == 0:
-        print("[3/4] Running S2TT inference...")
-    lang_map = {"vietnamese": "vie", "english": "eng", "vie": "vie", "eng": "eng"}
-    indices = list(range(len(rows)))[rank::world_size]
-    iterator = tqdm(indices, desc="Inference") if rank == 0 else indices
-    
-    results = []
-    for idx in iterator:
-        row = rows[idx]
-        src_lang = lang_map.get(row.get("source_lang", "vie").lower(), "vie")
-        tgt_lang = lang_map.get(row.get("target_lang", "eng").lower(), "eng")
-        try:
-            text_out, _ = translator.predict(input=row["source_audio"], task_str="S2TT", src_lang=src_lang, tgt_lang=tgt_lang)
-            pred = str(text_out[0]) if text_out else ""
-        except Exception as e:
-            if rank == 0:
-                print(f"[WARNING] {row['source_audio']}: {e}")
-            pred = ""
-        results.append((row["source_audio"], row["target_text"], pred, tgt_lang))
+        # Run inference
+        if rank == 0:
+            print("[3/4] Running S2TT inference...")
+        lang_map = {"vietnamese": "vie", "english": "eng", "vie": "vie", "eng": "eng"}
+        indices = list(range(len(rows)))[rank::world_size]
+        iterator = tqdm(indices, desc="Inference") if rank == 0 else indices
 
-    # Gather results to rank 0
-    if world_size > 1:
-        dist.barrier()
-        gathered = [None] * world_size
-        dist.gather_object(results, gathered if rank == 0 else None)
-    else:
-        gathered = [results]
+        results = []
+        for idx in iterator:
+            row = rows[idx]
+            src_lang = lang_map.get(row.get("source_lang", "vie").lower(), "vie")
+            tgt_lang = lang_map.get(row.get("target_lang", "eng").lower(), "eng")
+            try:
+                text_out, _ = translator.predict(input=row["source_audio"], task_str="S2TT", src_lang=src_lang, tgt_lang=tgt_lang)
+                pred = str(text_out[0]) if text_out else ""
+            except Exception as e:
+                if rank == 0:
+                    print(f"[WARNING] {row['source_audio']}: {e}")
+                pred = ""
+            results.append((row["source_audio"], row["target_text"], pred, tgt_lang))
 
-    # Compute metrics and save (rank 0 only)
-    if rank == 0:
-        all_results = [r for g in gathered if g for r in g]
-        print(f"[4/4] Computing metrics on {len(all_results)} samples...")
+        # Synchronize after inference
+        if world_size > 1:
+            dist.barrier()
 
-        # Raw metrics (original text)
-        refs_raw = [r[1] for r in all_results]
-        preds_raw = [r[2] for r in all_results]
-        wer_raw = wer(refs_raw, preds_raw)
-        bleu_raw = sacrebleu.corpus_bleu(preds_raw, [refs_raw]).score
+        # Gather results to rank 0
+        if world_size > 1:
+            gathered = [None] * world_size
+            dist.gather_object(results, gathered if rank == 0 else None)
+        else:
+            gathered = [results]
 
-        # Clean metrics (no punctuation, lowercase)
-        refs_clean = [" ".join(remove_punctuation(r[1]).lower().split()) for r in all_results]
-        preds_clean = [" ".join(remove_punctuation(r[2]).lower().split()) for r in all_results]
-        wer_clean = wer(refs_clean, preds_clean)
-        bleu_clean = sacrebleu.corpus_bleu(preds_clean, [refs_clean]).score
+        # Compute metrics and save (rank 0 only)
+        if rank == 0:
+            all_results = [r for g in gathered if g for r in g]
+            print(f"[4/4] Computing metrics on {len(all_results)} samples...")
 
-        print(f"\nResults:")
-        print(f"  Total samples: {len(all_results)}")
-        print(f"  WER:  {wer_raw * 100:.2f}%")
-        print(f"  BLEU: {bleu_raw:.2f}")
-        print(f"  WER (no punct, lower):  {wer_clean * 100:.2f}%")
-        print(f"  BLEU (no punct, lower): {bleu_clean:.2f}")
+            # Raw metrics (original text)
+            refs_raw = [r[1] for r in all_results]
+            preds_raw = [r[2] for r in all_results]
+            wer_raw = wer(refs_raw, preds_raw)
+            bleu_raw = sacrebleu.corpus_bleu(preds_raw, [refs_raw]).score
 
-        with open(args.output, "w", encoding="utf-8") as f:
-            json.dump({
-                "checkpoint": args.checkpoint,
-                "metadata": args.metadata,
-                "num_samples": len(all_results),
-                "wer": wer_raw,
-                "bleu": bleu_raw,
-                "wer_clean": wer_clean,
-                "bleu_clean": bleu_clean,
-                "samples": [{"audio": r[0], "reference": r[1], "prediction": r[2]} for r in all_results]
-            }, f, indent=2, ensure_ascii=False)
-        print(f"Results saved to {args.output}")
+            # Clean metrics (no punctuation, lowercase)
+            refs_clean = [" ".join(remove_punctuation(r[1]).lower().split()) for r in all_results]
+            preds_clean = [" ".join(remove_punctuation(r[2]).lower().split()) for r in all_results]
+            wer_clean = wer(refs_clean, preds_clean)
+            bleu_clean = sacrebleu.corpus_bleu(preds_clean, [refs_clean]).score
 
-    if dist.is_initialized():
-        dist.destroy_process_group()
+            print(f"\nResults:")
+            print(f"  Total samples: {len(all_results)}")
+            print(f"  WER:  {wer_raw * 100:.2f}%")
+            print(f"  BLEU: {bleu_raw:.2f}")
+            print(f"  WER (no punct, lower):  {wer_clean * 100:.2f}%")
+            print(f"  BLEU (no punct, lower): {bleu_clean:.2f}")
+
+            with open(args.output, "w", encoding="utf-8") as f:
+                json.dump({
+                    "checkpoint": args.checkpoint,
+                    "metadata": args.metadata,
+                    "num_samples": len(all_results),
+                    "wer": wer_raw,
+                    "bleu": bleu_raw,
+                    "wer_clean": wer_clean,
+                    "bleu_clean": bleu_clean,
+                    "samples": [{"audio": r[0], "reference": r[1], "prediction": r[2]} for r in all_results]
+                }, f, indent=2, ensure_ascii=False)
+            print(f"Results saved to {args.output}")
+            print("[DONE] Evaluation completed successfully!")
+
+    except Exception as e:
+        print(f"[Rank {rank}] Error: {e}")
+        import traceback
+        traceback.print_exc()
+        raise
+    finally:
+        cleanup_distributed()
 
 
 if __name__ == "__main__":
