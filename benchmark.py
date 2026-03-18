@@ -229,9 +229,15 @@ def translate_texts(
     translator: Translator, 
     batch_size: int, 
     concurrency: int
-) -> list[str]:
-    """Translate texts using batched concurrent requests."""
-    results: list[str] = [""] * len(texts)
+) -> tuple[list[str | None], set[int]]:
+    """Translate texts using batched concurrent requests.
+    
+    Returns:
+        Tuple of (translations list, set of failed indices)
+        Failed translations are marked as None
+    """
+    results: list[str | None] = [None] * len(texts)
+    failed_indices: set[int] = set()
     batches = []
     
     for i in range(0, len(texts), batch_size):
@@ -242,31 +248,45 @@ def translate_texts(
         futures = {}
         for start_idx, batch_texts in batches:
             future = executor.submit(translator.translate_batch, batch_texts)
-            futures[future] = start_idx
+            futures[future] = (start_idx, len(batch_texts))
         
         for future in tqdm(as_completed(futures), total=len(batches), desc="Translating"):
-            start_idx = futures[future]
+            start_idx, batch_len = futures[future]
             try:
                 translations = future.result()
                 for j, trans in enumerate(translations):
                     results[start_idx + j] = trans
             except Exception as e:
                 print(f"Error in batch starting at {start_idx}: {e}")
-                # Results already initialized with empty strings
+                # Mark all indices in this batch as failed
+                for j in range(batch_len):
+                    failed_indices.add(start_idx + j)
     
-    return results
+    return results, failed_indices
 
 
 def evaluate_translations(
     references: list[str], 
-    hypotheses: list[str],
+    hypotheses: list[str | None],
+    failed_indices: set[int],
     remove_punct: bool = False,
     lowercase: bool = False
 ) -> dict:
-    """Evaluate translations with WER and BLEU."""
+    """Evaluate translations with WER and BLEU, excluding failed translations."""
+    # Filter out failed indices
+    valid_refs = []
+    valid_hyps = []
+    for i, (ref, hyp) in enumerate(zip(references, hypotheses)):
+        if i not in failed_indices and hyp is not None:
+            valid_refs.append(ref)
+            valid_hyps.append(hyp)
+    
+    if not valid_refs:
+        return {"wer": 100.0, "bleu": 0.0, "valid_count": 0, "total_count": len(references)}
+    
     # Normalize texts
-    norm_refs = [normalize_text(r, remove_punct, lowercase) for r in tqdm(references, desc="Normalizing refs", leave=False)]
-    norm_hyps = [normalize_text(h, remove_punct, lowercase) for h in tqdm(hypotheses, desc="Normalizing hyps", leave=False)]
+    norm_refs = [normalize_text(r, remove_punct, lowercase) for r in tqdm(valid_refs, desc="Normalizing refs", leave=False)]
+    norm_hyps = [normalize_text(h, remove_punct, lowercase) for h in tqdm(valid_hyps, desc="Normalizing hyps", leave=False)]
     
     # Compute WER using jiwer
     wer = compute_wer(norm_refs, norm_hyps)
@@ -274,7 +294,12 @@ def evaluate_translations(
     # Compute BLEU using sacrebleu
     bleu = compute_bleu(norm_refs, norm_hyps)
     
-    return {"wer": wer, "bleu": bleu}
+    return {
+        "wer": wer, 
+        "bleu": bleu, 
+        "valid_count": len(valid_refs), 
+        "total_count": len(references)
+    }
 
 
 # ==================== Main Benchmark ====================
@@ -291,6 +316,7 @@ def run_benchmark(cfg: DictConfig):
     ]
     
     results = []
+    all_translations = {}  # Store all translation results
     
     # Calculate total tasks for progress
     directions = ["eng2vie", "vie2eng"]
@@ -320,10 +346,31 @@ def run_benchmark(cfg: DictConfig):
                 translator = Translator(source_lang, target_lang, cfg.llm)
                 
                 # Translate
-                hypotheses = translate_texts(
+                hypotheses, failed_indices = translate_texts(
                     source_texts, translator, 
                     cfg.batch_size, cfg.concurrency
                 )
+                
+                # Store translation results
+                translation_key = f"{dataset['name']}_{direction}"
+                all_translations[translation_key] = {
+                    "source_lang": source_lang,
+                    "target_lang": target_lang,
+                    "failed_count": len(failed_indices),
+                    "total_count": len(source_texts),
+                    "samples": [
+                        {
+                            "index": i,
+                            "source": src,
+                            "reference": ref,
+                            "hypothesis": hyp,
+                            "failed": i in failed_indices
+                        }
+                        for i, (src, ref, hyp) in enumerate(zip(source_texts, reference_texts, hypotheses))
+                    ]
+                }
+                
+                print(f"  Failed: {len(failed_indices)}/{len(source_texts)} samples")
                 
                 # Evaluate with different normalization settings
                 for norm_name, (remove_punct, lowercase) in [
@@ -332,6 +379,7 @@ def run_benchmark(cfg: DictConfig):
                 ]:
                     metrics = evaluate_translations(
                         reference_texts, hypotheses, 
+                        failed_indices=failed_indices,
                         remove_punct=remove_punct, 
                         lowercase=lowercase
                     )
@@ -342,29 +390,38 @@ def run_benchmark(cfg: DictConfig):
                         "normalization": norm_name,
                         "wer": round(metrics["wer"], 2),
                         "bleu": round(metrics["bleu"], 2),
+                        "valid_count": metrics["valid_count"],
+                        "total_count": metrics["total_count"],
                     }
                     results.append(result)
                     
-                    print(f"  [{norm_name}] WER: {result['wer']:.2f}%, BLEU: {result['bleu']:.2f}")
+                    print(f"  [{norm_name}] WER: {result['wer']:.2f}%, BLEU: {result['bleu']:.2f} ({result['valid_count']}/{result['total_count']} valid)")
                 
                 pbar.update(1)
     
-    # Save results
+    # Save benchmark results
     output_path = cfg.get("output_path", "benchmark_results.json")
     with open(output_path, "w", encoding="utf-8") as f:
         json.dump(results, f, indent=2, ensure_ascii=False)
     
+    # Save translation outputs
+    translations_path = cfg.get("translations_path", "translation_outputs.json")
+    with open(translations_path, "w", encoding="utf-8") as f:
+        json.dump(all_translations, f, indent=2, ensure_ascii=False)
+    
     print(f"\n{'='*60}")
     print(f"Results saved to {output_path}")
+    print(f"Translations saved to {translations_path}")
     
     # Print summary table
-    print("\n" + "="*80)
+    print("\n" + "="*90)
     print("SUMMARY")
-    print("="*80)
-    print(f"{'Dataset':<15} {'Direction':<10} {'Norm':<12} {'WER':<10} {'BLEU':<10}")
-    print("-"*80)
+    print("="*90)
+    print(f"{'Dataset':<15} {'Direction':<10} {'Norm':<12} {'WER':<10} {'BLEU':<10} {'Valid':<15}")
+    print("-"*90)
     for r in results:
-        print(f"{r['dataset']:<15} {r['direction']:<10} {r['normalization']:<12} {r['wer']:<10.2f} {r['bleu']:<10.2f}")
+        valid_str = f"{r['valid_count']}/{r['total_count']}"
+        print(f"{r['dataset']:<15} {r['direction']:<10} {r['normalization']:<12} {r['wer']:<10.2f} {r['bleu']:<10.2f} {valid_str:<15}")
 
 
 @hydra.main(version_base=None, config_path="configs", config_name="config")
