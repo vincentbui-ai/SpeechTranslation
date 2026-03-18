@@ -26,6 +26,7 @@ class LLMConfig:
     max_tokens: int = 4096
     temperature: float = 0
     reasoning_effort: str = "low"
+    timeout: int = 60
     stop_tokens: list[str] = field(default_factory=lambda: [
         "<|end_of_text|>", "<|eot_id|>", "<|endoftext|>", "<|im_end|>"
     ])
@@ -36,7 +37,7 @@ class LLMConfig:
             name=cfg.name, url=cfg.url, model=cfg.model, host=cfg.host,
             auth_token=cfg.get("auth_token"), max_tokens=cfg.max_tokens,
             temperature=cfg.temperature, reasoning_effort=cfg.reasoning_effort,
-            stop_tokens=list(cfg.stop_tokens)
+            timeout=cfg.get("timeout", 60), stop_tokens=list(cfg.stop_tokens)
         )
 
 
@@ -60,7 +61,7 @@ class Translator:
             "stop": self.config.stop_tokens,
             "stream": False,
         }
-        response = requests.post(self.config.url, headers=self.headers, data=json.dumps(payload))
+        response = requests.post(self.config.url, headers=self.headers, data=json.dumps(payload), timeout=self.config.timeout)
         response.raise_for_status()
         return response.json()["choices"][0]["message"]["content"]
 
