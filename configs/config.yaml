@@ -1,0 +1,46 @@
+# Translation pipeline config
+
+# Input/Output
+input_paths: []
+output_path: ""
+translated_path: null
+
+# Language settings
+source_lang: Vietnamese
+target_lang: English
+
+# LLM settings (llama70b)
+llm:
+  name: llama70b
+  url: ""
+  model: ""
+  host: ""
+  auth_token: ""
+  max_tokens: 4096
+  temperature: 0
+  reasoning_effort: low
+  stop_tokens:
+    - "<|end_of_text|>"
+    - "<|eot_id|>"
+    - "<|endoftext|>"
+    - "<|im_end|>"
+
+# LLM settings (gptoss120b)
+# llm:
+#   name: gptoss120b
+#   url: ""
+#   model: ""
+#   host: ""
+#   auth_token: ""
+#   max_tokens: 4096
+#   temperature: 0
+#   reasoning_effort: low
+#   stop_tokens:
+#     - "<|end_of_text|>"
+#     - "<|eot_id|>"
+#     - "<|endoftext|>"
+#     - "<|im_end|>"
+
+# Processing settings
+batch_size: 100
+concurrency: 3
