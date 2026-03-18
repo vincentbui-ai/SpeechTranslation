@@ -94,55 +94,24 @@ class Translator:
         response.raise_for_status()
         return response.json()["choices"][0]["message"]["content"]
 
-    def translate_batch(self, texts: list[str], max_retries: int = MAX_RETRIES) -> list[str]:
-        system_prompt = f"""You are a professional translator. Translate sentences from {self.source_lang} to {self.target_lang}.
+    def translate_single(self, text: str, max_retries: int = MAX_RETRIES) -> str:
+        """Translate a single sentence."""
+        system_prompt = f"""You are a professional translator. Translate the following sentence from {self.source_lang} to {self.target_lang}.
 
-Input: JSON array of sentences (one per line)
-Output: JSON array of translated sentences (one per line, same order, same length)
+Only output the translated sentence, nothing else."""
 
-Format output as:
-[
-"translated sentence 1",
-"translated sentence 2",
-...
-]
-
-Only output the JSON array, nothing else."""
-
-        # Format input with one sentence per line for clarity
-        formatted_texts = json.dumps(texts, ensure_ascii=False, indent=0).replace('[', '[\n').replace(']', '\n]')
         messages = [
             {"role": "system", "content": system_prompt},
-            {"role": "user", "content": formatted_texts}
+            {"role": "user", "content": text}
         ]
         
         last_error: Exception | None = None
         for attempt in range(max_retries):
             try:
                 response = self._request(messages)
-                
-                try:
-                    result = json.loads(response)
-                except json.JSONDecodeError:
-                    # Attempt to repair JSON and retry parsing
-                    repaired = repair_json(response)
-                    result = json.loads(repaired)
-                
-                # Validate result length matches input
-                if isinstance(result, list) and len(result) == len(texts):
-                    return result
+                return response.strip()
                     
-                # If length mismatch, pad or truncate
-                if isinstance(result, list):
-                    if len(result) < len(texts):
-                        result.extend([""] * (len(texts) - len(result)))
-                    else:
-                        result = result[:len(texts)]
-                    return result
-                
-                raise ValueError(f"Expected list, got {type(result)}")
-                    
-            except (json.JSONDecodeError, requests.RequestException, ValueError) as e:
+            except requests.RequestException as e:
                 last_error = e
                 if attempt < max_retries - 1:
                     time.sleep(RETRY_DELAY * (attempt + 1))  # Exponential backoff
@@ -151,6 +120,14 @@ Only output the JSON array, nothing else."""
         if last_error:
             raise last_error
         raise RuntimeError("Translation failed with no error captured")
+
+    def translate_batch(self, texts: list[str], max_retries: int = MAX_RETRIES) -> list[str]:
+        """Translate a batch of sentences (one by one)."""
+        results = []
+        for text in texts:
+            translation = self.translate_single(text, max_retries)
+            results.append(translation)
+        return results
 
 
 # ==================== Dataset Loading ====================
