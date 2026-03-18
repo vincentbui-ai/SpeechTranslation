@@ -4,6 +4,7 @@ import json
 import re
 import string
 import threading
+import time
 from concurrent.futures import ThreadPoolExecutor, as_completed
 from dataclasses import dataclass, field
 from pathlib import Path
@@ -17,6 +18,10 @@ from tqdm import tqdm
 
 # Lock for thread-safe operations
 file_lock = threading.Lock()
+
+# Retry settings
+MAX_RETRIES = 3
+RETRY_DELAY = 1  # seconds
 
 
 def repair_json(text: str) -> str:
@@ -89,7 +94,7 @@ class Translator:
         response.raise_for_status()
         return response.json()["choices"][0]["message"]["content"]
 
-    def translate_batch(self, texts: list[str]) -> list[str]:
+    def translate_batch(self, texts: list[str], max_retries: int = MAX_RETRIES) -> list[str]:
         system_prompt = f"""You are a professional translator. Translate sentences from {self.source_lang} to {self.target_lang}.
 
 Input: JSON array of sentences
@@ -102,14 +107,28 @@ Only output the JSON array, nothing else."""
             {"role": "system", "content": system_prompt},
             {"role": "user", "content": user_prompt}
         ]
-        response = self._request(messages)
         
-        try:
-            return json.loads(response)
-        except json.JSONDecodeError:
-            # Attempt to repair JSON and retry parsing
-            repaired = repair_json(response)
-            return json.loads(repaired)
+        last_error: Exception | None = None
+        for attempt in range(max_retries):
+            try:
+                response = self._request(messages)
+                
+                try:
+                    return json.loads(response)
+                except json.JSONDecodeError:
+                    # Attempt to repair JSON and retry parsing
+                    repaired = repair_json(response)
+                    return json.loads(repaired)
+                    
+            except (json.JSONDecodeError, requests.RequestException) as e:
+                last_error = e
+                if attempt < max_retries - 1:
+                    time.sleep(RETRY_DELAY * (attempt + 1))  # Exponential backoff
+                    continue
+        
+        if last_error:
+            raise last_error
+        raise RuntimeError("Translation failed with no error captured")
 
 
 # ==================== Dataset Loading ====================
