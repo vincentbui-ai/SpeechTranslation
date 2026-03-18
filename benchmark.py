@@ -149,7 +149,7 @@ Only output the JSON array, nothing else."""
 
 def load_newstest2019(data_dir: str) -> dict:
     """Load newstest2019 dataset with English-Vietnamese pairs."""
-    data_path = Path(data_dir) / "trans_testset_public"
+    data_path = Path(data_dir)
     
     with open(data_path / "newstest2019-src.eng.txt", "r", encoding="utf-8") as f:
         eng_lines = [line.strip() for line in f.readlines()]
@@ -162,7 +162,7 @@ def load_newstest2019(data_dir: str) -> dict:
 
 def load_tatoeba(data_dir: str) -> dict:
     """Load Tatoeba dataset with English-Vietnamese pairs."""
-    data_path = Path(data_dir) / "trans_testset_public" / "tatoeba-test.eng-vie.tsv"
+    data_path = Path(data_dir) / "tatoeba-test.eng-vie.tsv"
     
     eng_lines, vie_lines = [], []
     with open(data_path, "r", encoding="utf-8") as f:
