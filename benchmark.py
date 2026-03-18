@@ -196,8 +196,8 @@ def evaluate_translations(
 ) -> dict:
     """Evaluate translations with WER and BLEU."""
     # Normalize texts
-    norm_refs = [normalize_text(r, remove_punct, lowercase) for r in references]
-    norm_hyps = [normalize_text(h, remove_punct, lowercase) for h in hypotheses]
+    norm_refs = [normalize_text(r, remove_punct, lowercase) for r in tqdm(references, desc="Normalizing refs", leave=False)]
+    norm_hyps = [normalize_text(h, remove_punct, lowercase) for h in tqdm(hypotheses, desc="Normalizing hyps", leave=False)]
     
     # Compute WER using jiwer
     wer = compute_wer(norm_refs, norm_hyps)
@@ -223,54 +223,62 @@ def run_benchmark(cfg: DictConfig):
     
     results = []
     
-    for dataset in datasets:
-        print(f"\n{'='*60}")
-        print(f"Dataset: {dataset['name']} ({len(dataset['eng'])} samples)")
-        print(f"{'='*60}")
-        
-        for direction in ["eng2vie", "vie2eng"]:
-            if direction == "eng2vie":
-                source_texts = dataset["eng"]
-                reference_texts = dataset["vie"]
-                source_lang, target_lang = "English", "Vietnamese"
-            else:
-                source_texts = dataset["vie"]
-                reference_texts = dataset["eng"]
-                source_lang, target_lang = "Vietnamese", "English"
+    # Calculate total tasks for progress
+    directions = ["eng2vie", "vie2eng"]
+    total_tasks = len(datasets) * len(directions)
+    
+    with tqdm(total=total_tasks, desc="Overall progress") as pbar:
+        for dataset in datasets:
+            print(f"\n{'='*60}")
+            print(f"Dataset: {dataset['name']} ({len(dataset['eng'])} samples)")
+            print(f"{'='*60}")
             
-            print(f"\nDirection: {direction}")
-            print("-" * 40)
-            
-            # Create translator
-            translator = Translator(source_lang, target_lang, cfg.llm)
-            
-            # Translate
-            hypotheses = translate_texts(
-                source_texts, translator, 
-                cfg.batch_size, cfg.concurrency
-            )
-            
-            # Evaluate with different normalization settings
-            for norm_name, (remove_punct, lowercase) in [
-                ("original", (False, False)),
-                ("normalized", (True, True)),
-            ]:
-                metrics = evaluate_translations(
-                    reference_texts, hypotheses, 
-                    remove_punct=remove_punct, 
-                    lowercase=lowercase
+            for direction in directions:
+                if direction == "eng2vie":
+                    source_texts = dataset["eng"]
+                    reference_texts = dataset["vie"]
+                    source_lang, target_lang = "English", "Vietnamese"
+                else:
+                    source_texts = dataset["vie"]
+                    reference_texts = dataset["eng"]
+                    source_lang, target_lang = "Vietnamese", "English"
+                
+                pbar.set_postfix_str(f"{dataset['name']} {direction}")
+                print(f"\nDirection: {direction}")
+                print("-" * 40)
+                
+                # Create translator
+                translator = Translator(source_lang, target_lang, cfg.llm)
+                
+                # Translate
+                hypotheses = translate_texts(
+                    source_texts, translator, 
+                    cfg.batch_size, cfg.concurrency
                 )
                 
-                result = {
-                    "dataset": dataset["name"],
-                    "direction": direction,
-                    "normalization": norm_name,
-                    "wer": round(metrics["wer"], 2),
-                    "bleu": round(metrics["bleu"], 2),
-                }
-                results.append(result)
+                # Evaluate with different normalization settings
+                for norm_name, (remove_punct, lowercase) in [
+                    ("original", (False, False)),
+                    ("normalized", (True, True)),
+                ]:
+                    metrics = evaluate_translations(
+                        reference_texts, hypotheses, 
+                        remove_punct=remove_punct, 
+                        lowercase=lowercase
+                    )
+                    
+                    result = {
+                        "dataset": dataset["name"],
+                        "direction": direction,
+                        "normalization": norm_name,
+                        "wer": round(metrics["wer"], 2),
+                        "bleu": round(metrics["bleu"], 2),
+                    }
+                    results.append(result)
+                    
+                    print(f"  [{norm_name}] WER: {result['wer']:.2f}%, BLEU: {result['bleu']:.2f}")
                 
-                print(f"  [{norm_name}] WER: {result['wer']:.2f}%, BLEU: {result['bleu']:.2f}")
+                pbar.update(1)
     
     # Save results
     output_path = cfg.get("output_path", "benchmark_results.json")
