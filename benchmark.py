@@ -19,6 +19,24 @@ from tqdm import tqdm
 file_lock = threading.Lock()
 
 
+def repair_json(text: str) -> str:
+    """Attempt to repair common JSON errors from LLM responses."""
+    # Extract JSON array from response (remove any text before [ or after ])
+    start = text.find('[')
+    end = text.rfind(']') + 1
+    if start != -1 and end > start:
+        text = text[start:end]
+    
+    # Remove trailing commas before ]
+    text = re.sub(r',\s*]', ']', text)
+    
+    # Fix invalid escape sequences (e.g., \x, \c -> \\x, \\c)
+    # Valid JSON escapes: \", \\, \/, \b, \f, \n, \r, \t, \uXXXX
+    text = re.sub(r'\\(?!["\\/bfnrtu])', r'\\\\', text)
+    
+    return text
+
+
 @dataclass
 class LLMConfig:
     name: str
@@ -85,7 +103,13 @@ Only output the JSON array, nothing else."""
             {"role": "user", "content": user_prompt}
         ]
         response = self._request(messages)
-        return json.loads(response)
+        
+        try:
+            return json.loads(response)
+        except json.JSONDecodeError:
+            # Attempt to repair JSON and retry parsing
+            repaired = repair_json(response)
+            return json.loads(repaired)
 
 
 # ==================== Dataset Loading ====================
