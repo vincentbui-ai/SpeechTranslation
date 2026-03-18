@@ -1,6 +1,7 @@
 """Translation data generation module."""
 
 import json
+import threading
 from concurrent.futures import ThreadPoolExecutor, as_completed
 from dataclasses import dataclass, field
 
@@ -9,7 +10,10 @@ import requests
 from omegaconf import DictConfig
 from tqdm import tqdm
 
-from data_loader import load_samples, load_translated, get_untranslated, save_jsonl
+from data_loader import load_samples, load_translated, get_untranslated, save_jsonl, append_jsonl
+
+# Lock for thread-safe file writing
+file_lock = threading.Lock()
 
 
 @dataclass
@@ -100,21 +104,21 @@ def run_translation(cfg: DictConfig):
     print(f"Total: {len(samples)}, Translated: {len(translated)}, Remaining: {len(untranslated)}")
     
     if not untranslated:
-        save_jsonl(translated, cfg.output_path)
         return
     
-    translator = Translator(cfg.source_lang, cfg.target_lang, cfg.llm)
-    results = list(translated)
+    # Initialize output file with existing translated data
+    save_jsonl(translated, cfg.output_path)
     
+    translator = Translator(cfg.source_lang, cfg.target_lang, cfg.llm)
     batches = [untranslated[i:i + cfg.batch_size] for i in range(0, len(untranslated), cfg.batch_size)]
     
     with ThreadPoolExecutor(max_workers=cfg.concurrency) as executor:
         futures = {executor.submit(translator.translate_samples, batch): batch for batch in batches}
         for future in tqdm(as_completed(futures), total=len(batches), desc="Translating"):
-            results.extend(future.result())
-            save_jsonl(results, cfg.output_path)
+            with file_lock:
+                append_jsonl(future.result(), cfg.output_path)
     
-    print(f"Done! Saved {len(results)} samples to {cfg.output_path}")
+    print(f"Done! Saved to {cfg.output_path}")
 
 
 @hydra.main(version_base=None, config_path="configs", config_name="config")

@@ -52,3 +52,9 @@ def save_jsonl(samples: list[dict], path: str | Path):
     with open(path, "w") as f:
         for s in samples:
             f.write(json.dumps(s, ensure_ascii=False) + "\n")
+
+
+def append_jsonl(samples: list[dict], path: str | Path):
+    with open(path, "a") as f:
+        for s in samples:
+            f.write(json.dumps(s, ensure_ascii=False) + "\n")
