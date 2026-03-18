@@ -114,13 +114,27 @@ Only output the JSON array, nothing else."""
                 response = self._request(messages)
                 
                 try:
-                    return json.loads(response)
+                    result = json.loads(response)
                 except json.JSONDecodeError:
                     # Attempt to repair JSON and retry parsing
                     repaired = repair_json(response)
-                    return json.loads(repaired)
+                    result = json.loads(repaired)
+                
+                # Validate result length matches input
+                if isinstance(result, list) and len(result) == len(texts):
+                    return result
                     
-            except (json.JSONDecodeError, requests.RequestException) as e:
+                # If length mismatch, pad or truncate
+                if isinstance(result, list):
+                    if len(result) < len(texts):
+                        result.extend([""] * (len(texts) - len(result)))
+                    else:
+                        result = result[:len(texts)]
+                    return result
+                
+                raise ValueError(f"Expected list, got {type(result)}")
+                    
+            except (json.JSONDecodeError, requests.RequestException, ValueError) as e:
                 last_error = e
                 if attempt < max_retries - 1:
                     time.sleep(RETRY_DELAY * (attempt + 1))  # Exponential backoff
@@ -170,8 +184,12 @@ def remove_punctuation(text: str) -> str:
     return text.translate(str.maketrans("", "", punctuation))
 
 
-def normalize_text(text: str, remove_punct: bool = False, lowercase: bool = False) -> str:
+def normalize_text(text: str | None, remove_punct: bool = False, lowercase: bool = False) -> str:
     """Normalize text for evaluation."""
+    if text is None:
+        return ""
+    if not isinstance(text, str):
+        text = str(text)
     result = text.strip()
     if remove_punct:
         result = remove_punctuation(result)
