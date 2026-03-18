@@ -97,15 +97,23 @@ class Translator:
     def translate_batch(self, texts: list[str], max_retries: int = MAX_RETRIES) -> list[str]:
         system_prompt = f"""You are a professional translator. Translate sentences from {self.source_lang} to {self.target_lang}.
 
-Input: JSON array of sentences
-Output: JSON array of translated sentences (same order, same length)
+Input: JSON array of sentences (one per line)
+Output: JSON array of translated sentences (one per line, same order, same length)
+
+Format output as:
+[
+"translated sentence 1",
+"translated sentence 2",
+...
+]
 
 Only output the JSON array, nothing else."""
 
-        user_prompt = json.dumps(texts, ensure_ascii=False)
+        # Format input with one sentence per line for clarity
+        formatted_texts = json.dumps(texts, ensure_ascii=False, indent=0).replace('[', '[\n').replace(']', '\n]')
         messages = [
             {"role": "system", "content": system_prompt},
-            {"role": "user", "content": user_prompt}
+            {"role": "user", "content": formatted_texts}
         ]
         
         last_error: Exception | None = None
